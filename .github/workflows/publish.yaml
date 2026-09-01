@@ -31,11 +31,15 @@ jobs:
         make setup
         git -C bips log -n1
 
-    - name: Create books
+    - name: Build EPUB
+      run: make epub
+
+    - name: Build PDF
+      timeout-minutes: 5
+      continue-on-error: true
       run: |
         export PATH="/Library/TeX/texbin:$PATH"
-        make epub
-        make pdf || echo "PDF build failed; publishing EPUB anyway"
+        make pdf
 
     - name: Commit and Push
       run: |
