@@ -1,0 +1,10 @@
+---
+title:  'Bitcoin Book of BIPs'
+author:
+  - compiled by Adam Shannon
+keywords: [bitcoin, bips]
+abstract: |
+  Bitcoin Improvement Proposals are the documents that describe how Bitcoin actually works — consensus rules, wallet formats, peer messages, and the process for changing them. This book gathers the deployed and complete BIPs that shape Bitcoin today and groups them by theme so they can be read as a narrative instead of a numbered archive.
+
+  I did not write these proposals. The authors and contributors of bitcoin/bips did. I collected them, skipped withdrawn and closed work, and added short chapter notes so you can follow the connections between related specifications.
+---
