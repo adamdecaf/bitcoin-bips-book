@@ -4,7 +4,9 @@ The [Bitcoin Improvement Proposals](https://github.com/bitcoin/bips), compiled i
 
 This collection focuses on deployed and complete proposals — the ones that shape Bitcoin today — grouped by theme rather than by number. Closed and withdrawn BIPs are omitted so the book stays readable. The BIP text itself is unchanged.
 
-The book is compiled by Adam Shannon. The BIPs are written by their original authors.
+The book is compiled by Adam Shannon. The BIPs are written by their original authors. Cover image by [@stl1988](https://github.com/stl1988), generated with Seedream v4.
+
+![The web reader, with a chapter list on the left and BIP 340 on the right](images/web-reader.png)
 
 ## Get the book
 
@@ -27,6 +29,14 @@ Chapters, not BIP numbers:
 9. Mining and block templates
 10. Paying people — payment protocol, payjoin, silent payments
 11. Scripts, policy, and RBF
+
+## Other books
+
+Same idea, different specs. The spec text in each book is unchanged from upstream.
+
+- [Nostr Book of NIPs](https://github.com/adamdecaf/nostr-book) ([read](https://nostr-book.org/))
+- [Lightning Book of BOLTs](https://github.com/adamdecaf/lightning-bolt-book) ([read](https://adamdecaf.github.io/lightning-bolt-book/))
+- [Cashu Book of NUTs](https://github.com/adamdecaf/cashu-nuts-book) ([read](https://adamdecaf.github.io/cashu-nuts-book/))
 
 ## Contributing
 
