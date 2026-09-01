@@ -1,0 +1,47 @@
+name: Publish Book
+
+on:
+  schedule:
+    - cron: "0 12 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    name: Publish Book
+    runs-on: macos-latest
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v7
+
+    - name: Install Dependencies
+      run: |
+        brew update
+        brew install pandoc
+        brew install --cask basictex
+        eval "$(/usr/libexec/path_helper)"
+
+    - name: Download BIPs
+      run: |
+        make setup
+        git -C bips log -n1
+
+    - name: Create books
+      run: |
+        export PATH="/Library/TeX/texbin:$PATH"
+        make all
+
+    - name: Commit and Push
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "support@github.com"
+
+        git add -A bitcoin-bips-book.* ./include/git.md
+        if git diff --cached --quiet; then
+          echo "No published book changes"
+        else
+          git commit -m "chore: automated publishing"
+          git push origin master
+        fi
