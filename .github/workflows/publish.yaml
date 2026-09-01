@@ -13,43 +13,51 @@ jobs:
     name: Publish Book
     runs-on: macos-latest
     steps:
-    - name: Check out code
-      uses: actions/checkout@v7
+      - name: Check out code
+        uses: actions/checkout@v7
 
-    - name: Install Dependencies
-      run: |
-        brew update
-        brew install pandoc
-        brew install --cask basictex
-        eval "$(/usr/libexec/path_helper)"
-        export PATH="/Library/TeX/texbin:$PATH"
-        sudo tlmgr update --self
-        sudo tlmgr install soul xcolor
+      - name: Install dependencies
+        run: brew install pandoc weasyprint
 
-    - name: Download BIPs
-      run: |
-        make setup
-        git -C bips log -n1
+      - name: Download BIPs
+        run: |
+          make setup
+          git -C bips log -n1
 
-    - name: Build EPUB
-      run: make epub
+      - name: Build EPUB
+        run: make epub
 
-    - name: Build PDF
-      timeout-minutes: 5
-      continue-on-error: true
-      run: |
-        export PATH="/Library/TeX/texbin:$PATH"
-        make pdf
+      - name: Build PDF
+        timeout-minutes: 15
+        run: make pdf
 
-    - name: Commit and Push
-      run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "support@github.com"
+      - name: Require outputs
+        run: |
+          test -s bitcoin-bips-book.epub
+          test -s bitcoin-bips-book.pdf
 
-        git add -A bitcoin-bips-book.* ./include/git.md
-        if git diff --cached --quiet; then
-          echo "No published book changes"
-        else
-          git commit -m "chore: automated publishing"
-          git push origin master
-        fi
+      - name: Commit and Push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "support@github.com"
+          git add -A bitcoin-bips-book.epub bitcoin-bips-book.pdf ./include/git.md
+          if git diff --cached --quiet; then
+            echo "No published book changes"
+          else
+            git commit -m "chore: automated publishing"
+            git push origin master
+          fi
+
+      - name: GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: book-${{ github.run_id }}
+          name: Bitcoin Book of BIPs (${{ github.run_number }})
+          body: |
+            Automated EPUB and PDF from master.
+            Site: https://adamdecaf.github.io/bitcoin-bips-book/
+          files: |
+            bitcoin-bips-book.epub
+            bitcoin-bips-book.pdf
+          fail_on_unmatched_files: true
+          make_latest: true
