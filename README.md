@@ -8,6 +8,7 @@ The book is compiled by Adam Shannon. The BIPs are written by their original aut
 
 ## Get the book
 
+- Website: [adamdecaf.github.io/bitcoin-bips-book](https://adamdecaf.github.io/bitcoin-bips-book/)
 - [ePUB](https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub)
 - [PDF](https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf)
 
