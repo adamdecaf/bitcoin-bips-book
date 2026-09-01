@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 87 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0086.html" accesskey="p" rel="prev">BIP 86</a>
+        <a class="pager-next" href="bip-0048.html" accesskey="n" rel="next">BIP 48</a>
+      </nav>
+      <h2 data-number="8.10" id="bip-0087">BIP 87</h2>
+      <h3 data-number="8.10.1" id="bip-0087-abstract">Abstract</h3>
+      <p>This BIP defines a sane hierarchy for deterministic multisig
+      wallets based on an algorithm described in BIP-0032 (BIP32 from
+      now on), purpose scheme described in BIP-0043 (BIP43 from now on),
+      and multi-account hierarchy described in BIP-0044 (BIP44 from now
+      on).</p>
+      <p>This BIP is a particular application of BIP43.</p>
+      <h3 data-number="8.10.2" id="bip-0087-copyright">Copyright</h3>
+      <p>This BIP is licensed under the 2-clause BSD license.</p>
+      <h3 data-number="8.10.3" id="bip-0087-motivation">Motivation</h3>
+      <p>With the increase of more user friendly (offline)
+      multisignature wallets, and adoption of new technologies such as
+      <a
+      href="https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md">the
+      descriptor language</a> and <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki">BIP-0174
+      (Partially Signed Bitcoin Transactions)</a>, it is necessary to
+      create a common derivation scheme that makes use of all new
+      technologies.</p>
+      <p>As background, BIP 44/49/84 specifies:</p>
+      <pre><code>m / purpose&#39; / coin_type&#39; / account&#39; / change / address_index</code></pre>
+      <p>where the BIP43 <code>purpose'</code> path is separate for each
+      script (P2PKH, P2WPKH-in-P2SH, and P2WPKH respectively). Having a
+      script-per-derivation for single sig wallets allows for easy
+      backup and restore, with just the private key information.</p>
+      <p>Multisignature wallets need more information to backup and
+      restore (such as all cosigner public keys), and these per-script
+      derivations are made redundant with descriptors, which provide
+      that information (while also specifying a collection of output
+      scripts). A modern standardization is needed for multisig
+      derivation paths. There are some in existence, but all have
+      issues. For example, BIP45 specifies:</p>
+      <pre><code>m / purpose&#39; / cosigner_index / change / address_index</code></pre>
+      <p>BIP45 unnecessarily demands a single script type (here, P2SH).
+      In addition, BIP45 sets <code>cosigner_index</code> in order to
+      sort the <code>purpose'</code> public keys of each cosigner. This
+      too is redundant, as descriptors can set the order of the public
+      keys with <code>multi</code> or have them sorted lexicographically
+      (as described in <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0067.mediawiki">BIP67</a>)
+      with <code>sortedmulti</code>. Sorting public keys between
+      cosigners in order to create the full derivation path, prior to
+      sending the key record to the coordinator to create the
+      descriptor, merely adds additional unnecessary communication
+      rounds.</p>
+      <p>The second multisignature “standard” in use is m/48’, which
+      specifies:</p>
+      <pre><code>m / purpose&#39; / coin_type&#39; / account&#39; / script_type&#39; / change / address_index</code></pre>
+      <p>Rather than following in BIP 44/49/84’s path and having a
+      separate BIP per script after P2SH (BIP45), vendors decided to
+      insert <code>script_type'</code> into the derivation path (where
+      P2SH-P2WSH=1, P2WSH=2, Future_Script=3, etc). As described
+      previously, this is unnecessary, as the descriptor sets the
+      script. While it attempts to reduce maintenance work by getting
+      rid of new BIPs-per-script, it still requires maintaining an
+      updated, redundant, <code>script_type</code> list.</p>
+      <p>The structure proposed later in this paper solves these issues
+      and is quite comprehensive. It allows for the handling of multiple
+      accounts, external and internal chains per account, and millions
+      of addresses per chain, in a multi-party, multisignature,
+      hierarchical deterministic wallet regardless of the script type
+      <strong>Why propose this structure only for multisignature
+      wallets?</strong> Currently, single-sig wallets are able to
+      restore funds using just the master private key data (in the
+      format of BIP39 usually). Even if the user doesn’t recall the
+      derivation used, the wallet implementation can iterate through
+      common schemes (BIP44/49/84). With this proposed hierarchy, the
+      user would either have to now backup additional data (the
+      descriptor), or the wallet would have to attempt all script types
+      for every account level when restoring. Because of this, even
+      though the descriptor language handles the signature type just
+      like it does the script type, it is best to restrict this
+      script-agnostic hierarchy to multisignature wallets only..</p>
+      <p>This paper was inspired from BIP44.</p>
+      <h3 data-number="8.10.4"
+      id="bip-0087-specification">Specification</h3>
+      <h4 data-number="8.10.4.1" id="bip-0087-key-sorting">Key
+      sorting</h4>
+      <p>Any wallet that supports descriptors inherently supports
+      deterministic key sorting as per BIP67 (through the
+      <code>sortedmulti</code> function) so that all possible
+      multisignature addresses/scripts are derived from
+      deterministically sorted public keys.</p>
+      <h4 data-number="8.10.4.2" id="bip-0087-path-levels">Path
+      levels</h4>
+      <p>We should not be mixing keys and scripts in the same layer. The
+      wallet should create extended private/public keys independent of
+      the script type, whereas the descriptor language tells wallets to
+      watch the multisig outputs with the specified public keys.</p>
+      <p>We define the following 5 levels in the BIP32 path:</p>
+      <pre><code>m / purpose&#39; / coin_type&#39; / account&#39; / change / address_index</code></pre>
+      <p><code>h</code> or <code>'</code> in the path indicates that
+      BIP32 hardened derivation is used.</p>
+      <p>Each level has a special meaning, described in the chapters
+      below.</p>
+      <h4 data-number="8.10.4.3" id="bip-0087-purpose">Purpose</h4>
+      <p>Purpose is a constant set to <code>87'</code> following the
+      BIP43 recommendation. It indicates that the subtree of this node
+      is used according to this specification.</p>
+      <p>Hardened derivation is used at this level.</p>
+      <h4 data-number="8.10.4.4" id="bip-0087-coin-type">Coin type</h4>
+      <p>One master node (seed) can be used for multiple Bitcoin
+      networks. Sharing the same space for various networks has some
+      disadvantages.</p>
+      <p>This level creates a separate subtree for every network,
+      avoiding reusing addresses across networks and improving privacy
+      issues.</p>
+      <p>Coin type <code>0</code> for mainnet and <code>1</code> for
+      testnets (testnet, regtest, and signet).</p>
+      <p>Hardened derivation is used at this level.</p>
+      <h4 data-number="8.10.4.5" id="bip-0087-account">Account</h4>
+      <p>This level splits the key space into independent user
+      identities, following the BIP44 pattern, so the wallet never mixes
+      the coins across different accounts.</p>
+      <p>Users can use these accounts to organize the funds in the same
+      fashion as bank accounts; for donation purposes (where all
+      addresses are considered public), for saving purposes, for common
+      expenses, etc.</p>
+      <p>Accounts are numbered from index <code>0</code> in sequentially
+      increasing manner. This number is used as child index in BIP32
+      derivation.</p>
+      <p>Hardened derivation is used at this level.</p>
+      <p>It is crucial that this level is increased for each new wallet
+      joined or private/public keys created; for both privacy and
+      cryptographic purposes. For example, before sending a new key
+      record to a coordinator, the wallet must increment the
+      <code>account'</code> level. This prevents key reuse - across
+      ECDSA and Schnorr signatures, across different script types, and
+      in between the same wallet types.</p>
+      <h4 data-number="8.10.4.6" id="bip-0087-change">Change</h4>
+      <p>Constant <code>0</code> is used for external chain and constant
+      <code>1</code> for internal chain (also known as change
+      addresses). External chain is used for addresses that are meant to
+      be visible outside of the wallet (e.g. for receiving payments).
+      Internal chain is used for addresses which are not meant to be
+      visible outside of the wallet and is used for return transaction
+      change.</p>
+      <p>Public derivation is used at this level.</p>
+      <h4 data-number="8.10.4.7" id="bip-0087-index">Index</h4>
+      <p>Addresses are numbered from index <code>0</code> in
+      sequentially increasing manner. This number is used as child index
+      in BIP32 derivation.</p>
+      <p>Public derivation is used at this level.</p>
+      <h3 data-number="8.10.5" id="bip-0087-address-discovery">Address
+      Discovery</h3>
+      <p>The multisig descriptors or descriptor template that is
+      generated from the cosigners’ combined key records should be used
+      to generate and discover addresses.</p>
+      <p>Please see <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0129.mediawiki">BIP-0129
+      (Bitcoin Secure Multisig Setup)</a> for an introduction on
+      descriptor templates. The descriptor or descriptor template should
+      contain the key origin information for maximum compatibility with
+      BIP-0174.</p>
+      <p>For example:</p>
+      <p>The following descriptor template and derivation path
+      restrictions:</p>
+      <p><code>wsh(sortedmulti(2,[xfpForA/87'/0'/0']XpubA/**,[xfpForB/87'/0'/0']XpubB/**))</code></p>
+      <p><code>/0/*,/1/*</code></p>
+      <p>Expands to the two concrete descriptors:</p>
+      <p><code>wsh(sortedmulti(2,[xfpForA/87'/0'/0']XpubA/0/*,[xfpForB/87'/0'/0']XpubB/0/*))</code></p>
+      <p><code>wsh(sortedmulti(2,[xfpForA/87'/0'/0']XpubA/1/*,[xfpForB/87'/0'/0']XpubB/1/*))</code></p>
+      <p>To discover addresses, import both the receiving and change
+      descriptors; respect the gap limit described below.</p>
+      <h4 data-number="8.10.5.1" id="bip-0087-address-gap-limit">Address
+      Gap Limit</h4>
+      <p>Address gap limit is currently set to 20. If the software hits
+      20 unused addresses in a row, it expects there are no used
+      addresses beyond this point and stops searching the address
+      chain.</p>
+      <p>Wallet software should warn when the user is trying to exceed
+      the gap limit on an external descriptor by generating multiple
+      unused addresses.</p>
+      <h3 data-number="8.10.6"
+      id="bip-0087-backwards-compatibility">Backwards Compatibility</h3>
+      <p>Any script that is supported by descriptors (and the specific
+      wallet implementation) is compatible with this BIP.</p>
+      <p>As wallets complying with this BIP are descriptor wallets, this
+      therefore necessitates that the cosigners backup their private key
+      information and the descriptor, in order to properly restore at a
+      later time. This shouldn’t be a user burden, since (to much user
+      surprise), all cosigner public keys need to be supplied in
+      addition to <code>M</code> seeds in any <code>M</code> of
+      <code>N</code> multisig restore operation. The descriptor provides
+      this information in a standardized format, with key origin
+      information and error detection.</p>
+      <h3 data-number="8.10.7" id="bip-0087-rationale">Rationale</h3>
+      <h3 data-number="8.10.8" id="bip-0087-examples">Examples</h3>
+      <table>
+      <tbody>
+      <tr>
+      <td>network</td>
+      <td>account</td>
+      <td>chain</td>
+      <td>address</td>
+      <td>path</td>
+      </tr>
+      <tr>
+      <td>mainnet</td>
+      <td>first</td>
+      <td>external</td>
+      <td>first</td>
+      <td>m / 87’ / 0’ / 0’ / 0 / 0</td>
+      </tr>
+      <tr>
+      <td>mainnet</td>
+      <td>first</td>
+      <td>external</td>
+      <td>second</td>
+      <td>m / 87’ / 0’ / 0’ / 0 / 1</td>
+      </tr>
+      <tr>
+      <td>mainnet</td>
+      <td>first</td>
+      <td>change</td>
+      <td>first</td>
+      <td>m / 87’ / 0’ / 0’ / 1 / 0</td>
+      </tr>
+      <tr>
+      <td>mainnet</td>
+      <td>first</td>
+      <td>change</td>
+      <td>second</td>
+      <td>m / 87’ / 0’ / 0’ / 1 / 1</td>
+      </tr>
+      <tr>
+      <td>mainnet</td>
+      <td>second</td>
+      <td>external</td>
+      <td>first</td>
+      <td>m / 87’ / 0’ / 1’ / 0 / 0</td>
+      </tr>
+      <tr>
+      <td>mainnet</td>
+      <td>second</td>
+      <td>external</td>
+      <td>second</td>
+      <td>m / 87’ / 0’ / 1’ / 0 / 1</td>
+      </tr>
+      <tr>
+      <td>testnet</td>
+      <td>first</td>
+      <td>external</td>
+      <td>first</td>
+      <td>m / 87’ / 1’ / 0’ / 0 / 0</td>
+      </tr>
+      <tr>
+      <td>testnet</td>
+      <td>first</td>
+      <td>external</td>
+      <td>second</td>
+      <td>m / 87’ / 1’ / 0’ / 0 / 1</td>
+      </tr>
+      <tr>
+      <td>testnet</td>
+      <td>first</td>
+      <td>change</td>
+      <td>first</td>
+      <td>m / 87’ / 1’ / 0’ / 1 / 0</td>
+      </tr>
+      <tr>
+      <td>testnet</td>
+      <td>first</td>
+      <td>change</td>
+      <td>second</td>
+      <td>m / 87’ / 1’ / 0’ / 1 / 1</td>
+      </tr>
+      <tr>
+      <td>testnet</td>
+      <td>second</td>
+      <td>external</td>
+      <td>first</td>
+      <td>m / 87’ / 1’ / 1’ / 0 / 0</td>
+      </tr>
+      <tr>
+      <td>testnet</td>
+      <td>second</td>
+      <td>external</td>
+      <td>second</td>
+      <td>m / 87’ / 1’ / 1’ / 0 / 1</td>
+      </tr>
+      <tr>
+      <td>testnet</td>
+      <td>second</td>
+      <td>change</td>
+      <td>first</td>
+      <td>m / 87’ / 1’ / 1’ / 1 / 0</td>
+      </tr>
+      <tr>
+      <td>testnet</td>
+      <td>second</td>
+      <td>change</td>
+      <td>second</td>
+      <td>m / 87’ / 1’ / 1’ / 1 / 1</td>
+      </tr>
+      </tbody>
+      </table>
+      <h3 data-number="8.10.9"
+      id="bip-0087-reference-implementation">Reference
+      Implementation</h3>
+      <p>None at the moment.</p>
+      <h3 data-number="8.10.10"
+      id="bip-0087-acknowledgement">Acknowledgement</h3>
+      <p>Special thanks to SomberNight, Craig Raw, David Harding, Jochen
+      Hoenicke, Sjors Provoost, and others for their feedback on the
+      specification.</p>
+      <h3 data-number="8.10.11" id="bip-0087-references">References</h3>
+      <p>Original mailing list thread: <a
+      href="https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-March/018630.html"
+      class="uri">https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-March/018630.html</a></p>
+      <ul>
+      <li><a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki">BIP-0032
+      (Hierarchical Deterministic Wallets)</a></li>
+      <li><a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0043.mediawiki">BIP-0043
+      (Purpose Field for Deterministic Wallets)</a></li>
+      <li><a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki">BIP-0044
+      (Multi-Account Hierarchy for Deterministic Wallets)</a></li>
+      <li><a
+      href="https://github.com/bitcoin/bitcoin/blob/master/doc/descriptors.md">Output
+      Descriptors</a></li>
+      <li><a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0174.mediawiki">BIP-0174
+      (Partially Signed Bitcoin Transaction Format)</a></li>
+      <li><a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0067.mediawiki">BIP-0067
+      (Deterministic Pay-to-script-hash multi-signature addresses
+      through public key sorting)</a></li>
+      <li><a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0129.mediawiki">BIP-0129
+      (Bitcoin Secure Multisig Setup)</a></li>
+      </ul>
+      <pre><code>  BIP: 48
+  Layer: Applications
+  Title: Multi-Script Hierarchy for Multi-Sig Wallets
+  Authors: Fontaine &lt;dentondevelopment@protonmail.com&gt;
+  Status: Deployed
+  Type: Specification
+  Assigned: 2020-12-16
+  License: MIT</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0086.html" rel="prev">BIP 86</a>
+        <a class="pager-next" href="bip-0048.html" rel="next">BIP 48</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

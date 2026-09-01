@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 321 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0350.html" accesskey="p" rel="prev">BIP 350</a>
+        <a class="pager-next" href="bip-0179.html" accesskey="n" rel="next">BIP 179</a>
+      </nav>
+      <h2 data-number="5.4" id="bip-0321">BIP 321</h2>
+      <h3 data-number="5.4.1" id="bip-0321-copyright">Copyright</h3>
+      <p>This BIP is licensed under the BSD 2-clause license.</p>
+      <h3 data-number="5.4.2" id="bip-0321-abstract">Abstract</h3>
+      <p>This BIP proposes a URI scheme for describing Bitcoin payment
+      instructions.</p>
+      <h3 data-number="5.4.3" id="bip-0321-motivation">Motivation</h3>
+      <p>The purpose of this URI scheme is to enable users to easily
+      make payments by simply clicking links on webpages or scanning QR
+      Codes.</p>
+      <p>This BIP is a modification and intended replacement of
+      <a href="bip-0021.mediawiki" class="wikilink" title="BIP 0021">BIP
+      0021</a> to add information about the modern usage of bitcoin:
+      URIs (including standard query parameters and modern address
+      types) as well as provide forward-looking guidance on how to
+      incorporate new payment instructions. It further adds an optional
+      extension to provide the payment initiator with proof of payment.
+      BIP 21 was based on BIP 20, which was, in turn based on an earlier
+      document by Nils Schneider.</p>
+      <h3 data-number="5.4.4"
+      id="bip-0321-specification">Specification</h3>
+      <h4 data-number="5.4.4.1"
+      id="bip-0321-general-rules-for-handling-important">General rules
+      for handling (important!)</h4>
+      <p>Bitcoin clients MUST NOT act on URIs without getting the user’s
+      authorization. They SHOULD require the user to manually approve
+      each payment individually, though in some cases they MAY allow the
+      user to automatically make this decision.</p>
+      <h4 data-number="5.4.4.2"
+      id="bip-0321-operating-system-integration">Operating system
+      integration</h4>
+      <p>Graphical bitcoin clients SHOULD register themselves as the
+      handler for the “bitcoin:” URI scheme by default, if no other
+      handler is already registered. If there is already a registered
+      handler, they MAY prompt the user to change it once when they
+      first run the client.</p>
+      <h4 data-number="5.4.4.3" id="bip-0321-general-format">General
+      Format</h4>
+      <p>Bitcoin URIs follow the general format for URIs as set forth in
+      RFC 3986. The path component consists of a bitcoin address, and
+      the query component provides additional payment options.</p>
+      <p>Elements of the query component may contain characters outside
+      the valid range. These must first be encoded according to UTF-8,
+      and then each octet of the corresponding UTF-8 sequence must be
+      percent-encoded as described in RFC 3986.</p>
+      <h4 data-number="5.4.4.4" id="bip-0321-abnf-grammar">ABNF
+      grammar</h4>
+      <p><code>bitcoinurn     = "bitcoin:" [ bitcoinaddress ] [ "?" bitcoinparams ]</code><br />
+      <code>bitcoinaddress = *base58 / *bech32 / *bech32m</code><br />
+      <code>bitcoinparams  = bitcoinparam [ "&amp;" bitcoinparams ]</code><br />
+      <code>bitcoinparam   = [ amountparam / labelparam / messageparam / responseparam / otherparam / reqparam ]</code><br />
+      <code>amountparam    = "amount=" *digit [ "." *digit ]</code><br />
+      <code>labelparam     = "label=" *qchar</code><br />
+      <code>messageparam   = "message=" *qchar</code><br />
+      <code>responseparam  = [ "req-" ] "pop=" *qchar</code><br />
+      <code>otherparam     = qchar *qchar [ "=" *qchar ]</code><br />
+      <code>reqparam       = "req-" qchar *qchar [ "=" *qchar ]</code></p>
+      <p>Here, “qchar” corresponds to valid characters of an RFC 3986
+      URI query component, excluding the “=” and “&amp;” characters,
+      which this BIP takes as separators.</p>
+      <p>The scheme component (“bitcoin:”) is case-insensitive, and
+      implementations must accept any combination of uppercase and
+      lowercase letters. The query parameter keys are also
+      case-insensitive. Query parameter values and bitcoin address
+      fields may be case-sensitive depending on their content.</p>
+      <p>Multiple query parameters with the same key MAY be included for
+      query parameters representing payment instructions. Multiple query
+      parameters with the same key MUST NOT be included for keys
+      “label”, “message”, or “pop”. Multiple query parameters with the
+      same key for other keys MUST be allowed for unknown query
+      parameters. Future query parameter keys may or may not allow for
+      duplicate parameters.</p>
+      <h4 data-number="5.4.4.5" id="bip-0321-bitcoin-address">Bitcoin
+      Address</h4>
+      <p>The bitcoinaddress body MUST be either a base58 P2SH or P2PKH
+      address, bech32 Segwit version 0 address, bech32m Segwit address,
+      or empty. Future address formats SHOULD instead be placed in query
+      keys as optional payment instructions to provide backwards
+      compatibility during upgrade cycles. The bitcoinaddress part of
+      the URI MAY be left empty if there is at least one payment
+      instruction provided in a query parameter, allowing for recipients
+      wishing to avoid a standard on-chain fallback.</p>
+      <h4 data-number="5.4.4.6" id="bip-0321-query-keys">Query Keys</h4>
+      <p>The following keys are defined generally and apply to any URI
+      regardless of payment instructions:</p>
+      <ul>
+      <li>label: Label for the recipient (e.g. name of receiver)</li>
+      <li>message: message that describes the transaction to the user
+      (<a href="#examples" class="wikilink" title="see examples below">see
+      examples below</a>)</li>
+      <li>pop: a URI which the Bitcoin Wallet may return to in order to
+      provide the application which initiated the payment with proof
+      that a payment was completed.</li>
+      </ul>
+      <p>The following keys are currently defined for payment
+      instructions of various forms:</p>
+      <ul>
+      <li>lightning: Lightning BOLT 11 invoices</li>
+      <li>lno: Lightning BOLT12 offers</li>
+      <li>pay:
+      <a href="bip-0351.mediawiki" class="wikilink" title="BIP 351 Private Payment addresses">BIP
+      351 Private Payment addresses</a></li>
+      <li>sp:
+      <a href="bip-0352.mediawiki" class="wikilink" title="BIP 352 Silent Payment addresses">BIP
+      352 Silent Payment addresses</a></li>
+      </ul>
+      <p>New payment instructions using bech32 or bech32m encodings
+      SHOULD reuse their address format’s Human Readable Part as the
+      parameter key.</p>
+      <h5 data-number="5.4.4.6.1" id="bip-0321-transfer-amount">Transfer
+      amount</h5>
+      <p>If an amount is provided, it MUST be specified in decimal BTC.
+      All amounts MUST contain no commas and use a period (.) as the
+      separating character to separate whole numbers and decimal
+      fractions. I.e. amount=50.00 or amount=50 is treated as 50 BTC,
+      and amount=50,000.00 is invalid.</p>
+      <h4 data-number="5.4.4.7" id="bip-0321-proof-of-payment">Proof of
+      Payment</h4>
+      <p>The URI MAY include a “pop” (or “req-pop”) parameter whose
+      value can be used to build a URI which the wallet application can,
+      after payment completes, “open” to provide proof the payment was
+      completed or other information about the payment.</p>
+      <p>The value of a “pop” (or “req-pop”) parameter shall be a
+      percent-encoded (per RFC 3986 section 2.1) URI prefix. The wallet
+      application, if it supports providing payment information SHOULD
+      percent-decode the provided URI once, append the query parameter
+      key from which the payment instructions used were read, append a
+      single =, and finally append the Payment Information to the
+      resulting URI and open it with the default system handler for the
+      URI. For payment instructions read from the body of the URI,
+      “onchain” SHALL be used in place of the key.</p>
+      <p>A wallet MUST validate that the provided URI’s scheme is not
+      (case-insensitive) “http”, “https”, “file”, “javascript”, “mailto”
+      or any other scheme which will open in a web browser prior to
+      opening it.</p>
+      <p>If a wallet will not open the pop scheme (either because it
+      does not support returning payment information for the selected
+      payment method or because it uses a URI scheme which should not be
+      opened) and the parameter was passed as a “req-pop” parameter, the
+      wallet MUST NOT initiate payment.</p>
+      <p>For payments made using an on-chain transaction, the Payment
+      Information shall be the full (including witness data) Bitcoin
+      transaction as it was broadcasted to the Bitcoin network, encoded
+      in hex.</p>
+      <p>For payments made using a BOLT 11 invoice (communicated via the
+      `lightning` parameter), the Payment Information shall be the
+      hex-encoded payment preimage.</p>
+      <p>Other payment schemes will define their own Payment Information
+      format. This BIP may be updated from time to time with Payment
+      Information formats for other payment schemes.</p>
+      <h3 data-number="5.4.5" id="bip-0321-rationale">Rationale</h3>
+      <h4 data-number="5.4.5.1"
+      id="bip-0321-payment-identifiers-not-person-identifiers">Payment
+      identifiers, not person identifiers</h4>
+      <p>Best practices are that a unique address should be used for
+      every transaction on-chain. Therefore, a URI which contains an
+      on-chain payment address MUST NOT represent an exchange of
+      personal information, but a one-time payment instruction. URIs
+      which represent only reusable non-address-reusing payment
+      instructions (like Lightning BOLT12 offers or Silent Payments) MAY
+      be reused as a wallet sees fit.</p>
+      <h4 data-number="5.4.5.2" id="bip-0321-proof-of-payment-1">Proof
+      of Payment</h4>
+      <p>On many mobile operating systems (especially, or any operating
+      system more generally), applications may “open” a bitcoin: URI in
+      order to initiate a payment with the user’s default wallet
+      application. These payment-initiating applications may wish to
+      learn about the completed payment.</p>
+      <p>For payments completed on-chain, this is largely addressed by
+      having the payment-initiating application monitor the blockchain
+      for payment completion, however for other payment schemes
+      (e.g. lightning), no such global ledger of transactions exists. In
+      that case, proof of payment must be provided via some other
+      mechanism.</p>
+      <p>In order to avoid inadvertently revealing the sender’s IP
+      address or other information to the recipient, proof URIs must
+      only be opened when they will simply switch to another
+      locally-installed application (i.e. the application which
+      initiated the payment). When clicking a URI from a website, the
+      website should already have plenty of logic on its backend to
+      process payment completion and a proof-of-payment callback is
+      unnecessary.</p>
+      <h3 data-number="5.4.6"
+      id="bip-0321-reference-implementation">Reference
+      Implementation</h3>
+      <p>Documentation: <a
+      href="https://docs.rs/bitcoin-payment-instructions"
+      class="uri">https://docs.rs/bitcoin-payment-instructions</a></p>
+      <p>Code repository: <a
+      href="https://github.com/rust-bitcoin/bitcoin-payment-instructions"
+      class="uri">https://github.com/rust-bitcoin/bitcoin-payment-instructions</a></p>
+      <h3 data-number="5.4.7"
+      id="bip-0321-forward-compatibility">Forward compatibility</h3>
+      <p>Query parameter keys which are prefixed with a req- are
+      considered required. If a client does not implement handling a
+      query parameter which has a key prefixed with req-, it MUST
+      consider the entire URI invalid. Any other query parameters which
+      are not implemented, but which are not prefixed with a req-, can
+      be safely ignored.</p>
+      <p>As future new address types should be added using query
+      parameters rather than the `bitcoinaddress` field, URIs seamlessly
+      support various payment instructions while senders only need to
+      support legacy instructions. This allows old senders to pay newer
+      recipients which offer more modern payment instruction
+      formats.</p>
+      <h3 data-number="5.4.8"
+      id="bip-0321-backward-compatibility">Backward compatibility</h3>
+      <p>Compared to BIP 21, this document describes standard query
+      parameters containing payment instructions, makes query parameters
+      case-insensitive, allows bech32 and bech32m addresses in the
+      `bitcoinaddress` field, and allows for URIs with an empty
+      `bitcoinaddress` field. Use of bech32 and bech32m `bitcoinaddress`
+      fields were long-since common practice in 2024, and the
+      `lightning` query parameter storing BOLT 11 payment instructions
+      became common practice in the year or three leading up to 2024.
+      Inclusion of standard query parameters was added to provide
+      guidance on query parameter usage going forward.</p>
+      <p>Additionally, this BIP describes the “pop” query parameter,
+      which was unused and will be ignored by BIP 21
+      implementations.</p>
+      <p>Any existing BIP 21 implementation should automatically be
+      fully compliant with this BIP, as the changes only describe
+      existing practice or impact future address format inclusion, with
+      the one possible exception of query parameters being made
+      case-insensitive. Note, however, that treating query parameters as
+      case-insensitive is already common practice due to the use of
+      mostly-uppercase URIs in QR codes.</p>
+      <h3 data-number="5.4.9" id="bip-0321-appendix">Appendix</h3>
+      <h4 data-number="5.4.9.1" id="bip-0321-examples">Examples</h4>
+      <p>Note: The addresses used in these examples are intentionally
+      invalid to prevent accidental transactions.</p>
+      <h5 data-number="5.4.9.1.1" id="bip-0321-uris">URIs</h5>
+      <p>Just the address:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W</code></a></p>
+      <p>Address with recipient’s name as label:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?label=Luke-Jr"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?label=Luke-Jr</code></a></p>
+      <p>Request 20.30 BTC to “Luke-Jr”:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=20.3&amp;label=Luke-Jr"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=20.3&amp;label=Luke-Jr</code></a></p>
+      <p>Request 50 BTC with message:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=50&amp;label=Luke-Jr&amp;message=Donation%20for%20project%20xyz"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=50&amp;label=Luke-Jr&amp;message=Donation%20for%20project%20xyz</code></a></p>
+      <p>Request funds to be paid over lightning to a BOLT 11 invoice
+      with a fallback to on-chain payments:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?lightning=lnbc420bogusinvoice"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?lightning=lnbc420bogusinvoice</code></a></p>
+      <p>Request funds to be paid over lightning to a BOLT 11 invoice
+      with no fallback:</p>
+      <p><a
+      href="bitcoin:?lightning=lnbc420bogusinvoice"><code>bitcoin:?lightning=lnbc420bogusinvoice</code></a></p>
+      <p>Request funds to be paid over lightning to a BOLT 12 offer with
+      no fallback:</p>
+      <p><a
+      href="bitcoin:?lno=lno1bogusoffer"><code>bitcoin:?lno=lno1bogusoffer</code></a></p>
+      <p>Request funds to be paid over lightning to a BOLT 12 offer or
+      silent payments address with no fallback:</p>
+      <p><a
+      href="bitcoin:?lno=lno1bogusoffer&amp;sp=sp1qsilentpayment"><code>bitcoin:?lno=lno1bogusoffer&amp;sp=sp1qsilentpayment</code></a></p>
+      <p>Request funds to be paid to a silent payments address with no
+      fallback:</p>
+      <p><a
+      href="bitcoin:?sp=sp1qsilentpayment"><code>bitcoin:?sp=sp1qsilentpayment</code></a></p>
+      <p>Request funds to be paid to a silent payments address with a
+      fallback:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?sp=sp1qsilentpayment"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?sp=sp1qsilentpayment</code></a></p>
+      <p>Some future version that has variables which are (currently)
+      not understood and required and thus invalid:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?req-somethingyoudontunderstand=50&amp;req-somethingelseyoudontget=999"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?req-somethingyoudontunderstand=50&amp;req-somethingelseyoudontget=999</code></a></p>
+      <p>Some future version that has variables which are (currently)
+      not understood but not required and thus valid:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?somethingyoudontunderstand=50&amp;somethingelseyoudontget=999"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?somethingyoudontunderstand=50&amp;somethingelseyoudontget=999</code></a></p>
+      <p>Multiple segwit addresses may be included for various versions
+      of segwit, note that the human-readable part for all of them is
+      `bc`</p>
+      <p><a
+      href="bitcoin:?bc=bc1qufgy354j3kmvuch987xe4s40836x3h0lg8f5nq&amp;bc=bc1p5swkugezn97763tl0yty6556856uug0q6jflljvep9m4p7339x5qzyrh4q"><code>bitcoin:?bc=bc1qufgy354j3kmvuch987xe4s40836x3h0lg8f5nq&amp;bc=bc1p5swkugezn97763tl0yty6556856uug0q6jflljvep9m4p7339x5qzyrh4q</code></a></p>
+      <p>Many QR codes utilize all-uppercase URIs, which should be
+      handled fine</p>
+      <p><a
+      href="BITCOIN:BC1QUFGY354J3KMVUCH987XE4S40836X3H0LG8F5NQ?BC=BC1P5SWKUGEZN97763TL0YTY6556856UUG0Q6JFLLJVEP9M4P7339X5QZYRH4Q"><code>BITCOIN:BC1QUFGY354J3KMVUCH987XE4S40836X3H0LG8F5NQ?BC=BC1P5SWKUGEZN97763TL0YTY6556856UUG0Q6JFLLJVEP9M4P7339X5QZYRH4Q</code></a><br />
+      <a
+      href="BITCOIN:?BC=BC1QUFGY354J3KMVUCH987XE4S40836X3H0LG8F5NQ&amp;BC=BC1P5SWKUGEZN97763TL0YTY6556856UUG0Q6JFLLJVEP9M4P7339X5QZYRH4Q"><code>BITCOIN:?BC=BC1QUFGY354J3KMVUCH987XE4S40836X3H0LG8F5NQ&amp;BC=BC1P5SWKUGEZN97763TL0YTY6556856UUG0Q6JFLLJVEP9M4P7339X5QZYRH4Q</code></a></p>
+      <p>A testnet segwit addresses must be included in the `tb`
+      parameter</p>
+      <p><a
+      href="bitcoin:?tb=tb1qghfhmd4zh7ncpmxl3qzhmq566jk8ckq4gafnmq"><code>bitcoin:?tb=tb1qghfhmd4zh7ncpmxl3qzhmq566jk8ckq4gafnmq</code></a></p>
+      <p>Characters must be URI encoded properly.</p>
+      <h5 data-number="5.4.9.1.2" id="bip-0321-invalid-uris">Invalid
+      URIs</h5>
+      <p>Labels must not appear twice:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?label=Luke-Jr&amp;label=Matt"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?label=Luke-Jr&amp;label=Matt</code></a></p>
+      <p>Amounts must not appear twice:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=42&amp;amount=10"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=42&amp;amount=10</code></a></p>
+      <p>Amounts must not appear twice even if they are the same:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=42&amp;amount=42"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?amount=42&amp;amount=42</code></a></p>
+      <p>Multiple proof of payment URIs must not appear, even if they
+      are sometimes prefixed with req-:</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?pop=callback%3a&amp;req-pop=callback%3a"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?pop=callback%3a&amp;req-pop=callback%3a</code></a></p>
+      <p>A testnet segwit addresses must be included in the `tb`
+      parameter, not the `bc` parameter.</p>
+      <p><a
+      href="bitcoin:?bc=tb1qghfhmd4zh7ncpmxl3qzhmq566jk8ckq4gafnmq"><code>bitcoin:?bc=tb1qghfhmd4zh7ncpmxl3qzhmq566jk8ckq4gafnmq</code></a></p>
+      <h5 data-number="5.4.9.1.3" id="bip-0321-proof-of-payment-2">Proof
+      of Payment</h5>
+      <p>If the original URI is</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?pop=initiatingapp%3a"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?pop=initiatingapp%3a</code></a></p>
+      <p>the wallet should perform the payment information callback by
+      opening</p>
+      <p><code>initiatingapp:onchain=$HEX_ENCODED_TRANSACTION</code></p>
+      <p>If the original URI is</p>
+      <p><a
+      href="bitcoin:?lightning=lnbc420bogusinvoice&amp;pop=callbackuri%3abody%3fpop="><code>bitcoin:?lightning=lnbc420bogusinvoice&amp;pop=callbackuri%3abody%3fpop=</code></a></p>
+      <p>the wallet should perform the proof-of-payment callback by
+      opening</p>
+      <p><code>callbackuri:body?pop=lightning=$HEX_ENCODED_PAYMENT_PREIMAGE</code></p>
+      <p>If the original URI is</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?lightning=lnbc420bogusinvoice&amp;pop=app%3a%3f"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?lightning=lnbc420bogusinvoice&amp;pop=app%3a%3f</code></a></p>
+      <p>and the wallet pays on-chain, it should perform the payment
+      information callback by opening</p>
+      <p><code>app:?onchain=$HEX_ENCODED_TRANSACTION</code></p>
+      <p>but if the app pays using lightning, it should perform the
+      proof-of-payment callback by opening</p>
+      <p><code>app:?lightning=$HEX_ENCODED_PAYMENT_PREIMAGE</code></p>
+      <p>If the original URI is</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?pop=https%3aiwantyouripaddress.com"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?pop=https%3aiwantyouripaddress.com</code></a></p>
+      <p>the wallet should make a payment as it normally would but MUST
+      NOT interact with iwantyouripaddress.com</p>
+      <p>If the original URI is</p>
+      <p><a
+      href="bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?req-pop=https%3aevilwebsite.com"><code>bitcoin:175tWpb8K1S7NmH4Zx6rewF9WQrcZv245W?req-pop=https%3aevilwebsite.com</code></a></p>
+      <p>the wallet MUST NOT make a payment</p>
+      <pre><code>  BIP: 179
+  Title: Name for payment recipient identifiers
+  Authors: Emil Engler &lt;me@emilengler.com&gt;
+           Luke Dashjr &lt;luke+bip@dashjr.org&gt;
+  Status: Complete
+  Type: Informational
+  Assigned: 2019-10-17
+  License: CC0-1.0</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0350.html" rel="prev">BIP 350</a>
+        <a class="pager-next" href="bip-0179.html" rel="next">BIP 179</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

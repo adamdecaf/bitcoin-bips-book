@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 32 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="keys-seeds-and-derivation.html" accesskey="p" rel="prev">Keys, Seeds, and Derivation</a>
+        <a class="pager-next" href="bip-0038.html" accesskey="n" rel="next">BIP 38</a>
+      </nav>
+      <h2 data-number="8.1" id="bip-0032">BIP 32</h2>
+      <h3 data-number="8.1.1" id="bip-0032-abstract">Abstract</h3>
+      <p>This document describes hierarchical deterministic wallets (or
+      “HD Wallets”): wallets which can be shared partially or entirely
+      with different systems, each with or without the ability to spend
+      coins.</p>
+      <p>The specification is intended to set a standard for
+      deterministic wallets that can be interchanged between different
+      clients. Although the wallets described here have many features,
+      not all are required by supporting clients.</p>
+      <p>The specification consists of two parts. In the first part, a
+      system for deriving a tree of keypairs from a single seed is
+      presented. The second part demonstrates how to build a wallet
+      structure on top of such a tree.</p>
+      <h3 data-number="8.1.2" id="bip-0032-copyright">Copyright</h3>
+      <p>This BIP is licensed under the 2-clause BSD license.</p>
+      <h3 data-number="8.1.3" id="bip-0032-motivation">Motivation</h3>
+      <p>The Bitcoin reference client uses randomly generated keys. In
+      order to avoid the necessity for a backup after every transaction,
+      (by default) 100 keys are cached in a pool of reserve keys. Still,
+      these wallets are not intended to be shared and used on several
+      systems simultaneously. They support hiding their private keys by
+      using the wallet encrypt feature and not sharing the password, but
+      such “neutered” wallets lose the power to generate public keys as
+      well.</p>
+      <p>Deterministic wallets do not require such frequent backups, and
+      elliptic curve mathematics permit schemes where one can calculate
+      the public keys without revealing the private keys. This permits
+      for example a webshop business to let its webserver generate fresh
+      addresses (public key hashes) for each order or for each customer,
+      without giving the webserver access to the corresponding private
+      keys (which are required for spending the received funds).</p>
+      <p>However, deterministic wallets typically consist of a single
+      “chain” of keypairs. The fact that there is only one chain means
+      that sharing a wallet happens on an all-or-nothing basis. However,
+      in some cases one only wants some (public) keys to be shared and
+      recoverable. In the example of a webshop, the webserver does not
+      need access to all public keys of the merchant’s wallet; only to
+      those addresses which are used to receive customers’ payments, and
+      not for example the change addresses that are generated when the
+      merchant spends money. Hierarchical deterministic wallets allow
+      such selective sharing by supporting multiple keypair chains,
+      derived from a single root.</p>
+      <h3 data-number="8.1.4"
+      id="bip-0032-specification-key-derivation">Specification: Key
+      derivation</h3>
+      <h4 data-number="8.1.4.1"
+      id="bip-0032-conventions">Conventions</h4>
+      <p>In the rest of this text we will assume the public key
+      cryptography used in Bitcoin, namely elliptic curve cryptography
+      using the field and curve parameters defined by secp256k1
+      (http://www.secg.org/sec2-v2.pdf). Variables below are either:</p>
+      <ul>
+      <li>Integers modulo the order of the curve (referred to as
+      n).</li>
+      <li>Coordinates of points on the curve.</li>
+      <li>Byte sequences.</li>
+      </ul>
+      <p>Addition (+) of two coordinate pair is defined as application
+      of the EC group operation. Concatenation (||) is the operation of
+      appending one byte sequence onto another.</p>
+      <p>As standard conversion functions, we assume:</p>
+      <ul>
+      <li>point(p): returns the coordinate pair resulting from EC point
+      multiplication (repeated application of the EC group operation) of
+      the secp256k1 base point with the integer p (i.e., the operation
+      used to compute a public key from a private key).</li>
+      <li>ser<sub>32</sub>(i): serialize a 32-bit unsigned integer i as
+      a 4-byte sequence, most significant byte first.</li>
+      <li>ser<sub>256</sub>(p): serializes the integer p as a 32-byte
+      sequence, most significant byte first.</li>
+      <li>ser<sub>P</sub>(P): serializes the coordinate pair P = (x,y)
+      (i.e., the public key) as a byte sequence using <a
+      href="https://www.secg.org/sec1-v2.pdf">SEC1</a>’s compressed
+      form: (0x02 or 0x03) || ser<sub>256</sub>(x), where the header
+      byte depends on the parity of the omitted y coordinate.</li>
+      <li>parse<sub>256</sub>(p): interprets a 32-byte sequence as a
+      256-bit number, most significant byte first.</li>
+      </ul>
+      <h4 data-number="8.1.4.2" id="bip-0032-extended-keys">Extended
+      keys</h4>
+      <p>In what follows, we will define a function that derives a
+      number of child keys from a parent key. In order to prevent these
+      from depending solely on the key itself, we extend both private
+      and public keys first with an extra 256 bits of entropy. This
+      extension, called the chain code, is identical for corresponding
+      private and public keys, and consists of 32 bytes.</p>
+      <p>We represent an extended private key as (k, c), with k the
+      normal private key, and c the chain code. An extended public key
+      is represented as (K, c), with K = point(k) and c the chain
+      code.</p>
+      <p>Each extended key has 2<sup>31</sup> normal child keys, and
+      2<sup>31</sup> hardened child keys. Each of these child keys has
+      an index. The normal child keys use indices 0 through
+      2<sup>31</sup>-1. The hardened child keys use indices
+      2<sup>31</sup> through 2<sup>32</sup>-1. To ease notation for
+      hardened key indices, a number i<sub>H</sub> represents
+      i+2<sup>31</sup>.</p>
+      <h4 data-number="8.1.4.3"
+      id="bip-0032-child-key-derivation-ckd-functions">Child key
+      derivation (CKD) functions</h4>
+      <p>Given a parent extended key and an index i, it is possible to
+      compute the corresponding child extended key. The algorithm to do
+      so depends on whether the child is a hardened key or not (or,
+      equivalently, whether i ≥ 2<sup>31</sup>), and whether we’re
+      talking about private or public keys.</p>
+      <h5 data-number="8.1.4.3.1"
+      id="bip-0032-private-parent-key-private-child-key">Private parent
+      key → private child key</h5>
+      <p>The function CKDpriv((k<sub>par</sub>, c<sub>par</sub>), i) →
+      (k<sub>i</sub>, c<sub>i</sub>) computes a child extended private
+      key from the parent extended private key:</p>
+      <ul>
+      <li>Check whether i ≥ 2<sup>31</sup> (whether the child is a
+      hardened key).
+      <ul>
+      <li>If so (hardened child): let I = HMAC-SHA512(Key =
+      c<sub>par</sub>, Data = 0x00 || ser<sub>256</sub>(k<sub>par</sub>)
+      || ser<sub>32</sub>(i)). (Note: The 0x00 pads the private key to
+      make it 33 bytes long.)</li>
+      <li>If not (normal child): let I = HMAC-SHA512(Key =
+      c<sub>par</sub>, Data = ser<sub>P</sub>(point(k<sub>par</sub>)) ||
+      ser<sub>32</sub>(i)).</li>
+      </ul></li>
+      <li>Split I into two 32-byte sequences, I<sub>L</sub> and
+      I<sub>R</sub>.</li>
+      <li>The returned child key k<sub>i</sub> is
+      parse<sub>256</sub>(I<sub>L</sub>) + k<sub>par</sub> (mod n).</li>
+      <li>The returned chain code c<sub>i</sub> is I<sub>R</sub>.</li>
+      <li>In case parse<sub>256</sub>(I<sub>L</sub>) ≥ n or
+      k<sub>i</sub> = 0, the resulting key is invalid, and one should
+      proceed with the next value for i. (Note: this has probability
+      lower than 1 in 2<sup>127</sup>.)</li>
+      </ul>
+      <p>The HMAC-SHA512 function is specified in <a
+      href="http://tools.ietf.org/html/rfc4231">RFC 4231</a>.</p>
+      <h5 data-number="8.1.4.3.2"
+      id="bip-0032-public-parent-key-public-child-key">Public parent key
+      → public child key</h5>
+      <p>The function CKDpub((K<sub>par</sub>, c<sub>par</sub>), i) →
+      (K<sub>i</sub>, c<sub>i</sub>) computes a child extended public
+      key from the parent extended public key. It is only defined for
+      non-hardened child keys.</p>
+      <ul>
+      <li>Check whether i ≥ 2<sup>31</sup> (whether the child is a
+      hardened key).
+      <ul>
+      <li>If so (hardened child): return failure</li>
+      <li>If not (normal child): let I = HMAC-SHA512(Key =
+      c<sub>par</sub>, Data = ser<sub>P</sub>(K<sub>par</sub>) ||
+      ser<sub>32</sub>(i)).</li>
+      </ul></li>
+      <li>Split I into two 32-byte sequences, I<sub>L</sub> and
+      I<sub>R</sub>.</li>
+      <li>The returned child key K<sub>i</sub> is
+      point(parse<sub>256</sub>(I<sub>L</sub>)) + K<sub>par</sub>.</li>
+      <li>The returned chain code c<sub>i</sub> is I<sub>R</sub>.</li>
+      <li>In case parse<sub>256</sub>(I<sub>L</sub>) ≥ n or
+      K<sub>i</sub> is the point at infinity, the resulting key is
+      invalid, and one should proceed with the next value for i.</li>
+      </ul>
+      <h5 data-number="8.1.4.3.3"
+      id="bip-0032-private-parent-key-public-child-key">Private parent
+      key → public child key</h5>
+      <p>The function N((k, c)) → (K, c) computes the extended public
+      key corresponding to an extended private key (the “neutered”
+      version, as it removes the ability to sign transactions).</p>
+      <ul>
+      <li>The returned key K is point(k).</li>
+      <li>The returned chain code c is just the passed chain code.</li>
+      </ul>
+      <p>To compute the public child key of a parent private key:</p>
+      <ul>
+      <li>N(CKDpriv((k<sub>par</sub>, c<sub>par</sub>), i)) (works
+      always).</li>
+      <li>CKDpub(N(k<sub>par</sub>, c<sub>par</sub>), i) (works only for
+      non-hardened child keys).</li>
+      </ul>
+      <p>The fact that they are equivalent is what makes non-hardened
+      keys useful (one can derive child public keys of a given parent
+      key without knowing any private key), and also what distinguishes
+      them from hardened keys. The reason for not always using
+      non-hardened keys (which are more useful) is security; see further
+      below for more information.</p>
+      <h5 data-number="8.1.4.3.4"
+      id="bip-0032-public-parent-key-private-child-key">Public parent
+      key → private child key</h5>
+      <p>This is not possible.</p>
+      <h4 data-number="8.1.4.4" id="bip-0032-the-key-tree">The key
+      tree</h4>
+      <p>The next step is cascading several CKD constructions to build a
+      tree. We start with one root, the master extended key m. By
+      evaluating CKDpriv(m,i) for several values of i, we get a number
+      of level-1 derived nodes. As each of these is again an extended
+      key, CKDpriv can be applied to those as well.</p>
+      <p>To shorten notation, we will write
+      CKDpriv(CKDpriv(CKDpriv(m,3<sub>H</sub>),2),5) as
+      m/3<sub>H</sub>/2/5. Equivalently for public keys, we write
+      CKDpub(CKDpub(CKDpub(M,3),2),5) as M/3/2/5. This results in the
+      following identities:</p>
+      <ul>
+      <li>N(m/a/b/c) = N(m/a/b)/c = N(m/a)/b/c = N(m)/a/b/c =
+      M/a/b/c.</li>
+      <li>N(m/a<sub>H</sub>/b/c) = N(m/a<sub>H</sub>/b)/c =
+      N(m/a<sub>H</sub>)/b/c.</li>
+      </ul>
+      <p>However, N(m/a<sub>H</sub>) cannot be rewritten as
+      N(m)/a<sub>H</sub>, as the latter is not possible.</p>
+      <p>Each leaf node in the tree corresponds to an actual key, while
+      the internal nodes correspond to the collections of keys that
+      descend from them. The chain codes of the leaf nodes are ignored,
+      and only their embedded private or public key is relevant. Because
+      of this construction, knowing an extended private key allows
+      reconstruction of all descendant private keys and public keys, and
+      knowing an extended public key allows reconstruction of all
+      descendant non-hardened public keys.</p>
+      <h4 data-number="8.1.4.5" id="bip-0032-key-identifiers">Key
+      identifiers</h4>
+      <p>Extended keys can be identified by the Hash160 (RIPEMD160 after
+      SHA256) of the serialized ECDSA public key K, ignoring the chain
+      code. This corresponds exactly to the data used in traditional
+      Bitcoin addresses. It is not advised to represent this data in
+      base58 format though, as it may be interpreted as an address that
+      way (and wallet software is not required to accept payment to the
+      chain key itself).</p>
+      <p>The first 32 bits of the identifier are called the key
+      fingerprint.</p>
+      <h4 data-number="8.1.4.6"
+      id="bip-0032-serialization-format">Serialization format</h4>
+      <p>Extended public and private keys are serialized as follows:</p>
+      <ul>
+      <li>4 bytes: version bytes (mainnet: 0x0488B21E public, 0x0488ADE4
+      private; testnet: 0x043587CF public, 0x04358394 private)</li>
+      <li>1 byte: depth: 0x00 for master nodes, 0x01 for level-1 derived
+      keys, ….</li>
+      <li>4 bytes: the fingerprint of the parent’s key (0x00000000 if
+      master key)</li>
+      <li>4 bytes: child number. This is ser<sub>32</sub>(i) for i in
+      x<sub>i</sub> = x<sub>par</sub>/i, with x<sub>i</sub> the key
+      being serialized. (0x00000000 if master key)</li>
+      <li>32 bytes: the chain code</li>
+      <li>33 bytes: the public key or private key data
+      (ser<sub>P</sub>(K) for public keys, 0x00 || ser<sub>256</sub>(k)
+      for private keys)</li>
+      </ul>
+      <p>This 78 byte structure can be encoded like other Bitcoin data
+      in Base58, by first adding 32 checksum bits (derived from the
+      double SHA-256 checksum), and then converting to the Base58
+      representation. This results in a Base58-encoded string of exactly
+      111 characters. Because of the choice of the version bytes, the
+      Base58 representation will start with “xprv” or “xpub” on mainnet,
+      “tprv” or “tpub” on testnet.</p>
+      <p>Note that the fingerprint of the parent only serves as a fast
+      way to detect parent and child nodes in software, and software
+      must be willing to deal with collisions. Internally, the full
+      160-bit identifier could be used.</p>
+      <p>When importing a serialized extended public key,
+      implementations must verify whether the X coordinate in the public
+      key data corresponds to a point on the curve. If not, the extended
+      public key is invalid.</p>
+      <h4 data-number="8.1.4.7"
+      id="bip-0032-master-key-generation">Master key generation</h4>
+      <p>The total number of possible extended keypairs is almost
+      2<sup>512</sup>, but the produced keys are only 256 bits long, and
+      offer about half of that in terms of security. Therefore, master
+      keys are not generated directly, but instead from a potentially
+      short seed value.</p>
+      <ul>
+      <li>Generate a seed byte sequence S of a chosen length (between
+      128 and 512 bits; 256 bits is advised) from a (P)RNG.</li>
+      <li>Calculate I = HMAC-SHA512(Key = “Bitcoin seed”, Data = S)</li>
+      <li>Split I into two 32-byte sequences, I<sub>L</sub> and
+      I<sub>R</sub>.</li>
+      <li>Use parse<sub>256</sub>(I<sub>L</sub>) as master secret key,
+      and I<sub>R</sub> as master chain code.</li>
+      </ul>
+      <p>In case parse<sub>256</sub>(I<sub>L</sub>) is 0 or
+      parse<sub>256</sub>(I<sub>L</sub>) ≥ n, the master key is
+      invalid.</p>
+      <p>&lt;img src=bip-0032/derivation.png&gt;&lt;/img&gt;</p>
+      <h3 data-number="8.1.5"
+      id="bip-0032-specification-wallet-structure">Specification: Wallet
+      structure</h3>
+      <p>The previous sections specified key trees and their nodes. The
+      next step is imposing a wallet structure on this tree. The layout
+      defined in this section is a default only, though clients are
+      encouraged to mimic it for compatibility, even if not all features
+      are supported.</p>
+      <h4 data-number="8.1.5.1"
+      id="bip-0032-the-default-wallet-layout">The default wallet
+      layout</h4>
+      <p>An HDW is organized as several ‘accounts’. Accounts are
+      numbered, the default account (““) being number 0. Clients are not
+      required to support more than one account - if not, they only use
+      the default account.</p>
+      <p>Each account is composed of two keypair chains: an internal and
+      an external one. The external keychain is used to generate new
+      public addresses, while the internal keychain is used for all
+      other operations (change addresses, generation addresses, …,
+      anything that doesn’t need to be communicated). Clients that do
+      not support separate keychains for these should use the external
+      one for everything.</p>
+      <ul>
+      <li>m/i<sub>H</sub>/0/k corresponds to the k’th keypair of the
+      external chain of account number i of the HDW derived from master
+      m.</li>
+      <li>m/i<sub>H</sub>/1/k corresponds to the k’th keypair of the
+      internal chain of account number i of the HDW derived from master
+      m.</li>
+      </ul>
+      <h4 data-number="8.1.5.2" id="bip-0032-use-cases">Use cases</h4>
+      <h5 data-number="8.1.5.2.1"
+      id="bip-0032-full-wallet-sharing-m">Full wallet sharing: m</h5>
+      <p>In cases where two systems need to access a single shared
+      wallet, and both need to be able to perform spendings, one needs
+      to share the master private extended key. Nodes can keep a pool of
+      N look-ahead keys cached for external chains, to watch for
+      incoming payments. The look-ahead for internal chains can be very
+      small, as no gaps are to be expected here. An extra look-ahead
+      could be active for the first unused account’s chains - triggering
+      the creation of a new account when used. Note that the name of the
+      account will still need to be entered manually and cannot be
+      synchronized via the block chain.</p>
+      <h5 data-number="8.1.5.2.2" id="bip-0032-audits-nm">Audits:
+      N(m/*)</h5>
+      <p>In case an auditor needs full access to the list of incoming
+      and outgoing payments, one can share all account public extended
+      keys. This will allow the auditor to see all transactions from and
+      to the wallet, in all accounts, but not a single secret key.</p>
+      <h5 data-number="8.1.5.2.3"
+      id="bip-0032-per-office-balances-mih">Per-office balances:
+      m/i<sub>H</sub></h5>
+      <p>When a business has several independent offices, they can all
+      use wallets derived from a single master. This will allow the
+      headquarters to maintain a super-wallet that sees all incoming and
+      outgoing transactions of all offices, and even permit moving money
+      between the offices.</p>
+      <h5 data-number="8.1.5.2.4"
+      id="bip-0032-recurrent-business-to-business-transactions-nmih0">Recurrent
+      business-to-business transactions: N(m/i<sub>H</sub>/0)</h5>
+      <p>In case two business partners often transfer money, one can use
+      the extended public key for the external chain of a specific
+      account (M/i h/0) as a sort of “super address”, allowing frequent
+      transactions that cannot (easily) be associated, but without
+      needing to request a new address for each payment. Such a
+      mechanism could also be used by mining pool operators as a
+      variable payout address.</p>
+      <h5 data-number="8.1.5.2.5"
+      id="bip-0032-unsecure-money-receiver-nmih0">Unsecure money
+      receiver: N(m/i<sub>H</sub>/0)</h5>
+      <p>When an unsecure webserver is used to run an e-commerce site,
+      it needs to know public addresses that are used to receive
+      payments. The webserver only needs to know the public extended key
+      of the external chain of a single account. This means someone
+      illegally obtaining access to the webserver can at most see all
+      incoming payments but will not be able to steal the money, will
+      not (trivially) be able to distinguish outgoing transactions, nor
+      be able to see payments received by other webservers if there are
+      several.</p>
+      <h3 data-number="8.1.6"
+      id="bip-0032-compatibility">Compatibility</h3>
+      <p>To comply with this standard, a client must at least be able to
+      import an extended public or private key, to give access to its
+      direct descendants as wallet keys. The wallet structure
+      (master/account/chain/subchain) presented in the second part of
+      the specification is advisory only, but is suggested as a minimal
+      structure for easy compatibility - even when no separate accounts
+      or distinction between internal and external chains is made.
+      However, implementations may deviate from it for specific needs;
+      more complex applications may call for a more complex tree
+      structure.</p>
+      <h3 data-number="8.1.7" id="bip-0032-security">Security</h3>
+      <p>In addition to the expectations from the EC public-key
+      cryptography itself:</p>
+      <ul>
+      <li>Given a public key K, an attacker cannot find the
+      corresponding private key more efficiently than by solving the EC
+      discrete logarithm problem (assumed to require 2<sup>128</sup>
+      group operations).</li>
+      </ul>
+      <p>the intended security properties of this standard are:</p>
+      <ul>
+      <li>Given a child extended private key
+      (k<sub>i</sub>,c<sub>i</sub>) and the integer i, an attacker
+      cannot find the parent private key k<sub>par</sub> more
+      efficiently than a 2<sup>256</sup> brute force of
+      HMAC-SHA512.</li>
+      <li>Given any number (2 ≤ N ≤ 2<sup>32</sup>-1) of (index,
+      extended private key) tuples
+      (i<sub>j</sub>,(k<sub>i<sub>j</sub></sub>,c<sub>i<sub>j</sub></sub>)),
+      with distinct i<sub>j</sub>’s, determining whether they are
+      derived from a common parent extended private key (i.e., whether
+      there exists a (k<sub>par</sub>,c<sub>par</sub>) such that for
+      each j in (0..N-1)
+      CKDpriv((k<sub>par</sub>,c<sub>par</sub>),i<sub>j</sub>)=(k<sub>i<sub>j</sub></sub>,c<sub>i<sub>j</sub></sub>)),
+      cannot be done more efficiently than a 2<sup>256</sup> brute force
+      of HMAC-SHA512.</li>
+      </ul>
+      <p>Note however that the following properties do not exist:</p>
+      <ul>
+      <li>Given a parent extended public key
+      (K<sub>par</sub>,c<sub>par</sub>) and a child public key
+      (K<sub>i</sub>), it is hard to find i.</li>
+      <li>Given a parent extended public key
+      (K<sub>par</sub>,c<sub>par</sub>) and a non-hardened child private
+      key (k<sub>i</sub>), it is hard to find k<sub>par</sub>.</li>
+      </ul>
+      <h4 data-number="8.1.7.1"
+      id="bip-0032-implications">Implications</h4>
+      <p>Private and public keys must be kept safe as usual. Leaking a
+      private key means access to coins - leaking a public key can mean
+      loss of privacy.</p>
+      <p>Somewhat more care must be taken regarding extended keys, as
+      these correspond to an entire (sub)tree of keys.</p>
+      <p>One weakness that may not be immediately obvious, is that
+      knowledge of a parent extended public key plus any non-hardened
+      private key descending from it is equivalent to knowing the parent
+      extended private key (and thus every private and public key
+      descending from it). This means that extended public keys must be
+      treated more carefully than regular public keys. It is also the
+      reason for the existence of hardened keys, and why they are used
+      for the account level in the tree. This way, a leak of
+      account-specific (or below) private keys never risks compromising
+      the master or other accounts.</p>
+      <h3 data-number="8.1.8" id="bip-0032-test-vectors">Test
+      Vectors</h3>
+      <h4 data-number="8.1.8.1" id="bip-0032-test-vector-1">Test vector
+      1</h4>
+      <p>Seed (hex): 000102030405060708090a0b0c0d0e0f</p>
+      <ul>
+      <li>Chain m
+      <ul>
+      <li>ext pub:
+      xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8</li>
+      <li>ext prv:
+      xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHi</li>
+      </ul></li>
+      <li>Chain m/0<sub>H</sub>
+      <ul>
+      <li>ext pub:
+      xpub68Gmy5EdvgibQVfPdqkBBCHxA5htiqg55crXYuXoQRKfDBFA1WEjWgP6LHhwBZeNK1VTsfTFUHCdrfp1bgwQ9xv5ski8PX9rL2dZXvgGDnw</li>
+      <li>ext prv:
+      xprv9uHRZZhk6KAJC1avXpDAp4MDc3sQKNxDiPvvkX8Br5ngLNv1TxvUxt4cV1rGL5hj6KCesnDYUhd7oWgT11eZG7XnxHrnYeSvkzY7d2bhkJ7</li>
+      </ul></li>
+      <li>Chain m/0<sub>H</sub>/1
+      <ul>
+      <li>ext pub:
+      xpub6ASuArnXKPbfEwhqN6e3mwBcDTgzisQN1wXN9BJcM47sSikHjJf3UFHKkNAWbWMiGj7Wf5uMash7SyYq527Hqck2AxYysAA7xmALppuCkwQ</li>
+      <li>ext prv:
+      xprv9wTYmMFdV23N2TdNG573QoEsfRrWKQgWeibmLntzniatZvR9BmLnvSxqu53Kw1UmYPxLgboyZQaXwTCg8MSY3H2EU4pWcQDnRnrVA1xe8fs</li>
+      </ul></li>
+      <li>Chain m/0<sub>H</sub>/1/2<sub>H</sub>
+      <ul>
+      <li>ext pub:
+      xpub6D4BDPcP2GT577Vvch3R8wDkScZWzQzMMUm3PWbmWvVJrZwQY4VUNgqFJPMM3No2dFDFGTsxxpG5uJh7n7epu4trkrX7x7DogT5Uv6fcLW5</li>
+      <li>ext prv:
+      xprv9z4pot5VBttmtdRTWfWQmoH1taj2axGVzFqSb8C9xaxKymcFzXBDptWmT7FwuEzG3ryjH4ktypQSAewRiNMjANTtpgP4mLTj34bhnZX7UiM</li>
+      </ul></li>
+      <li>Chain m/0<sub>H</sub>/1/2<sub>H</sub>/2
+      <ul>
+      <li>ext pub:
+      xpub6FHa3pjLCk84BayeJxFW2SP4XRrFd1JYnxeLeU8EqN3vDfZmbqBqaGJAyiLjTAwm6ZLRQUMv1ZACTj37sR62cfN7fe5JnJ7dh8zL4fiyLHV</li>
+      <li>ext prv:
+      xprvA2JDeKCSNNZky6uBCviVfJSKyQ1mDYahRjijr5idH2WwLsEd4Hsb2Tyh8RfQMuPh7f7RtyzTtdrbdqqsunu5Mm3wDvUAKRHSC34sJ7in334</li>
+      </ul></li>
+      <li>Chain m/0<sub>H</sub>/1/2<sub>H</sub>/2/1000000000
+      <ul>
+      <li>ext pub:
+      xpub6H1LXWLaKsWFhvm6RVpEL9P4KfRZSW7abD2ttkWP3SSQvnyA8FSVqNTEcYFgJS2UaFcxupHiYkro49S8yGasTvXEYBVPamhGW6cFJodrTHy</li>
+      <li>ext prv:
+      xprvA41z7zogVVwxVSgdKUHDy1SKmdb533PjDz7J6N6mV6uS3ze1ai8FHa8kmHScGpWmj4WggLyQjgPie1rFSruoUihUZREPSL39UNdE3BBDu76</li>
+      </ul></li>
+      </ul>
+      <h4 data-number="8.1.8.2" id="bip-0032-test-vector-2">Test vector
+      2</h4>
+      <p>Seed (hex):
+      fffcf9f6f3f0edeae7e4e1dedbd8d5d2cfccc9c6c3c0bdbab7b4b1aeaba8a5a29f9c999693908d8a8784817e7b7875726f6c696663605d5a5754514e4b484542</p>
+      <ul>
+      <li>Chain m
+      <ul>
+      <li>ext pub:
+      xpub661MyMwAqRbcFW31YEwpkMuc5THy2PSt5bDMsktWQcFF8syAmRUapSCGu8ED9W6oDMSgv6Zz8idoc4a6mr8BDzTJY47LJhkJ8UB7WEGuduB</li>
+      <li>ext prv:
+      xprv9s21ZrQH143K31xYSDQpPDxsXRTUcvj2iNHm5NUtrGiGG5e2DtALGdso3pGz6ssrdK4PFmM8NSpSBHNqPqm55Qn3LqFtT2emdEXVYsCzC2U</li>
+      </ul></li>
+      <li>Chain m/0
+      <ul>
+      <li>ext pub:
+      xpub69H7F5d8KSRgmmdJg2KhpAK8SR3DjMwAdkxj3ZuxV27CprR9LgpeyGmXUbC6wb7ERfvrnKZjXoUmmDznezpbZb7ap6r1D3tgFxHmwMkQTPH</li>
+      <li>ext prv:
+      xprv9vHkqa6EV4sPZHYqZznhT2NPtPCjKuDKGY38FBWLvgaDx45zo9WQRUT3dKYnjwih2yJD9mkrocEZXo1ex8G81dwSM1fwqWpWkeS3v86pgKt</li>
+      </ul></li>
+      <li>Chain m/0/2147483647<sub>H</sub>
+      <ul>
+      <li>ext pub:
+      xpub6ASAVgeehLbnwdqV6UKMHVzgqAG8Gr6riv3Fxxpj8ksbH9ebxaEyBLZ85ySDhKiLDBrQSARLq1uNRts8RuJiHjaDMBU4Zn9h8LZNnBC5y4a</li>
+      <li>ext prv:
+      xprv9wSp6B7kry3Vj9m1zSnLvN3xH8RdsPP1Mh7fAaR7aRLcQMKTR2vidYEeEg2mUCTAwCd6vnxVrcjfy2kRgVsFawNzmjuHc2YmYRmagcEPdU9</li>
+      </ul></li>
+      <li>Chain m/0/2147483647<sub>H</sub>/1
+      <ul>
+      <li>ext pub:
+      xpub6DF8uhdarytz3FWdA8TvFSvvAh8dP3283MY7p2V4SeE2wyWmG5mg5EwVvmdMVCQcoNJxGoWaU9DCWh89LojfZ537wTfunKau47EL2dhHKon</li>
+      <li>ext prv:
+      xprv9zFnWC6h2cLgpmSA46vutJzBcfJ8yaJGg8cX1e5StJh45BBciYTRXSd25UEPVuesF9yog62tGAQtHjXajPPdbRCHuWS6T8XA2ECKADdw4Ef</li>
+      </ul></li>
+      <li>Chain m/0/2147483647<sub>H</sub>/1/2147483646<sub>H</sub>
+      <ul>
+      <li>ext pub:
+      xpub6ERApfZwUNrhLCkDtcHTcxd75RbzS1ed54G1LkBUHQVHQKqhMkhgbmJbZRkrgZw4koxb5JaHWkY4ALHY2grBGRjaDMzQLcgJvLJuZZvRcEL</li>
+      <li>ext prv:
+      xprvA1RpRA33e1JQ7ifknakTFpgNXPmW2YvmhqLQYMmrj4xJXXWYpDPS3xz7iAxn8L39njGVyuoseXzU6rcxFLJ8HFsTjSyQbLYnMpCqE2VbFWc</li>
+      </ul></li>
+      <li>Chain m/0/2147483647<sub>H</sub>/1/2147483646<sub>H</sub>/2
+      <ul>
+      <li>ext pub:
+      xpub6FnCn6nSzZAw5Tw7cgR9bi15UV96gLZhjDstkXXxvCLsUXBGXPdSnLFbdpq8p9HmGsApME5hQTZ3emM2rnY5agb9rXpVGyy3bdW6EEgAtqt</li>
+      <li>ext prv:
+      xprvA2nrNbFZABcdryreWet9Ea4LvTJcGsqrMzxHx98MMrotbir7yrKCEXw7nadnHM8Dq38EGfSh6dqA9QWTyefMLEcBYJUuekgW4BYPJcr9E7j</li>
+      </ul></li>
+      </ul>
+      <h4 data-number="8.1.8.3" id="bip-0032-test-vector-3">Test vector
+      3</h4>
+      <p>These vectors test for the retention of leading zeros. See <a
+      href="https://github.com/bitpay/bitcore-lib/issues/47">bitpay/bitcore-lib#47</a>
+      and <a
+      href="https://github.com/iancoleman/bip39/issues/58">iancoleman/bip39#58</a>
+      for more information.</p>
+      <p>Seed (hex):
+      4b381541583be4423346c643850da4b320e46a87ae3d2a4e6da11eba819cd4acba45d239319ac14f863b8d5ab5a0d0c64d2e8a1e7d1457df2e5a3c51c73235be</p>
+      <ul>
+      <li>Chain m
+      <ul>
+      <li>ext pub:
+      xpub661MyMwAqRbcEZVB4dScxMAdx6d4nFc9nvyvH3v4gJL378CSRZiYmhRoP7mBy6gSPSCYk6SzXPTf3ND1cZAceL7SfJ1Z3GC8vBgp2epUt13</li>
+      <li>ext prv:
+      xprv9s21ZrQH143K25QhxbucbDDuQ4naNntJRi4KUfWT7xo4EKsHt2QJDu7KXp1A3u7Bi1j8ph3EGsZ9Xvz9dGuVrtHHs7pXeTzjuxBrCmmhgC6</li>
+      </ul></li>
+      <li>Chain m/0<sub>H</sub>
+      <ul>
+      <li>ext pub:
+      xpub68NZiKmJWnxxS6aaHmn81bvJeTESw724CRDs6HbuccFQN9Ku14VQrADWgqbhhTHBaohPX4CjNLf9fq9MYo6oDaPPLPxSb7gwQN3ih19Zm4Y</li>
+      <li>ext prv:
+      xprv9uPDJpEQgRQfDcW7BkF7eTya6RPxXeJCqCJGHuCJ4GiRVLzkTXBAJMu2qaMWPrS7AANYqdq6vcBcBUdJCVVFceUvJFjaPdGZ2y9WACViL4L</li>
+      </ul></li>
+      </ul>
+      <h4 data-number="8.1.8.4" id="bip-0032-test-vector-4">Test vector
+      4</h4>
+      <p>These vectors test for the retention of leading zeros. See <a
+      href="https://github.com/btcsuite/btcutil/issues/172">btcsuite/btcutil#172</a>
+      for more information.</p>
+      <p>Seed (hex):
+      3ddd5602285899a946114506157c7997e5444528f3003f6134712147db19b678</p>
+      <ul>
+      <li>Chain m
+      <ul>
+      <li>ext pub:
+      xpub661MyMwAqRbcGczjuMoRm6dXaLDEhW1u34gKenbeYqAix21mdUKJyuyu5F1rzYGVxyL6tmgBUAEPrEz92mBXjByMRiJdba9wpnN37RLLAXa</li>
+      <li>ext prv:
+      xprv9s21ZrQH143K48vGoLGRPxgo2JNkJ3J3fqkirQC2zVdk5Dgd5w14S7fRDyHH4dWNHUgkvsvNDCkvAwcSHNAQwhwgNMgZhLtQC63zxwhQmRv</li>
+      </ul></li>
+      <li>Chain m/0<sub>H</sub>
+      <ul>
+      <li>ext pub:
+      xpub69AUMk3qDBi3uW1sXgjCmVjJ2G6WQoYSnNHyzkmdCHEhSZ4tBok37xfFEqHd2AddP56Tqp4o56AePAgCjYdvpW2PU2jbUPFKsav5ut6Ch1m</li>
+      <li>ext prv:
+      xprv9vB7xEWwNp9kh1wQRfCCQMnZUEG21LpbR9NPCNN1dwhiZkjjeGRnaALmPXCX7SgjFTiCTT6bXes17boXtjq3xLpcDjzEuGLQBM5ohqkao9G</li>
+      </ul></li>
+      <li>Chain m/0<sub>H</sub>/1<sub>H</sub>
+      <ul>
+      <li>ext pub:
+      xpub6BJA1jSqiukeaesWfxe6sNK9CCGaujFFSJLomWHprUL9DePQ4JDkM5d88n49sMGJxrhpjazuXYWdMf17C9T5XnxkopaeS7jGk1GyyVziaMt</li>
+      <li>ext prv:
+      xprv9xJocDuwtYCMNAo3Zw76WENQeAS6WGXQ55RCy7tDJ8oALr4FWkuVoHJeHVAcAqiZLE7Je3vZJHxspZdFHfnBEjHqU5hG1Jaj32dVoS6XLT1</li>
+      </ul></li>
+      </ul>
+      <h4 data-number="8.1.8.5" id="bip-0032-test-vector-5">Test vector
+      5</h4>
+      <p>These vectors test that invalid extended keys are recognized as
+      invalid.</p>
+      <ul>
+      <li>xpub661MyMwAqRbcEYS8w7XLSVeEsBXy79zSzH1J8vCdxAZningWLdN3zgtU6LBpB85b3D2yc8sfvZU521AAwdZafEz7mnzBBsz4wKY5fTtTQBm
+      (pubkey version / prvkey mismatch)</li>
+      <li>xprv9s21ZrQH143K24Mfq5zL5MhWK9hUhhGbd45hLXo2Pq2oqzMMo63oStZzFGTQQD3dC4H2D5GBj7vWvSQaaBv5cxi9gafk7NF3pnBju6dwKvH
+      (prvkey version / pubkey mismatch)</li>
+      <li>xpub661MyMwAqRbcEYS8w7XLSVeEsBXy79zSzH1J8vCdxAZningWLdN3zgtU6Txnt3siSujt9RCVYsx4qHZGc62TG4McvMGcAUjeuwZdduYEvFn
+      (invalid pubkey prefix 04)</li>
+      <li>xprv9s21ZrQH143K24Mfq5zL5MhWK9hUhhGbd45hLXo2Pq2oqzMMo63oStZzFGpWnsj83BHtEy5Zt8CcDr1UiRXuWCmTQLxEK9vbz5gPstX92JQ
+      (invalid prvkey prefix 04)</li>
+      <li>xpub661MyMwAqRbcEYS8w7XLSVeEsBXy79zSzH1J8vCdxAZningWLdN3zgtU6N8ZMMXctdiCjxTNq964yKkwrkBJJwpzZS4HS2fxvyYUA4q2Xe4
+      (invalid pubkey prefix 01)</li>
+      <li>xprv9s21ZrQH143K24Mfq5zL5MhWK9hUhhGbd45hLXo2Pq2oqzMMo63oStZzFAzHGBP2UuGCqWLTAPLcMtD9y5gkZ6Eq3Rjuahrv17fEQ3Qen6J
+      (invalid prvkey prefix 01)</li>
+      <li>xprv9s2SPatNQ9Vc6GTbVMFPFo7jsaZySyzk7L8n2uqKXJen3KUmvQNTuLh3fhZMBoG3G4ZW1N2kZuHEPY53qmbZzCHshoQnNf4GvELZfqTUrcv
+      (zero depth with non-zero parent fingerprint)</li>
+      <li>xpub661no6RGEX3uJkY4bNnPcw4URcQTrSibUZ4NqJEw5eBkv7ovTwgiT91XX27VbEXGENhYRCf7hyEbWrR3FewATdCEebj6znwMfQkhRYHRLpJ
+      (zero depth with non-zero parent fingerprint)</li>
+      <li>xprv9s21ZrQH4r4TsiLvyLXqM9P7k1K3EYhA1kkD6xuquB5i39AU8KF42acDyL3qsDbU9NmZn6MsGSUYZEsuoePmjzsB3eFKSUEh3Gu1N3cqVUN
+      (zero depth with non-zero index)</li>
+      <li>xpub661MyMwAuDcm6CRQ5N4qiHKrJ39Xe1R1NyfouMKTTWcguwVcfrZJaNvhpebzGerh7gucBvzEQWRugZDuDXjNDRmXzSZe4c7mnTK97pTvGS8
+      (zero depth with non-zero index)</li>
+      <li>DMwo58pR1QLEFihHiXPVykYB6fJmsTeHvyTp7hRThAtCX8CvYzgPcn8XnmdfHGMQzT7ayAmfo4z3gY5KfbrZWZ6St24UVf2Qgo6oujFktLHdHY4
+      (unknown extended key version)</li>
+      <li>DMwo58pR1QLEFihHiXPVykYB6fJmsTeHvyTp7hRThAtCX8CvYzgPcn8XnmdfHPmHJiEDXkTiJTVV9rHEBUem2mwVbbNfvT2MTcAqj3nesx8uBf9
+      (unknown extended key version)</li>
+      <li>xprv9s21ZrQH143K24Mfq5zL5MhWK9hUhhGbd45hLXo2Pq2oqzMMo63oStZzF93Y5wvzdUayhgkkFoicQZcP3y52uPPxFnfoLZB21Teqt1VvEHx
+      (private key 0 not in 1..n-1)</li>
+      <li>xprv9s21ZrQH143K24Mfq5zL5MhWK9hUhhGbd45hLXo2Pq2oqzMMo63oStZzFAzHGBP2UuGCqWLTAPLcMtD5SDKr24z3aiUvKr9bJpdrcLg1y3G
+      (private key n not in 1..n-1)</li>
+      <li>xpub661MyMwAqRbcEYS8w7XLSVeEsBXy79zSzH1J8vCdxAZningWLdN3zgtU6Q5JXayek4PRsn35jii4veMimro1xefsM58PgBMrvdYre8QyULY
+      (invalid pubkey
+      020000000000000000000000000000000000000000000000000000000000000007)</li>
+      <li>xprv9s21ZrQH143K3QTDL4LXw2F7HEK3wJUD2nW2nRk4stbPy6cq3jPPqjiChkVvvNKmPGJxWUtg6LnF5kejMRNNU3TGtRBeJgk33yuGBxrMPHL
+      (invalid checksum)</li>
+      </ul>
+      <h3 data-number="8.1.9"
+      id="bip-0032-acknowledgements">Acknowledgements</h3>
+      <ul>
+      <li>Gregory Maxwell for the original idea of type-2 deterministic
+      wallets, and many discussions about it.</li>
+      <li>Alan Reiner for the implementation of this scheme in Armory,
+      and the suggestions that followed from that.</li>
+      <li>Eric Lombrozo for reviewing and revising this BIP.</li>
+      <li>Mike Caldwell for the version bytes to obtain
+      human-recognizable Base58 strings.</li>
+      </ul>
+      <pre><code>  BIP: 38
+  Layer: Applications
+  Title: Passphrase-protected private key
+  Authors: Mike Caldwell &lt;mcaldwell@swipeclock.com&gt;
+           Aaron Voisine &lt;voisine@gmail.com&gt;
+  Comments-Summary: Unanimously Discourage for implementation
+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0038
+  Status: Deployed
+  Type: Specification
+  Assigned: 2012-11-20
+  License: PD</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="keys-seeds-and-derivation.html" rel="prev">Keys, Seeds, and Derivation</a>
+        <a class="pager-next" href="bip-0038.html" rel="next">BIP 38</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

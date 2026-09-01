@@ -1,4 +1,4 @@
-## Conclusion
+# Conclusion
 
 That is the set I wanted to put in one place: the deployed and complete BIPs, grouped so you can read related work together instead of hopping around by number.
 

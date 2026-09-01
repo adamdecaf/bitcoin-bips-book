@@ -1,4 +1,4 @@
-## Source snapshot
+# Source snapshot
 
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 

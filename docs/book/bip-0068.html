@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 68 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0066.html" accesskey="p" rel="prev">BIP 66</a>
+        <a class="pager-next" href="bip-0112.html" accesskey="n" rel="next">BIP 112</a>
+      </nav>
+      <h2 data-number="6.7" id="bip-0068">BIP 68</h2>
+      <h3 data-number="6.7.1" id="bip-0068-abstract">Abstract</h3>
+      <p>This BIP introduces relative lock-time (RLT) consensus-enforced
+      semantics of the sequence number field to enable a signed
+      transaction input to remain invalid for a defined period of time
+      after confirmation of its corresponding outpoint.</p>
+      <h3 data-number="6.7.2" id="bip-0068-motivation">Motivation</h3>
+      <p>Bitcoin transactions have a sequence number field for each
+      input. The original idea appears to have been that a transaction
+      in the mempool would be replaced by using the same input with a
+      higher sequence value. Although this was not properly implemented,
+      it assumes miners would prefer higher sequence numbers even if the
+      lower ones were more profitable to mine. However, a miner acting
+      on profit motives alone would break that assumption completely.
+      The change described by this BIP repurposes the sequence number
+      for new use cases without breaking existing functionality. It also
+      leaves room for future expansion and other use cases.</p>
+      <p>The transaction nLockTime is used to prevent the mining of a
+      transaction until a certain date. nSequence will be repurposed to
+      prevent mining of a transaction until a certain age of the spent
+      output in blocks or timespan. This, among other uses, allows
+      bi-directional payment channels as used in <a
+      href="https://github.com/ElementsProject/lightning/raw/master/doc/miscellaneous/deployable-lightning.pdf">Hashed
+      Timelock Contracts (HTLCs)</a> and <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki#Bidirectional_Payment_Channels">BIP112</a>.</p>
+      <h3 data-number="6.7.3"
+      id="bip-0068-specification">Specification</h3>
+      <p>This specification defines the meaning of sequence numbers for
+      transactions with an nVersion greater than or equal to 2 for which
+      the rest of this specification relies on.</p>
+      <p>All references to median-time-past (MTP) are as defined by
+      BIP113.</p>
+      <p>If bit (1 &lt;&lt; 31) of the sequence number is set, then no
+      consensus meaning is applied to the sequence number and can be
+      included in any block under all currently possible
+      circumstances.</p>
+      <p>If bit (1 &lt;&lt; 31) of the sequence number is not set, then
+      the sequence number is interpreted as an encoded relative
+      lock-time.</p>
+      <p>The sequence number encoding is interpreted as follows:</p>
+      <p>Bit (1 &lt;&lt; 22) determines if the relative lock-time is
+      time-based or block based: If the bit is set, the relative
+      lock-time specifies a timespan in units of 512 seconds
+      granularity. The timespan starts from the median-time-past of the
+      output’s previous block, and ends at the MTP of the previous
+      block. If the bit is not set, the relative lock-time specifies a
+      number of blocks.</p>
+      <p>The flag (1&lt;&lt;22) is the highest order bit in a 3-byte
+      signed integer for use in bitcoin scripts as a 3-byte PUSHDATA
+      with OP_CHECKSEQUENCEVERIFY (BIP 112).</p>
+      <p>This specification only interprets 16 bits of the sequence
+      number as relative lock-time, so a mask of 0x0000ffff MUST be
+      applied to the sequence field to extract the relative lock-time.
+      The 16-bit specification allows for a year of relative lock-time
+      and the remaining bits allow for future expansion.</p>
+      <p>&lt;img src=bip-0068/encoding.png&gt;&lt;/img&gt;</p>
+      <p>For time based relative lock-time, 512 second granularity was
+      chosen because bitcoin blocks are generated every 600 seconds. So
+      when using block-based or time-based, the same amount of time can
+      be encoded with the available number of bits. Converting from a
+      sequence number to seconds is performed by multiplying by 512 =
+      2^9, or equivalently shifting up by 9 bits.</p>
+      <p>When the relative lock-time is time-based, it is interpreted as
+      a minimum block-time constraint over the input’s age. A relative
+      time-based lock-time of zero indicates an input which can be
+      included in any block. More generally, a relative time-based
+      lock-time n can be included into any block produced 512 * n
+      seconds after the mining date of the output it is spending, or any
+      block thereafter. The mining date of the output is equal to the
+      median-time-past of the previous block which mined it.</p>
+      <p>The block produced time is equal to the median-time-past of its
+      previous block.</p>
+      <p>When the relative lock-time is block-based, it is interpreted
+      as a minimum block-height constraint over the input’s age. A
+      relative block-based lock-time of zero indicates an input which
+      can be included in any block. More generally, a relative block
+      lock-time n can be included n blocks after the mining date of the
+      output it is spending, or any block thereafter.</p>
+      <p>The new rules are not applied to the nSequence field of the
+      input of the coinbase transaction.</p>
+      <h3 data-number="6.7.4"
+      id="bip-0068-implementation">Implementation</h3>
+      <p>A reference implementation is provided by the following pull
+      request</p>
+      <p><a href="https://github.com/bitcoin/bitcoin/pull/7184"
+      class="uri">https://github.com/bitcoin/bitcoin/pull/7184</a></p>
+      <pre><code>enum {
+    /* Interpret sequence numbers as relative lock-time constraints. */
+    LOCKTIME_VERIFY_SEQUENCE = (1 &lt;&lt; 0),
+};
+
+/* Setting nSequence to this value for every input in a transaction
+ * disables nLockTime. */
+static const uint32_t SEQUENCE_FINAL = 0xffffffff;
+
+/* Below flags apply in the context of BIP 68*/
+/* If this flag set, CTxIn::nSequence is NOT interpreted as a
+ * relative lock-time. */
+static const uint32_t SEQUENCE_LOCKTIME_DISABLE_FLAG = (1 &lt;&lt; 31);
+
+/* If CTxIn::nSequence encodes a relative lock-time and this flag
+ * is set, the relative lock-time has units of 512 seconds,
+ * otherwise it specifies blocks with a granularity of 1. */
+static const uint32_t SEQUENCE_LOCKTIME_TYPE_FLAG = (1 &lt;&lt; 22);
+
+/* If CTxIn::nSequence encodes a relative lock-time, this mask is
+ * applied to extract that lock-time from the sequence field. */
+static const uint32_t SEQUENCE_LOCKTIME_MASK = 0x0000ffff;
+
+/* In order to use the same number of bits to encode roughly the
+ * same wall-clock duration, and because blocks are naturally
+ * limited to occur every 600s on average, the minimum granularity
+ * for time-based relative lock-time is fixed at 512 seconds.
+ * Converting from CTxIn::nSequence to seconds is performed by
+ * multiplying by 512 = 2^9, or equivalently shifting up by
+ * 9 bits. */
+static const int SEQUENCE_LOCKTIME_GRANULARITY = 9;
+
+/**
+ * Calculates the block height and previous block&#39;s median time past at
+ * which the transaction will be considered final in the context of BIP 68.
+ * Also removes from the vector of input heights any entries which did not
+ * correspond to sequence locked inputs as they do not affect the calculation.
+ */
+static std::pair&lt;int, int64_t&gt; CalculateSequenceLocks(const CTransaction &amp;tx, int flags, std::vector&lt;int&gt;* prevHeights, const CBlockIndex&amp; block)
+{
+    assert(prevHeights-&gt;size() == tx.vin.size());
+
+    // Will be set to the equivalent height- and time-based nLockTime
+    // values that would be necessary to satisfy all relative lock-
+    // time constraints given our view of block chain history.
+    // The semantics of nLockTime are the last invalid height/time, so
+    // use -1 to have the effect of any height or time being valid.
+    int nMinHeight = -1;
+    int64_t nMinTime = -1;
+
+    // tx.nVersion is signed integer so requires cast to unsigned otherwise
+    // we would be doing a signed comparison and half the range of nVersion
+    // wouldn&#39;t support BIP 68.
+    bool fEnforceBIP68 = static_cast&lt;uint32_t&gt;(tx.nVersion) &gt;= 2
+                      &amp;&amp; flags &amp; LOCKTIME_VERIFY_SEQUENCE;
+
+    // Do not enforce sequence numbers as a relative lock time
+    // unless we have been instructed to
+    if (!fEnforceBIP68) {
+        return std::make_pair(nMinHeight, nMinTime);
+    }
+
+    for (size_t txinIndex = 0; txinIndex &lt; tx.vin.size(); txinIndex++) {
+        const CTxIn&amp; txin = tx.vin[txinIndex];
+
+        // Sequence numbers with the most significant bit set are not
+        // treated as relative lock-times, nor are they given any
+        // consensus-enforced meaning at this point.
+        if (txin.nSequence &amp; CTxIn::SEQUENCE_LOCKTIME_DISABLE_FLAG) {
+            // The height of this input is not relevant for sequence locks
+            (*prevHeights)[txinIndex] = 0;
+            continue;
+        }
+
+        int nCoinHeight = (*prevHeights)[txinIndex];
+
+        if (txin.nSequence &amp; CTxIn::SEQUENCE_LOCKTIME_TYPE_FLAG) {
+            int64_t nCoinTime = block.GetAncestor(std::max(nCoinHeight-1, 0))-&gt;GetMedianTimePast();
+            // NOTE: Subtract 1 to maintain nLockTime semantics
+            // BIP 68 relative lock times have the semantics of calculating
+            // the first block or time at which the transaction would be
+            // valid. When calculating the effective block time or height
+            // for the entire transaction, we switch to using the
+            // semantics of nLockTime which is the last invalid block
+            // time or height.  Thus we subtract 1 from the calculated
+            // time or height.
+
+            // Time-based relative lock-times are measured from the
+            // smallest allowed timestamp of the block containing the
+            // txout being spent, which is the median time past of the
+            // block prior.
+            nMinTime = std::max(nMinTime, nCoinTime + (int64_t)((txin.nSequence &amp; CTxIn::SEQUENCE_LOCKTIME_MASK) &lt;&lt; CTxIn::SEQUENCE_LOCKTIME_GRANULARITY) - 1);
+        } else {
+            nMinHeight = std::max(nMinHeight, nCoinHeight + (int)(txin.nSequence &amp; CTxIn::SEQUENCE_LOCKTIME_MASK) - 1);
+        }
+    }
+
+    return std::make_pair(nMinHeight, nMinTime);
+}
+
+static bool EvaluateSequenceLocks(const CBlockIndex&amp; block, std::pair&lt;int, int64_t&gt; lockPair)
+{
+    assert(block.pprev);
+    int64_t nBlockTime = block.pprev-&gt;GetMedianTimePast();
+    if (lockPair.first &gt;= block.nHeight || lockPair.second &gt;= nBlockTime)
+        return false;
+
+    return true;
+}
+
+bool SequenceLocks(const CTransaction &amp;tx, int flags, std::vector&lt;int&gt;* prevHeights, const CBlockIndex&amp; block)
+{
+    return EvaluateSequenceLocks(block, CalculateSequenceLocks(tx, flags, prevHeights, block));
+}
+
+bool CheckSequenceLocks(const CTransaction &amp;tx, int flags)
+{
+    AssertLockHeld(cs_main);
+    AssertLockHeld(mempool.cs);
+
+    CBlockIndex* tip = chainActive.Tip();
+    CBlockIndex index;
+    index.pprev = tip;
+    // CheckSequenceLocks() uses chainActive.Height()+1 to evaluate
+    // height based locks because when SequenceLocks() is called within
+    // ConnectBlock(), the height of the block *being*
+    // evaluated is what is used.
+    // Thus if we want to know if a transaction can be part of the
+    // *next* block, we need to use one more than chainActive.Height()
+    index.nHeight = tip-&gt;nHeight + 1;
+
+    // pcoinsTip contains the UTXO set for chainActive.Tip()
+    CCoinsViewMemPool viewMemPool(pcoinsTip, mempool);
+    std::vector&lt;int&gt; prevheights;
+    prevheights.resize(tx.vin.size());
+    for (size_t txinIndex = 0; txinIndex &lt; tx.vin.size(); txinIndex++) {
+        const CTxIn&amp; txin = tx.vin[txinIndex];
+        CCoins coins;
+        if (!viewMemPool.GetCoins(txin.prevout.hash, coins)) {
+            return error(&quot;%s: Missing input&quot;, __func__);
+        }
+        if (coins.nHeight == MEMPOOL_HEIGHT) {
+            // Assume all mempool transactions are confirmed in the next block
+            prevheights[txinIndex] = tip-&gt;nHeight + 1;
+        } else {
+            prevheights[txinIndex] = coins.nHeight;
+        }
+    }
+
+    std::pair&lt;int, int64_t&gt; lockPair = CalculateSequenceLocks(tx, flags, &amp;prevheights, index);
+    return EvaluateSequenceLocks(index, lockPair);
+}</code></pre>
+      <h3 data-number="6.7.5"
+      id="bip-0068-acknowledgments">Acknowledgments</h3>
+      <p>Credit goes to Gregory Maxwell for providing a succinct and
+      clear description of the behavior of this change, which became the
+      basis of this BIP text.</p>
+      <p>This BIP was edited by BtcDrak, Nicolas Dorier and
+      kinoshitajona.</p>
+      <h3 data-number="6.7.6" id="bip-0068-deployment">Deployment</h3>
+      <p>This BIP is to be deployed by “versionbits” BIP9 using bit
+      0.</p>
+      <p>For Bitcoin <strong>mainnet</strong>, the BIP9
+      <strong>starttime</strong> will be midnight 1st May 2016 UTC
+      (Epoch timestamp 1462060800) and BIP9 <strong>timeout</strong>
+      will be midnight 1st May 2017 UTC (Epoch timestamp
+      1493596800).</p>
+      <p>For Bitcoin <strong>testnet</strong>, the BIP9
+      <strong>starttime</strong> will be midnight 1st March 2016 UTC
+      (Epoch timestamp 1456790400) and BIP9 <strong>timeout</strong>
+      will be midnight 1st May 2017 UTC (Epoch timestamp
+      1493596800).</p>
+      <p>This BIP must be deployed simultaneously with BIP112 and BIP113
+      using the same deployment mechanism.</p>
+      <h3 data-number="6.7.7"
+      id="bip-0068-compatibility">Compatibility</h3>
+      <p>The only use of sequence numbers by the Bitcoin Core reference
+      client software is to disable checking the nLockTime constraints
+      in a transaction. The semantics of that application are preserved
+      by this BIP.</p>
+      <p>As can be seen from the specification section, a number of bits
+      are undefined by this BIP to allow for other use cases by setting
+      bit (1 &lt;&lt; 31) as the remaining 31 bits have no meaning under
+      this BIP. Additionally, bits (1 &lt;&lt; 23) through (1 &lt;&lt;
+      30) inclusive have no meaning at all when bit (1 &lt;&lt; 31) is
+      unset.</p>
+      <p>Additionally, this BIP specifies only 16 bits to actually
+      encode relative lock-time meaning a further 6 are unused (1
+      &lt;&lt; 16 through 1 &lt;&lt; 21 inclusive). This allows the
+      possibility to increase granularity by soft-fork, or for
+      increasing the maximum possible relative lock-time in the
+      future.</p>
+      <p>The most efficient way to calculate sequence number from
+      relative lock-time is with bit masks and shifts:</p>
+      <pre><code>    // 0 &lt;= nHeight &lt;= 65,535 blocks (1.25 years)
+    nSequence = nHeight;
+    nHeight = nSequence &amp; 0x0000ffff;
+
+    // 0 &lt;= nTime &lt; 33,554,431 seconds (1.06 years)
+    nSequence = (1 &lt;&lt; 22) | (nTime &gt;&gt; 9);
+    nTime = (nSequence &amp; 0x0000ffff) &lt;&lt; 9;</code></pre>
+      <h3 data-number="6.7.8" id="bip-0068-references">References</h3>
+      <p>Bitcoin mailing list discussion: <a
+      href="https://www.mail-archive.com/bitcoin-development@lists.sourceforge.net/msg07864.html"
+      class="uri">https://www.mail-archive.com/bitcoin-development@lists.sourceforge.net/msg07864.html</a></p>
+      <p>BIP9: <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0009.mediawiki"
+      class="uri">https://github.com/bitcoin/bips/blob/master/bip-0009.mediawiki</a></p>
+      <p>BIP112: <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki"
+      class="uri">https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki</a></p>
+      <p>BIP113: <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0113.mediawiki"
+      class="uri">https://github.com/bitcoin/bips/blob/master/bip-0113.mediawiki</a></p>
+      <p>Hashed Timelock Contracts (HTLCs): <a
+      href="https://github.com/ElementsProject/lightning/raw/master/doc/miscellaneous/deployable-lightning.pdf"
+      class="uri">https://github.com/ElementsProject/lightning/raw/master/doc/miscellaneous/deployable-lightning.pdf</a></p>
+      <pre><code>  BIP: 112
+  Layer: Consensus (soft fork)
+  Title: CHECKSEQUENCEVERIFY
+  Authors: BtcDrak &lt;btcdrak@gmail.com&gt;
+           Mark Friedenbach &lt;mark@friedenbach.org&gt;
+           Eric Lombrozo &lt;elombrozo@gmail.com&gt;
+  Status: Deployed
+  Type: Specification
+  Assigned: 2015-08-10
+  License: PD</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0066.html" rel="prev">BIP 66</a>
+        <a class="pager-next" href="bip-0112.html" rel="next">BIP 112</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

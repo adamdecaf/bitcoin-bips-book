@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 173 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0013.html" accesskey="p" rel="prev">BIP 13</a>
+        <a class="pager-next" href="bip-0350.html" accesskey="n" rel="next">BIP 350</a>
+      </nav>
+      <h2 data-number="5.2" id="bip-0173">BIP 173</h2>
+      <h3 data-number="5.2.1"
+      id="bip-0173-introduction">Introduction</h3>
+      <h4 data-number="5.2.1.1" id="bip-0173-abstract">Abstract</h4>
+      <p>This document proposes a checksummed base32 format, “Bech32”,
+      and a standard for native segregated witness output addresses
+      using it.</p>
+      <h4 data-number="5.2.1.2" id="bip-0173-copyright">Copyright</h4>
+      <p>This BIP is licensed under the 2-clause BSD license.</p>
+      <h4 data-number="5.2.1.3" id="bip-0173-motivation">Motivation</h4>
+      <p>For most of its history, Bitcoin has relied on base58 addresses
+      with a truncated double-SHA256 checksum. They were part of the
+      original software and their scope was extended in <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0013.mediawiki">BIP13</a>
+      for Pay-to-script-hash (<a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki">P2SH</a>).
+      However, both the character set and the checksum algorithm have
+      limitations:</p>
+      <ul>
+      <li>Base58 needs a lot of space in QR codes, as it cannot use the
+      <em>alphanumeric mode</em>.</li>
+      <li>The mixed case in base58 makes it inconvenient to reliably
+      write down, type on mobile keyboards, or read out loud.</li>
+      <li>The double SHA256 checksum is slow and has no error-detection
+      guarantees.</li>
+      <li>Most of the research on error-detecting codes only applies to
+      character-set sizes that are a <a
+      href="https://en.wikipedia.org/wiki/Prime_power">prime power</a>,
+      which 58 is not.</li>
+      <li>Base58 decoding is complicated and relatively slow.</li>
+      </ul>
+      <p>Included in the Segregated Witness proposal are a new class of
+      outputs (witness programs, see <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">BIP141</a>),
+      and two instances of it (“P2WPKH” and “P2WSH”, see <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki">BIP143</a>).
+      Their functionality is available indirectly to older clients by
+      embedding in P2SH outputs, but for optimal efficiency and security
+      it is best to use it directly. In this document we propose a new
+      address format for native witness outputs (current and future
+      versions).</p>
+      <p>This replaces <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0142.mediawiki">BIP142</a>,
+      and was previously discussed <a
+      href="https://bitcoincore.org/logs/2016-05-zurich-meeting-notes.html#base32">here</a>
+      (summarized <a
+      href="https://bitcoincore.org/en/meetings/2016/05/20/#error-correcting-codes-for-future-address-types">here</a>).</p>
+      <h4 data-number="5.2.1.4" id="bip-0173-examples">Examples</h4>
+      <p>All examples use public key
+      <code>0279BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798</code>.
+      The P2WSH examples use <code>key OP_CHECKSIG</code> as script.</p>
+      <ul>
+      <li>Mainnet P2WPKH:
+      <code>bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4</code></li>
+      <li>Testnet P2WPKH:
+      <code>tb1qw508d6qejxtdg4y5r3zarvary0c5xw7kxpjzsx</code></li>
+      <li>Mainnet P2WSH:
+      <code>bc1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3qccfmv3</code></li>
+      <li>Testnet P2WSH:
+      <code>tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7</code></li>
+      </ul>
+      <h3 data-number="5.2.2"
+      id="bip-0173-specification">Specification</h3>
+      <p>We first describe the general checksummed base32<strong>Why use
+      base32 at all?</strong> The lack of mixed case makes it more
+      efficient to read out loud or to put into QR codes. It does come
+      with a 15% length increase, but that does not matter when
+      copy-pasting addresses. format called <em>Bech32</em> and then
+      define Segregated Witness addresses using it.</p>
+      <h4 data-number="5.2.2.1" id="bip-0173-bech32">Bech32</h4>
+      <p>A Bech32<strong>Why call it Bech32?</strong> “Bech” contains
+      the characters BCH (the error detection algorithm used) and sounds
+      a bit like “base”. string is at most 90 characters long and
+      consists of:</p>
+      <ul>
+      <li>The <strong>human-readable part</strong>, which is intended to
+      convey the type of data, or anything else that is relevant to the
+      reader. This part MUST contain 1 to 83 US-ASCII characters, with
+      each character having a value in the range [33-126]. HRP validity
+      may be further restricted by specific applications.</li>
+      <li>The <strong>separator</strong>, which is always “1”. In case
+      “1” is allowed inside the human-readable part, the last one in the
+      string is the separator<strong>Why include a separator in
+      addresses?</strong> That way the human-readable</li>
+      </ul>
+      <p>part is unambiguously separated from the data part, avoiding
+      potential collisions with other human-readable parts that share a
+      prefix. It also allows us to avoid having character-set
+      restrictions on the human-readable part. The separator is
+      <em>1</em> because using a non-alphanumeric character would
+      complicate copy-pasting of addresses (with no double-click
+      selection in several applications). Therefore an alphanumeric
+      character outside the normal character set was chosen..</p>
+      <ul>
+      <li>The <strong>data part</strong>, which is at least 6 characters
+      long and only consists of alphanumeric characters excluding “1”,
+      “b”, “i”, and “o”<strong>Why not use an existing character set
+      like <a href="http://www.faqs.org/rfcs/rfc3548.html">RFC3548</a>
+      or <a
+      href="https://philzimmermann.com/docs/human-oriented-base-32-encoding.txt">z-base-32</a></strong>?</li>
+      </ul>
+      <p>The character set is chosen to minimize ambiguity according to
+      <a href="https://hissa.nist.gov/~black/GTLD/">this</a> visual
+      similarity data, and the ordering is chosen to minimize the number
+      of pairs of similar characters (according to the same data) that
+      differ in more than 1 bit. As the checksum is chosen to maximize
+      detection capabilities for low numbers of bit errors, this choice
+      improves its performance under some error models..</p>
+      <table>
+      <thead>
+      <tr>
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>+0</td>
+      <td>q</td>
+      <td>p</td>
+      <td>z</td>
+      <td>r</td>
+      <td>y</td>
+      <td>9</td>
+      <td>x</td>
+      <td>8</td>
+      </tr>
+      <tr>
+      <td>+8</td>
+      <td>g</td>
+      <td>f</td>
+      <td>2</td>
+      <td>t</td>
+      <td>v</td>
+      <td>d</td>
+      <td>w</td>
+      <td>0</td>
+      </tr>
+      <tr>
+      <td>+16</td>
+      <td>s</td>
+      <td>3</td>
+      <td>j</td>
+      <td>n</td>
+      <td>5</td>
+      <td>4</td>
+      <td>k</td>
+      <td>h</td>
+      </tr>
+      <tr>
+      <td>+24</td>
+      <td>c</td>
+      <td>e</td>
+      <td>6</td>
+      <td>m</td>
+      <td>u</td>
+      <td>a</td>
+      <td>7</td>
+      <td>l</td>
+      </tr>
+      </tbody>
+      </table>
+      <p><strong>Checksum</strong></p>
+      <p>The last six characters of the data part form a checksum and
+      contain no information. Valid strings MUST pass the criteria for
+      validity specified by the Python3 code snippet below. The function
+      <code>bech32_verify_checksum</code> must return true when its
+      arguments are:</p>
+      <ul>
+      <li><code>hrp</code>: the human-readable part as a string</li>
+      <li><code>data</code>: the data part as a list of integers
+      representing the characters after conversion using the table
+      above</li>
+      </ul>
+      <!-- -->
+      <pre><code>def bech32_polymod(values):
+  GEN = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3]
+  chk = 1
+  for v in values:
+    b = (chk &gt;&gt; 25)
+    chk = (chk &amp; 0x1ffffff) &lt;&lt; 5 ^ v
+    for i in range(5):
+      chk ^= GEN[i] if ((b &gt;&gt; i) &amp; 1) else 0
+  return chk
+
+def bech32_hrp_expand(s):
+  return [ord(x) &gt;&gt; 5 for x in s] + [0] + [ord(x) &amp; 31 for x in s]
+
+def bech32_verify_checksum(hrp, data):
+  return bech32_polymod(bech32_hrp_expand(hrp) + data) == 1</code></pre>
+      <p>This implements a <a
+      href="https://en.wikipedia.org/wiki/BCH_code">BCH code</a> that
+      guarantees detection of <strong>any error affecting at most 4
+      characters</strong> and has less than a 1 in 10<sup>9</sup> chance
+      of failing to detect more errors. More details about the
+      properties can be found in the Checksum Design appendix. The
+      human-readable part is processed by first feeding the higher bits
+      of each character’s US-ASCII value into the checksum calculation
+      followed by a zero and then the lower bits of each<strong>Why are
+      the high bits of the human-readable part processed first?</strong>
+      This results in the actually checksummed data being <em>[high hrp]
+      0 [low hrp] [data]</em>. This means that under the assumption that
+      errors to the human readable part only change the low 5 bits (like
+      changing an alphabetical character into another), errors are
+      restricted to the <em>[low hrp] [data]</em> part, which is at most
+      89 characters, and thus all error detection properties (see
+      appendix) remain applicable..</p>
+      <p>To construct a valid checksum given the human-readable part and
+      (non-checksum) values of the data-part characters, the code below
+      can be used:</p>
+      <pre><code>def bech32_create_checksum(hrp, data):
+  values = bech32_hrp_expand(hrp) + data
+  polymod = bech32_polymod(values + [0,0,0,0,0,0]) ^ 1
+  return [(polymod &gt;&gt; 5 * (5 - i)) &amp; 31 for i in range(6)]</code></pre>
+      <p><strong>Error correction</strong></p>
+      <p>One of the properties of these BCH codes is that they can be
+      used for error correction. An unfortunate side effect of error
+      correction is that it erodes error detection: correction changes
+      invalid inputs into valid inputs, but if more than a few errors
+      were made then the valid input may not be the correct input. Use
+      of an incorrect but valid input can cause funds to be lost
+      irrecoverably. Because of this, implementations SHOULD NOT
+      implement correction beyond potentially suggesting to the user
+      where in the string an error might be found, without suggesting
+      the correction to make.</p>
+      <p><strong>Uppercase/lowercase</strong></p>
+      <p>The lowercase form is used when determining a character’s value
+      for checksum purposes.</p>
+      <p>Encoders MUST always output an all lowercase Bech32 string. If
+      an uppercase version of the encoding result is desired, (e.g.- for
+      presentation purposes, or QR code use), then an uppercasing
+      procedure can be performed external to the encoding process.</p>
+      <p>Decoders MUST NOT accept strings where some characters are
+      uppercase and some are lowercase (such strings are referred to as
+      mixed case strings).</p>
+      <p>For presentation, lowercase is usually preferable, but inside
+      QR codes uppercase SHOULD be used, as those permit the use of
+      <em><a
+      href="http://www.thonky.com/qr-code-tutorial/alphanumeric-mode-encoding">alphanumeric
+      mode</a></em>, which is 45% more compact than the normal <em><a
+      href="http://www.thonky.com/qr-code-tutorial/byte-mode-encoding">byte
+      mode</a></em>.</p>
+      <h4 data-number="5.2.2.2"
+      id="bip-0173-segwit-address-format">Segwit address format</h4>
+      <p>A segwit address<strong>Why not make an address format that is
+      generic for all scriptPubKeys?</strong> That would lead to
+      confusion about addresses for existing scriptPubKey types.
+      Furthermore, if addresses that do not have a one-to-one mapping
+      with scriptPubKeys (such as ECDH-based addresses) are ever
+      introduced, having a fully generic old address type available
+      would permit reinterpreting the resulting scriptPubKeys using the
+      old address format, with lost funds as a result if bitcoins are
+      sent to them. is a Bech32 encoding of:</p>
+      <ul>
+      <li>The human-readable part “bc”<strong>Why use ‘bc’ as
+      human-readable part and not ‘btc’?</strong> ‘bc’ is shorter. for
+      mainnet, and “tb”<strong>Why use ‘tb’ as human-readable part for
+      testnet?</strong> It was chosen to</li>
+      </ul>
+      <p>be of the same length as the mainnet counterpart (to simplify
+      implementations’ assumptions about lengths), but still be visually
+      distinct. for testnet.</p>
+      <ul>
+      <li>The data-part values:
+      <ul>
+      <li>1 character (representing 5 bits of data): the witness
+      version</li>
+      <li>A conversion of the 2-to-40-byte witness program (as defined
+      by <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">BIP141</a>)
+      to base32:
+      <ul>
+      <li>Start with the bits of the witness program, most significant
+      bit per byte first.</li>
+      <li>Re-arrange those bits into groups of 5, and pad with zeroes at
+      the end if needed.</li>
+      <li>Translate those bits to characters using the table above.</li>
+      </ul></li>
+      </ul></li>
+      </ul>
+      <p><strong>Decoding</strong></p>
+      <p>Software interpreting a segwit address:</p>
+      <ul>
+      <li>MUST verify that the human-readable part is “bc” for mainnet
+      and “tb” for testnet.</li>
+      <li>MUST verify that the first decoded data value (the witness
+      version) is between 0 and 16, inclusive.</li>
+      <li>Convert the rest of the data to bytes:
+      <ul>
+      <li>Translate the values to 5 bits, most significant bit
+      first.</li>
+      <li>Re-arrange those bits into groups of 8 bits. Any incomplete
+      group at the end MUST be 4 bits or less, MUST be all zeroes, and
+      is discarded.</li>
+      <li>There MUST be between 2 and 40 groups, which are interpreted
+      as the bytes of the witness program.</li>
+      </ul></li>
+      </ul>
+      <p>Decoders SHOULD enforce known-length restrictions on witness
+      programs. For example, BIP141 specifies <em>If the version byte is
+      0, but the witness program is neither 20 nor 32 bytes, the script
+      must fail.</em></p>
+      <p>As a result of the previous rules, addresses are always between
+      14 and 74 characters long, and their length modulo 8 cannot be 0,
+      3, or 5. Version 0 witness addresses are always 42 or 62
+      characters, but implementations MUST allow the use of any
+      version.</p>
+      <p>Implementations should take special care when converting the
+      address to a scriptPubkey, where witness version <em>n</em> is
+      stored as <em>OP_n</em>. OP_0 is encoded as 0x00, but OP_1 through
+      OP_16 are encoded as 0x51 though 0x60 (81 to 96 in decimal). If a
+      bech32 address is converted to an incorrect scriptPubKey the
+      result will likely be either unspendable or insecure.</p>
+      <h4 data-number="5.2.2.3"
+      id="bip-0173-compatibility">Compatibility</h4>
+      <p>Only new software will be able to use these addresses, and only
+      for receivers with segwit-enabled new software. In all other
+      cases, P2SH or P2PKH addresses can be used.</p>
+      <h3 data-number="5.2.3" id="bip-0173-rationale">Rationale</h3>
+      <h3 data-number="5.2.4"
+      id="bip-0173-reference-implementations">Reference
+      implementations</h3>
+      <ul>
+      <li>Reference encoder and decoder:
+      <ul>
+      <li><a href="https://github.com/sipa/bech32/tree/master/ref/c">For
+      C</a></li>
+      <li><a
+      href="https://github.com/sipa/bech32/tree/master/ref/c++">For
+      C++</a></li>
+      <li><a
+      href="https://github.com/sipa/bech32/tree/master/ref/javascript">For
+      JavaScript</a></li>
+      <li><a
+      href="https://github.com/sipa/bech32/tree/master/ref/go">For
+      Go</a></li>
+      <li><a
+      href="https://github.com/sipa/bech32/tree/master/ref/python">For
+      Python</a></li>
+      <li><a
+      href="https://github.com/sipa/bech32/tree/master/ref/haskell">For
+      Haskell</a></li>
+      <li><a
+      href="https://github.com/sipa/bech32/tree/master/ref/ruby">For
+      Ruby</a></li>
+      <li><a
+      href="https://github.com/sipa/bech32/tree/master/ref/rust">For
+      Rust</a></li>
+      </ul></li>
+      </ul>
+      <!-- -->
+      <ul>
+      <li>Fancy decoder that localizes errors:
+      <ul>
+      <li><a
+      href="https://github.com/sipa/bech32/tree/master/ecc/javascript">For
+      JavaScript</a> (<a
+      href="http://bitcoin.sipa.be/bech32/demo/demo.html">demo
+      website</a>)</li>
+      </ul></li>
+      </ul>
+      <h3 data-number="5.2.5"
+      id="bip-0173-registered-human-readable-prefixes">Registered
+      Human-readable Prefixes</h3>
+      <p>SatoshiLabs maintains a full list of registered human-readable
+      parts for other cryptocurrencies:</p>
+      <p><a
+      href="https://github.com/satoshilabs/slips/blob/master/slip-0173.md">SLIP-0173
+      : Registered human-readable parts for BIP-0173</a></p>
+      <h3 data-number="5.2.6" id="bip-0173-appendices">Appendices</h3>
+      <h4 data-number="5.2.6.1" id="bip-0173-test-vectors">Test
+      vectors</h4>
+      <p>The following strings are valid Bech32:</p>
+      <ul>
+      <li><code>A12UEL5L</code></li>
+      <li><code>a12uel5l</code></li>
+      <li><code>an83characterlonghumanreadablepartthatcontainsthenumber1andtheexcludedcharactersbio1tt5tgs</code></li>
+      <li><code>abcdef1qpzry9x8gf2tvdw0s3jn54khce6mua7lmqqqxw</code></li>
+      <li><code>11qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqc8247j</code></li>
+      <li><code>split1checkupstagehandshakeupstreamerranterredcaperred2y9e3w</code></li>
+      <li><code>?1ezyfcl</code> WARNING: During conversion to US-ASCII
+      some encoders may set unmappable characters to a valid US-ASCII
+      character, such as ‘?’. For example:</li>
+      </ul>
+      <!-- -->
+      <pre><code>&gt;&gt;&gt; bech32_encode(&#39;\x80&#39;.encode(&#39;ascii&#39;, &#39;replace&#39;).decode(&#39;ascii&#39;), [])
+&#39;?1ezyfcl&#39;</code></pre>
+      <p>The following string are not valid Bech32 (with reason for
+      invalidity):</p>
+      <ul>
+      <li>0x20 + <code>1nwldj5</code>: HRP character out of range</li>
+      <li>0x7F + <code>1axkwrx</code>: HRP character out of range</li>
+      <li>0x80 + <code>1eym55h</code>: HRP character out of range</li>
+      <li><code>an84characterslonghumanreadablepartthatcontainsthenumber1andtheexcludedcharactersbio1569pvx</code>:
+      overall max length exceeded</li>
+      <li><code>pzry9x0s0muk</code>: No separator character</li>
+      <li><code>1pzry9x0s0muk</code>: Empty HRP</li>
+      <li><code>x1b4n0q5v</code>: Invalid data character</li>
+      <li><code>li1dgmt3</code>: Too short checksum</li>
+      <li><code>de1lg7wt</code> + 0xFF: Invalid character in
+      checksum</li>
+      <li><code>A1G7SGD8</code>: checksum calculated with uppercase form
+      of HRP</li>
+      <li><code>10a06t8</code>: empty HRP</li>
+      <li><code>1qzzfhee</code>: empty HRP</li>
+      </ul>
+      <p>The following list gives valid segwit addresses and the
+      scriptPubKey that they translate to in hex.</p>
+      <ul>
+      <li><code>BC1QW508D6QEJXTDG4Y5R3ZARVARY0C5XW7KV8F3T4</code>:
+      <code>0014751e76e8199196d454941c45d1b3a323f1433bd6</code></li>
+      <li><code>tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sl5k7</code>:
+      <code>00201863143c14c5166804bd19203356da136c985678cd4d27a1b8c6329604903262</code></li>
+      <li><code>bc1pw508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7k7grplx</code>:
+      <code>5128751e76e8199196d454941c45d1b3a323f1433bd6751e76e8199196d454941c45d1b3a323f1433bd6</code></li>
+      <li><code>BC1SW50QA3JX3S</code>: <code>6002751e</code></li>
+      <li><code>bc1zw508d6qejxtdg4y5r3zarvaryvg6kdaj</code>:
+      <code>5210751e76e8199196d454941c45d1b3a323</code></li>
+      <li><code>tb1qqqqqp399et2xygdj5xreqhjjvcmzhxw4aywxecjdzew6hylgvsesrxh6hy</code>:
+      <code>0020000000c4a5cad46221b2a187905e5266362b99d5e91c6ce24d165dab93e86433</code></li>
+      </ul>
+      <p>The following list gives invalid segwit addresses and the
+      reason for their invalidity.</p>
+      <ul>
+      <li><code>tc1qw508d6qejxtdg4y5r3zarvary0c5xw7kg3g4ty</code>:
+      Invalid human-readable part</li>
+      <li><code>bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t5</code>:
+      Invalid checksum</li>
+      <li><code>BC13W508D6QEJXTDG4Y5R3ZARVARY0C5XW7KN40WF2</code>:
+      Invalid witness version</li>
+      <li><code>bc1rw5uspcuh</code>: Invalid program length</li>
+      <li><code>bc10w508d6qejxtdg4y5r3zarvary0c5xw7kw508d6qejxtdg4y5r3zarvary0c5xw7kw5rljs90</code>:
+      Invalid program length</li>
+      <li><code>BC1QR508D6QEJXTDG4Y5R3ZARVARYV98GJ9P</code>: Invalid
+      program length for witness version 0 (per BIP141)</li>
+      <li><code>tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3q0sL5k7</code>:
+      Mixed case</li>
+      <li><code>bc1zw508d6qejxtdg4y5r3zarvaryvqyzf3du</code>: zero
+      padding of more than 4 bits</li>
+      <li><code>tb1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3pjxtptv</code>:
+      Non-zero padding in 8-to-5 conversion</li>
+      <li><code>bc1gmk9yu</code>: Empty data section</li>
+      </ul>
+      <h4 data-number="5.2.6.2" id="bip-0173-checksum-design">Checksum
+      design</h4>
+      <p><strong>Design choices</strong></p>
+      <p>BCH codes can be constructed over any prime-power alphabet and
+      can be chosen to have a good trade-off between size and
+      error-detection capabilities. While most work around BCH codes
+      uses a binary alphabet, that is not a requirement. This makes them
+      more appropriate for our use case than <a
+      href="https://en.wikipedia.org/wiki/Cyclic_redundancy_check">CRC
+      codes</a>. Unlike <a
+      href="https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction">Reed-Solomon
+      codes</a>, they are not restricted in length to one less than the
+      alphabet size. While they also support efficient error correction,
+      the implementation of just error detection is very simple.</p>
+      <p>We pick 6 checksum characters as a trade-off between length of
+      the addresses and the error-detection capabilities, as 6
+      characters is the lowest number sufficient for a random failure
+      chance below 1 per billion. For the length of data we’re
+      interested in protecting (up to 71 bytes for a potential future
+      40-byte witness program), BCH codes can be constructed that
+      guarantee detecting up to 4 errors.</p>
+      <p><strong>Selected properties</strong></p>
+      <p>Many of these codes perform badly when dealing with more errors
+      than they are designed to detect, but not all. For that reason, we
+      consider codes that are designed to detect only 3 errors as well
+      as 4 errors, and analyse how well they perform in practice.</p>
+      <p>The specific code chosen here is the result of:</p>
+      <ul>
+      <li>Starting with an exhaustive list of 159605 BCH codes designed
+      to detect 3 or 4 errors up to length 93, 151, 165, 341, 1023, and
+      1057.</li>
+      <li>From those, requiring the detection of 4 errors up to length
+      71, resulting in 28825 remaining codes.</li>
+      <li>From those, choosing the codes with the best worst-case window
+      for 5-character errors, resulting in 310 remaining codes.</li>
+      <li>From those, picking the code with the lowest chance for not
+      detecting small numbers of <em>bit</em> errors.</li>
+      </ul>
+      <p>As a naive search would require over 6.5 * 10<sup>19</sup>
+      checksum evaluations, a collision-search approach was used for
+      analysis. The code can be found <a
+      href="https://github.com/sipa/ezbase32/">here</a>.</p>
+      <p><strong>Properties</strong></p>
+      <p>The following table summarizes the chances for detection
+      failure (as multiples of 1 in 10<sup>9</sup>).</p>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="2">
+      <p>
+      Window length
+      </p>
+      </th>
+      <th colspan="6">
+      <p>
+      Number of wrong characters
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Length
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      <td>
+      <p>
+      ≤4
+      </p>
+      </td>
+      <td>
+      <p>
+      5
+      </p>
+      </td>
+      <td>
+      <p>
+      6
+      </p>
+      </td>
+      <td>
+      <p>
+      7
+      </p>
+      </td>
+      <td>
+      <p>
+      8
+      </p>
+      </td>
+      <td>
+      <p>
+      ≥9
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      8
+      </p>
+      </td>
+      <td>
+      <p>
+      Longest detecting 6 errors
+      </p>
+      </td>
+      <td colspan="3">
+      <p>
+      0
+      </p>
+      </td>
+      <td>
+      <p>
+      1.127
+      </p>
+      </td>
+      <td>
+      <p>
+      0.909
+      </p>
+      </td>
+      <td>
+      <p>
+      n/a
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      18
+      </p>
+      </td>
+      <td>
+      <p>
+      Longest detecting 5 errors
+      </p>
+      </td>
+      <td colspan="2">
+      <p>
+      0
+      </p>
+      </td>
+      <td>
+      <p>
+      0.965
+      </p>
+      </td>
+      <td>
+      <p>
+      0.929
+      </p>
+      </td>
+      <td>
+      <p>
+      0.932
+      </p>
+      </td>
+      <td>
+      <p>
+      0.931
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      19
+      </p>
+      </td>
+      <td>
+      <p>
+      Worst case for 6 errors
+      </p>
+      </td>
+      <td>
+      <p>
+      0
+      </p>
+      </td>
+      <td>
+      <p>
+      0.093
+      </p>
+      </td>
+      <td>
+      <p>
+      0.972
+      </p>
+      </td>
+      <td>
+      <p>
+      0.928
+      </p>
+      </td>
+      <td colspan="2">
+      <p>
+      0.931
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      39
+      </p>
+      </td>
+      <td>
+      <p>
+      Length for a P2WPKH address
+      </p>
+      </td>
+      <td>
+      <p>
+      0
+      </p>
+      </td>
+      <td>
+      <p>
+      0.756
+      </p>
+      </td>
+      <td>
+      <p>
+      0.935
+      </p>
+      </td>
+      <td>
+      <p>
+      0.932
+      </p>
+      </td>
+      <td colspan="2">
+      <p>
+      0.931
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      59
+      </p>
+      </td>
+      <td>
+      <p>
+      Length for a P2WSH address
+      </p>
+      </td>
+      <td>
+      <p>
+      0
+      </p>
+      </td>
+      <td>
+      <p>
+      0.805
+      </p>
+      </td>
+      <td>
+      <p>
+      0.933
+      </p>
+      </td>
+      <td colspan="3">
+      <p>
+      0.931
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      71
+      </p>
+      </td>
+      <td>
+      <p>
+      Length for a 40-byte program address
+      </p>
+      </td>
+      <td>
+      <p>
+      0
+      </p>
+      </td>
+      <td>
+      <p>
+      0.830
+      </p>
+      </td>
+      <td>
+      <p>
+      0.934
+      </p>
+      </td>
+      <td colspan="3">
+      <p>
+      0.931
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      89
+      </p>
+      </td>
+      <td>
+      <p>
+      Longest detecting 4 errors
+      </p>
+      </td>
+      <td>
+      <p>
+      0
+      </p>
+      </td>
+      <td>
+      <p>
+      0.867
+      </p>
+      </td>
+      <td>
+      <p>
+      0.933
+      </p>
+      </td>
+      <td colspan="3">
+      <p>
+      0.931
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p>This means that when 5 changed characters occur randomly
+      distributed in the 39 characters of a P2WPKH address, there is a
+      chance of <em>0.756 per billion</em> that it will go undetected.
+      When those 5 changes occur randomly within a 19-character window,
+      that chance goes down to <em>0.093 per billion</em>. As the number
+      of errors goes up, the chance converges towards <em>1 in
+      2<sup>30</sup></em> = <em>0.931 per billion</em>.</p>
+      <p>Even though the chosen code performs reasonably well up to 1023
+      characters, other designs are preferable for lengths above 89
+      characters (excluding the separator).</p>
+      <h3 data-number="5.2.7"
+      id="bip-0173-acknowledgements">Acknowledgements</h3>
+      <p>This document is inspired by the <a
+      href="https://rusty.ozlabs.org/?p=578">address proposal</a> by
+      Rusty Russell, the <a
+      href="https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2014-February/004402.html">base32</a>
+      proposal by Mark Friedenbach, and had input from Luke Dashjr,
+      Johnson Lau, Eric Lombrozo, Peter Todd, and various other
+      reviewers.</p>
+      <h3 data-number="5.2.8"
+      id="bip-0173-disclosures-added-2024">Disclosures (added 2024)</h3>
+      <p>Due to an oversight in the design of bech32, this checksum
+      scheme is not always robust against
+      <a href="https://gist.github.com/sipa/a9845b37c1b298a7301c33a04090b2eb" class="wikilink" title="the insertion and deletion of fewer than 5 consecutive characters">the
+      insertion and deletion of fewer than 5 consecutive characters</a>.
+      Due to this weakness,
+      <a href="bip-0350.mediawiki" class="wikilink" title="BIP-350">BIP-350</a>
+      proposes using the scheme described in this BIP only for Native
+      Segwit v0 outputs.</p>
+      <pre><code>  BIP: 350
+  Layer: Applications
+  Title: Bech32m format for v1+ witness addresses
+  Authors: Pieter Wuille &lt;pieter@wuille.net&gt;
+  Status: Deployed
+  Type: Specification
+  Assigned: 2020-12-16
+  License: BSD-2-Clause
+  Discussion: 2021-01-05: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2021-January/018338.html [bitcoin-dev] Bech32m BIP: new checksum, and usage for segwit address
+  Replaces: 173</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0013.html" rel="prev">BIP 13</a>
+        <a class="pager-next" href="bip-0350.html" rel="next">BIP 350</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 23 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0022.html" accesskey="p" rel="prev">BIP 22</a>
+        <a class="pager-next" href="bip-0145.html" accesskey="n" rel="next">BIP 145</a>
+      </nav>
+      <h2 data-number="12.2" id="bip-0023">BIP 23</h2>
+      <h3 data-number="12.2.1" id="bip-0023-abstract">Abstract</h3>
+      <p>This BIP describes extensions to the getblocktemplate JSON-RPC
+      call to enhance pooled mining.</p>
+      <h3 data-number="12.2.2" id="bip-0023-copyright">Copyright</h3>
+      <p>This BIP is licensed under the BSD 2-clause license.</p>
+      <h3 data-number="12.2.3"
+      id="bip-0023-specification">Specification</h3>
+      <p>Note that all sections of this specification are optional
+      extensions on top of
+      <a href="bip-0022.mediawiki" class="wikilink" title="BIP 22">BIP
+      22</a>.</p>
+      <h4 data-number="12.2.3.1"
+      id="bip-0023-summary-support-levels">Summary Support Levels</h4>
+      <p>Something can be said to have BIP 23 Level 1 support if it
+      implements at least:</p>
+      <ul>
+      <li><a href="http://www.ietf.org/rfc/rfc1945.txt">RFC
+      1945</a></li>
+      <li><a href="http://json-rpc.org/wiki/specification">JSON-RPC
+      1.0</a></li>
+      <li><a href="bip-0022.mediawiki" class="wikilink" title="BIP 22 (non-optional sections)">BIP
+      22 (non-optional sections)</a></li>
+      <li><a href="bip-0022.mediawiki#optional-long-polling" class="wikilink" title="BIP 22 Long Polling">BIP
+      22 Long Polling</a></li>
+      <li><a href="#basic-pool-extensions" class="wikilink" title="BIP 23 Basic Pool Extensions">BIP
+      23 Basic Pool Extensions</a></li>
+      <li><a href="#mutations" class="wikilink" title="BIP 23 Mutation &quot;coinbase/append&quot;">BIP
+      23 Mutation “coinbase/append”</a></li>
+      <li><a href="#submission-abbreviation" class="wikilink" title="BIP 23 Submission Abbreviation &quot;submit/coinbase&quot;">BIP
+      23 Submission Abbreviation “submit/coinbase”</a></li>
+      <li><a href="#mutations" class="wikilink" title="BIP 23 Mutation &quot;time/increment&quot;">BIP
+      23 Mutation “time/increment”</a> (only required for servers)</li>
+      </ul>
+      <p>It can be said to have BIP 23 Level 2 support if it also
+      implements:</p>
+      <ul>
+      <li><a href="#mutations" class="wikilink" title="BIP 23 Mutation &quot;transactions/add&quot;">BIP
+      23 Mutation “transactions/add”</a></li>
+      <li><a href="#block-proposals" class="wikilink" title="BIP 23 Block Proposals">BIP
+      23 Block Proposals</a></li>
+      </ul>
+      <h4 data-number="12.2.3.2"
+      id="bip-0023-basic-pool-extensions">Basic Pool Extensions</h4>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="3">
+      <p>
+      template request
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      target
+      </p>
+      </td>
+      <td>
+      <p>
+      String
+      </p>
+      </td>
+      <td>
+      <p>
+      desired target for block template (may be ignored)
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="3">
+      <p>
+      template
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      expires
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      how many seconds (beginning from when the server sent the
+      response) this work is valid for, at most
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      target
+      </p>
+      </td>
+      <td>
+      <p>
+      String
+      </p>
+      </td>
+      <td>
+      <p>
+      the number which valid results must be less than, in big-endian
+      hexadecimal
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <h4 data-number="12.2.3.3" id="bip-0023-block-proposal">Block
+      Proposal</h4>
+      <p>Servers may indicate support for proposing blocks by including
+      a capability string in their original template:</p>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="3">
+      <p>
+      template
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      capabilities
+      </p>
+      </td>
+      <td>
+      <p>
+      Array of Strings
+      </p>
+      </td>
+      <td>
+      <p>
+      MAY contain “proposal” to indicate support for block proposal
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      reject-reason
+      </p>
+      </td>
+      <td>
+      <p>
+      String
+      </p>
+      </td>
+      <td>
+      <p>
+      Reason the proposal was invalid as-is (only applicable in response
+      to proposals)
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p>If supported, a miner MAY propose a block to the server for
+      general validation at any point before the job expires. This is
+      accomplished by calling getblocktemplate with two keys:</p>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="3">
+      <p>
+      getblocktemplate parameters
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      data
+      </p>
+      </td>
+      <td>
+      <p>
+      String
+      </p>
+      </td>
+      <td>
+      <p>
+      MUST be hex-encoded block data
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      mode
+      </p>
+      </td>
+      <td>
+      <p>
+      String
+      </p>
+      </td>
+      <td>
+      <p>
+      MUST be “proposal”
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      workid
+      </p>
+      </td>
+      <td>
+      <p>
+      String
+      </p>
+      </td>
+      <td>
+      <p>
+      if the server provided a workid, it MUST be included with
+      proposals
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p>The block data MUST be validated and checked against the
+      server’s usual acceptance rules (excluding the check for a valid
+      proof-of-work). If it is found to be in violation of any of these
+      rules, the server MUST return one of the following:</p>
+      <ul>
+      <li>Null if it is acceptable as-is, with the same workid (if any)
+      as provided. Note that this SHOULD NOT invalidate the old
+      template’s claim to the same workid.</li>
+      <li>A String giving the reason for the rejection (see
+      <a href="bip-0022.mediawiki#appendix-example-rejection-reasons" class="wikilink" title="example rejection reasons">example
+      rejection reasons</a>).</li>
+      <li>A “delta” block template (with changes needed); in this case,
+      any missing keys are assumed to default to those in the proposed
+      block or, if not applicable, the original block template it was
+      based on. This template MAY also include a “reject-reason” key
+      with a String of the reason for rejection.</li>
+      </ul>
+      <p>It is RECOMMENDED that servers which merely need to track the
+      proposed block for later share/* submissions, return a simple
+      Object of the form:</p>
+      <p><code>{"workid":"new workid"}</code></p>
+      <p>Clients SHOULD assume their proposed block will remain valid if
+      the only changes they make are to the portion of the coinbase
+      scriptSig they themselves provided (if any) and the time header.
+      Servers SHOULD NOT break this assumption without good cause.</p>
+      <h4 data-number="12.2.3.4" id="bip-0023-mutations">Mutations</h4>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="3">
+      <p>
+      template request
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      nonces
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      size of nonce range the miner needs; if not provided, the server
+      SHOULD assume the client requires 2<sup>32</sup>
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="3">
+      <p>
+      template
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      maxtime
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      the maximum time allowed
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      maxtimeoff
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      the maximum time allowed (as a moving offset from “curtime” -
+      every second, the actual maxtime is incremented by 1; for example,
+      “maxtimeoff”:0 means “time” may be incremented by 1 every second)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      mintime
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      the minimum time allowed
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      mintimeoff
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      the minimum time allowed (as a moving offset from “curtime”)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      mutable
+      </p>
+      </td>
+      <td>
+      <p>
+      Array of Strings
+      </p>
+      </td>
+      <td>
+      <p>
+      different manipulations that the server explicitly allows to be
+      made
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      noncerange
+      </p>
+      </td>
+      <td>
+      <p>
+      String
+      </p>
+      </td>
+      <td>
+      <p>
+      two 32-bit integers, concatenated in big-endian hexadecimal, which
+      represent the valid ranges of nonces the miner may scan
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p>If the block template contains a “mutable” key, it is a list of
+      these to signify modifications the miner is allowed to make:</p>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="2">
+      <p>
+      mutations
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Value
+      </p>
+      </td>
+      <td>
+      <p>
+      Significance
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      coinbase/append
+      </p>
+      </td>
+      <td>
+      <p>
+      append the provided coinbase scriptSig
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      coinbase
+      </p>
+      </td>
+      <td>
+      <p>
+      provide their own coinbase; if one is provided, it may be replaced
+      or modified (implied if “coinbasetxn” omitted)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      generation
+      </p>
+      </td>
+      <td>
+      <p>
+      add or remove outputs from the coinbase/generation transaction
+      (implied if “coinbasetxn” omitted)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      time/increment
+      </p>
+      </td>
+      <td>
+      <p>
+      change the time header to a value after “time” (implied if
+      “maxtime” or “maxtimeoff” are provided)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      time/decrement
+      </p>
+      </td>
+      <td>
+      <p>
+      change the time header to a value before “time” (implied if
+      “mintime” is provided)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      time
+      </p>
+      </td>
+      <td>
+      <p>
+      modify the time header of the block
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      transactions/add (or “transactions”)
+      </p>
+      </td>
+      <td>
+      <p>
+      add other valid transactions to the block (implied if
+      “transactions” omitted from result)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      prevblock
+      </p>
+      </td>
+      <td>
+      <p>
+      use the work with other previous-blocks; this implicitly allows
+      removing transactions that are no longer valid (but clients SHOULD
+      attempt to propose removal of any required transactions); it also
+      implies adjusting “height” as necessary
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      version/force
+      </p>
+      </td>
+      <td>
+      <p>
+      encode the provide block version, even if the miner doesn’t
+      understand it
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      version/reduce
+      </p>
+      </td>
+      <td>
+      <p>
+      use an older block version than the one provided (for example, if
+      the client does not support the version provided)
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <h4 data-number="12.2.3.5"
+      id="bip-0023-submission-abbreviation">Submission Abbreviation</h4>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="3">
+      <p>
+      template
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      fulltarget
+      </p>
+      </td>
+      <td>
+      <p>
+      String
+      </p>
+      </td>
+      <td>
+      <p>
+      the number which full results should be less than, in big-endian
+      hexadecimal (see “share/*” mutations)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      mutable
+      </p>
+      </td>
+      <td>
+      <p>
+      Array of Strings
+      </p>
+      </td>
+      <td>
+      <p>
+      different manipulations that the server explicitly allows to be
+      made, including abbreviations
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p>If the block template contains a “mutable” key, it is a list of
+      these to signify modifications the miner is allowed to make:</p>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="2">
+      <p>
+      abbreviation mutations
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Value
+      </p>
+      </td>
+      <td>
+      <p>
+      Significance
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      submit/hash
+      </p>
+      </td>
+      <td>
+      <p>
+      each transaction being sent in a request, that the client is
+      certain the server knows about, may be replaced by its hash in
+      little-endian hexadecimal, prepended by a “:” character
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      submit/coinbase
+      </p>
+      </td>
+      <td>
+      <p>
+      if the “transactions” provided by the server are used as-is with
+      no changes, submissions may omit transactions after the coinbase
+      (transaction count varint remains included with the full number of
+      transactions)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      submit/truncate
+      </p>
+      </td>
+      <td>
+      <p>
+      if the “coinbasetxn” and “transactions” provided by the server are
+      used as-is with no changes, submissions may contain only the block
+      header; if only the scriptSig of “coinbasetxn” is modified, the
+      params Object MUST contain a “coinbasesig” key with the content,
+      or a “coinbaseadd” with appended data (if only appending)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      share/coinbase
+      </p>
+      </td>
+      <td>
+      <p>
+      same as “submit/coinbase”, but only if the block hash is greater
+      than “fulltarget”
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      share/merkle
+      </p>
+      </td>
+      <td>
+      <p>
+      if the block hash is greater than “fulltarget”, the non-coinbase
+      transactions may be replaced with a merkle chain connecting it to
+      the root
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      share/truncate
+      </p>
+      </td>
+      <td>
+      <p>
+      same as “submit/truncate”, but only if the block hash is greater
+      than “fulltarget”
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <h5 data-number="12.2.3.5.1"
+      id="bip-0023-format-of-data-for-merkle-only-shares">Format of Data
+      for Merkle-Only Shares</h5>
+      <p>The format used for submitting shares with the “share/merkle”
+      mutation shall be the 80-byte block header, the total number of
+      transactions encoded in Bitcoin variable length number format, the
+      coinbase transaction, and then finally the little-endian SHA256
+      hashes of each link in the merkle chain connecting it to the
+      merkle root.</p>
+      <h4 data-number="12.2.3.6" id="bip-0023-logical-services">Logical
+      Services</h4>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="3">
+      <p>
+      template request
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      capabilities
+      </p>
+      </td>
+      <td>
+      <p>
+      Array of Strings
+      </p>
+      </td>
+      <td>
+      <p>
+      miners which support this SHOULD provide a list including the
+      String “serverlist”
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="3">
+      <p>
+      template
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      serverlist
+      </p>
+      </td>
+      <td>
+      <p>
+      Array of Objects
+      </p>
+      </td>
+      <td>
+      <p>
+      list of servers in this single logical service
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p>If the “serverlist” parameter is provided, clients MAY choose
+      to intelligently treat the server as part of a larger single
+      logical service.</p>
+      <p>Each host Object in the Array is comprised of the following
+      fields:</p>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="3">
+      <p>
+      serverlist element
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      uri
+      </p>
+      </td>
+      <td>
+      <p>
+      String
+      </p>
+      </td>
+      <td>
+      <p>
+      URI of the individual server; if authentication information is
+      omitted, the same authentication used for this request MUST be
+      assumed
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      avoid
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      number of seconds to avoid using this server
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      priority
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      an integer priority of this host (default: 0)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      sticky
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      number of seconds to stick to this server when used
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      update
+      </p>
+      </td>
+      <td>
+      <p>
+      Boolean
+      </p>
+      </td>
+      <td>
+      <p>
+      whether this server may update the serverlist (default: true)
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      weight
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      a relative weight for hosts with the same priority (default: 1)
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p>When choosing which actual server to get the next job from,
+      URIs MUST be tried in order of their “priority” key, lowest Number
+      first. Where the priority of URIs is the same, they should be
+      chosen from in random order, weighed by their “weight” key. Work
+      proposals and submissions MUST be made to the same server that
+      issued the job. Clients MAY attempt to submit to other servers if,
+      and only if, the original server cannot be reached. If
+      cross-server share submissions are desired, services SHOULD
+      instead use the equivalent domain name system (DNS) features (RFCs
+      <a href="http://tools.ietf.org/html/rfc1794">1794</a> and <a
+      href="http://tools.ietf.org/html/rfc2782">2782</a>).</p>
+      <p>Updates to the Logical Service server list may only be made by
+      the original server, or servers listed with the “update” key
+      missing or true. Clients MAY choose to advertise serverlist
+      capability to servers with a false “update” key, but if so, MUST
+      treat the server list provided as a subset of the current one,
+      only considered in the context of this server. At least one server
+      with “update” privilege MUST be attempted at least once daily.</p>
+      <p>If the “sticky” key is provided, then when that server is used,
+      it should be used consistently for at least that many seconds, if
+      possible.</p>
+      <p>A permanent change in server URI MAY be indicated with a simple
+      “serverlist” parameter:</p>
+      <p><code>"serverlist":[{"uri": "</code><a
+      href="http://newserver"><code>http://newserver</code></a><code>"}]</code></p>
+      <p>A temporary delegation to another server for 5 minutes MAY be
+      indicated likewise:</p>
+      <p><code>"serverlist":[{"uri": "", avoid: 300}, {"uri": "</code><a
+      href="http://newserver"><code>http://newserver</code></a><code>", "update": false}]</code></p>
+      <h3 data-number="12.2.4" id="bip-0023-motivation">Motivation</h3>
+      <p>There is reasonable concerns about mining currently being too
+      centralized on pools, and the amount of control these pools hold.
+      By exposing the details of the block proposals to the miners, they
+      are enabled to audit and possibly modify the block before hashing
+      it.</p>
+      <p>To encourage widespread adoption, this BIP should be a complete
+      superset of the existing centralized getwork protocol, so pools
+      are not required to make substantial changes to adopt it.</p>
+      <h3 data-number="12.2.5" id="bip-0023-rationale">Rationale</h3>
+      <p>Why allow servers to restrict the complete coinbase and nonce
+      range?</p>
+      <ul>
+      <li>This is necessary to provide a complete superset of JSON-RPC
+      getwork functionality, so that pools may opt to enable auditing
+      without significantly changing or increasing the complexity of
+      their share validation or mining policies.</li>
+      <li>Since noncerange is optional (both for getwork and this BIP),
+      neither clients nor servers are required to support it.</li>
+      </ul>
+      <p>Why specify “time/*” mutations at all?</p>
+      <ul>
+      <li>In most cases, these are implied by the
+      mintime/mintimecur/maxtime/maxtimecur keys, but there may be cases
+      that there are no applicable minimums/maximums.</li>
+      </ul>
+      <p>What is the purpose of the “prevblock” mutation?</p>
+      <ul>
+      <li>There are often cases where a miner has processed a new block
+      before the server. If the server allows “prevblock” mutation, the
+      miner may begin mining on the new block immediately, without
+      waiting for a new template.</li>
+      </ul>
+      <p>Why must both “mintime”/“maxtime” and “mintimeoff”/“maxtimeoff”
+      keys be defined?</p>
+      <ul>
+      <li>In some cases, the limits may be unrelated to the current time
+      (such as the Bitcoin network itself; the minimum is always a fixed
+      median time)</li>
+      <li>In other cases, the limits may be bounded by other rules (many
+      pools limit the time header to within 5 minutes of when the share
+      is submitted to them).</li>
+      </ul>
+      <p>Is “target” really needed?</p>
+      <ul>
+      <li>Some pools work with lower targets, and should not be expected
+      to waste bandwidth ignoring shares that don’t meet it.</li>
+      <li>Required to be a proper superset of getwork.</li>
+      <li>As mining hashrates grow, some miners may need the ability to
+      request a lower target from their pools to be able to manage their
+      bandwidth use.</li>
+      </ul>
+      <p>What is the purpose of the “hash” transaction list format?</p>
+      <ul>
+      <li>Non-mining tools may wish to simply get a list of memory pool
+      transactions.</li>
+      <li>Humans may wish to view their current memory pool.</li>
+      </ul>
+      <h3 data-number="12.2.6"
+      id="bip-0023-reference-implementation">Reference
+      Implementation</h3>
+      <ul>
+      <li><a
+      href="http://gitorious.org/bitcoin/libblkmaker">libblkmaker</a></li>
+      <li><a
+      href="https://gitorious.org/bitcoin/eloipool">Eloipool</a></li>
+      <li><a
+      href="https://github.com/bitcoin/bitcoin/pull/936/files">bitcoind</a></li>
+      </ul>
+      <h3 data-number="12.2.7" id="bip-0023-see-also">See Also</h3>
+      <ul>
+      <li><a href="bip-0022.mediawiki" class="wikilink" title="BIP 22: getblocktemplate - Fundamentals">BIP
+      22: getblocktemplate - Fundamentals</a></li>
+      </ul>
+      <pre><code>  BIP: 145
+  Layer: API/RPC
+  Title: getblocktemplate Updates for Segregated Witness
+  Authors: Luke Dashjr &lt;luke+bip22@dashjr.org&gt;
+  Status: Deployed
+  Type: Specification
+  Assigned: 2016-01-30
+  License: BSD-2-Clause OR OPUBL-1.0</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0022.html" rel="prev">BIP 22</a>
+        <a class="pager-next" href="bip-0145.html" rel="next">BIP 145</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

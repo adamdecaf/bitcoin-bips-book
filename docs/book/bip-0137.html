@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 137 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0327.html" accesskey="p" rel="prev">BIP 327</a>
+        <a class="pager-next" href="bip-0322.html" accesskey="n" rel="next">BIP 322</a>
+      </nav>
+      <h2 data-number="13.10" id="bip-0137">BIP 137</h2>
+      <h3 data-number="13.10.1" id="bip-0137-abstract">Abstract</h3>
+      <p>This document describes a signature format for signing messages
+      with Bitcoin private keys.</p>
+      <p>The specification is intended to describe the standard for
+      signatures of messages that can be signed and verified between
+      different clients that exist in the field today. Note: that a new
+      signature format has been defined which has a number of advantages
+      over this BIP, but to be backwards compatible with existing
+      implementations this BIP will be useful. See BIP 322 [1] for full
+      details on the new signature scheme.</p>
+      <p>One of the key problems in this area is that there are several
+      different types of Bitcoin addresses and without introducing
+      specific standards it is unclear which type of address format is
+      being used. See [2]. This BIP will attempt to address these issues
+      and define a clear and concise format for Bitcoin signatures.</p>
+      <h3 data-number="13.10.2" id="bip-0137-copyright">Copyright</h3>
+      <p>This BIP is licensed under the 2-clause BSD license.</p>
+      <h3 data-number="13.10.3" id="bip-0137-motivation">Motivation</h3>
+      <p>Since Bitcoin private keys can not only be used to sign Bitcoin
+      transactions, but also any other message, it has become customary
+      to use them to sign various messages for differing purposes. Some
+      applications of signing messages with a Bitcoin private key are as
+      follows: proof of funds for collateral, credit worthiness,
+      entrance to events, airdrops, audits as well as other
+      applications. While there was no BIP written for how to digitally
+      sign messages with Bitcoin private keys with P2PKH addresses it is
+      a fairly well understood process, however with the introduction of
+      Segwit (both in the form of P2SH and bech32) addresses, it is
+      unclear how to distinguish a P2PKH, P2SH, or bech32 address from
+      one another. This BIP proposes a standard signature format that
+      will allow clients to distinguish between the different address
+      formats.</p>
+      <h3 data-number="13.10.4"
+      id="bip-0137-specification">Specification</h3>
+      <h4 data-number="13.10.4.1"
+      id="bip-0137-background-on-ecdsa-signatures">Background on ECDSA
+      Signatures</h4>
+      <p>(For readers who already understand how ECDSA signatures work,
+      you can skip this section as this is only intended as background
+      information.) Elliptic Curve Digital Signature Algorithm or ECDSA
+      is a cryptographic algorithm used by Bitcoin to ensure that funds
+      can only be spent by their rightful owners.</p>
+      <p>A few concepts related to ECDSA:</p>
+      <p><b>private key</b>: A secret number, known only to the person
+      that generated it. A private key is essentially a randomly
+      generated number. In Bitcoin, someone with the private key that
+      corresponds to funds on the block chain can spend the funds. In
+      Bitcoin, a private key is a single unsigned 256 bit integer (32
+      bytes).</p>
+      <p><b>public key</b>: A number that corresponds to a private key,
+      but does not need to be kept secret. A public key can be
+      calculated from a private key, but not vice versa. A public key
+      can be used to determine if a signature is genuine (in other
+      words, produced with the proper key) without requiring the private
+      key to be divulged. In Bitcoin, public keys are either compressed
+      or uncompressed. Compressed public keys are 33 bytes, consisting
+      of a prefix either 0x02 or 0x03, and a 256-bit integer called x.
+      The older uncompressed keys are 65 bytes, consisting of constant
+      prefix (0x04), followed by two 256-bit integers called x and y (2
+      * 32 bytes). The prefix of a compressed key allows for the y value
+      to be derived from the x value.</p>
+      <p><b>signature</b>: A number that proves that a signing operation
+      took place. A signature is mathematically generated from a hash of
+      something to be signed, plus a private key. The signature itself
+      is two numbers known as r and s. With the public key, a
+      mathematical algorithm can be used on the signature to determine
+      that it was originally produced from the hash and the private key,
+      without needing to know the private key. Signatures are either 73,
+      72, or 71 bytes long, with probabilities approximately 25%, 50%
+      and 25% respectively, although sizes even smaller than that are
+      possible with exponentially decreasing probability. Source
+      [3].</p>
+      <h4 data-number="13.10.4.2"
+      id="bip-0137-conventions-with-signatures-used-in-bitcoin">Conventions
+      with signatures used in Bitcoin</h4>
+      <p>Bitcoin signatures have the r and s values mentioned above, and
+      a header. The header is a single byte and the r and s are each 32
+      bytes so a signature’s size is 65 bytes. The header is used to
+      specify information about the signature. It can be thought of as a
+      bitmask with each bit in this byte having a meaning. The
+      serialization format of a Bitcoin signature is as follows:</p>
+      <p>[1 byte of header data][32 bytes for r value][32 bytes for s
+      value]</p>
+      <p>The header byte has a few components to it. First, it stores
+      something known as the recId. This value is stored in the least
+      significant 2 bits of the header. If the header is between a value
+      of 31 and 34, this indicates that it is a compressed address. If
+      the header value is between 35 and 38 inclusive, it is a p2sh
+      segwit address. If the header value is between 39 and 42, it is a
+      bech32 address.</p>
+      <h4 data-number="13.10.4.3"
+      id="bip-0137-procedure-for-signingverifying-a-signature">Procedure
+      for signing/verifying a signature</h4>
+      <p>As noted above the signature is composed of three components,
+      the header, r and s values. r/s can be computed with standard
+      ECDSA library functions. Part of the header includes something
+      called a recId. This is part of every ECDSA signature and should
+      be generated by the ECDSA library. The recId is a number between 0
+      and 3 inclusive. The header is the recId plus a constant which
+      indicates what type of Bitcoin address this is. For P2PKH address
+      using an uncompressed public key this value is 27. For P2PKH
+      address using compressed public key this value is 31. For
+      P2SH-P2WPKH this value is 35 and for P2WPKH (version 0 witness)
+      address this value is 39. So, you have the following ranges:</p>
+      <ul>
+      <li>27-30: P2PKH uncompressed</li>
+      <li>31-34: P2PKH compressed</li>
+      <li>35-38: Segwit P2SH</li>
+      <li>39-42: Segwit Bech32</li>
+      </ul>
+      <p>To verify a signature, the recId is obtained by subtracting
+      this constant from the header value.</p>
+      <h4 data-number="13.10.4.4"
+      id="bip-0137-sample-code-for-processing-a-signature">Sample Code
+      for processing a signature</h4>
+      <p>Note: this code is a modification of the BitcoinJ code which is
+      written in java.</p>
+      <p><code>   public static ECKey signedMessageToKey(String message, String signatureBase64) throws SignatureException {</code><br />
+      <code>       byte[] signatureEncoded;</code><br />
+      <code>       try {</code><br />
+      <code>           signatureEncoded = Base64.decode(signatureBase64);</code><br />
+      <code>       } catch (RuntimeException e) {</code><br />
+      <code>           // This is what you get back from Bouncy Castle if base64 doesn't decode :(</code><br />
+      <code>           throw new SignatureException("Could not decode base64", e);</code><br />
+      <code>       }</code><br />
+      <code>       // Parse the signature bytes into r/s and the selector value.</code><br />
+      <code>       if (signatureEncoded.length &lt; 65)</code><br />
+      <code>           throw new SignatureException("Signature truncated, expected 65 bytes and got " + signatureEncoded.length);</code><br />
+      <code>       int header = signatureEncoded[0] &amp; 0xFF;</code><br />
+      <code>       // The header byte: 0x1B = first key with even y, 0x1C = first key with odd y,</code><br />
+      <code>       //                  0x1D = second key with even y, 0x1E = second key with odd y</code><br />
+      <code>       if (header &lt; 27 || header &gt; 42)</code><br />
+      <code>           throw new SignatureException("Header byte out of range: " + header);</code><br />
+      <code>       BigInteger r = new BigInteger(1, Arrays.copyOfRange(signatureEncoded, 1, 33));</code><br />
+      <code>       BigInteger s = new BigInteger(1, Arrays.copyOfRange(signatureEncoded, 33, 65));</code><br />
+      <code>       ECDSASignature sig = new ECDSASignature(r, s);</code><br />
+      <code>       byte[] messageBytes = formatMessageForSigning(message);</code><br />
+      <code>       // Note that the C++ code doesn't actually seem to specify any character encoding. Presumably it's whatever</code><br />
+      <code>       // JSON-SPIRIT hands back. Assume UTF-8 for now.</code><br />
+      <code>       Sha256Hash messageHash = Sha256Hash.twiceOf(messageBytes);</code><br />
+      <code>       boolean compressed = false;</code><br />
+      <code>       // this section is added to support new signature types</code><br />
+      <code>       if(header&gt;= 39) // this is a bech32 signature</code><br />
+      <code>       {</code><br />
+      <code>           header -= 12;</code><br />
+      <code>           compressed = true;</code><br />
+      <code>       } // this is a segwit p2sh signature</code><br />
+      <code>       else if(header &gt;= 35)</code><br />
+      <code>       {</code><br />
+      <code>           header -= 8;</code><br />
+      <code>           compressed = true;</code><br />
+      <code>       } // this is a compressed key signature</code><br />
+      <code>       else if (header &gt;= 31) {</code><br />
+      <code>           compressed = true;</code><br />
+      <code>           header -= 4;</code><br />
+      <code>       }</code><br />
+      <code>       int recId = header - 27;</code><br />
+      <code>       ECKey key = ECKey.recoverFromSignature(recId, sig, messageHash, compressed);</code><br />
+      <code>       if (key == null)</code><br />
+      <code>           throw new SignatureException("Could not recover public key from signature");</code><br />
+      <code>       return key;</code><br />
+      <code>   }</code></p>
+      <h3 data-number="13.10.5"
+      id="bip-0137-backwards-compatibility">Backwards Compatibility</h3>
+      <p>Since this format includes P2PKH keys, it is backwards
+      compatible, but keep in mind some software has checks for ranges
+      of headers and will report the newer segwit header types as
+      errors.</p>
+      <h3 data-number="13.10.6"
+      id="bip-0137-implications">Implications</h3>
+      <p>Message signing is an important use case and potentially
+      underused due to the fact that, up until now, there has not been a
+      formal specification for how wallets can sign messages using
+      Bitcoin private keys. Bitcoin wallets should be interoperable and
+      use the same conventions for determining a signature’s validity.
+      This BIP can also be updated as new signature formats emerge.</p>
+      <h3 data-number="13.10.7"
+      id="bip-0137-acknowledgements">Acknowledgements</h3>
+      <ul>
+      <li>Konstantin Bay - review</li>
+      <li>Holly Casaletto - review</li>
+      <li>James Bryrer - review</li>
+      </ul>
+      <p>Note that the background on ECDSA signatures was taken from
+      en.bitcoin.it and code sample modified from BitcoinJ.</p>
+      <h3 data-number="13.10.8" id="bip-0137-references">References</h3>
+      <p>[1] - <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0322.mediawiki"
+      class="uri">https://github.com/bitcoin/bips/blob/master/bip-0322.mediawiki</a></p>
+      <p>[2] - <a href="https://github.com/bitcoin/bitcoin/issues/10542"
+      class="uri">https://github.com/bitcoin/bitcoin/issues/10542</a></p>
+      <p>[3] - <a
+      href="https://en.bitcoin.it/wiki/Elliptic_Curve_Digital_Signature_Algorithm"
+      class="uri">https://en.bitcoin.it/wiki/Elliptic_Curve_Digital_Signature_Algorithm</a></p>
+      <pre><code>  BIP: 322
+  Layer: Applications
+  Title: Generic Signed Message Format
+  Authors: Karl-Johan Alm &lt;karljohan-alm@garage.co.jp&gt;
+           Oliver Gugger &lt;gugger@gmail.com&gt;
+  Status: Complete
+  Type: Specification
+  Assigned: 2018-09-10
+  License: CC0-1.0
+  Discussion: 2018-03-14: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2018-March/015818.html
+              2019-07-23: https://github.com/bitcoin/bitcoin/pull/16440
+              2022-01-13: https://github.com/bitcoin/bitcoin/pull/24058
+              2022-08-06: https://bitcointalk.org/index.php?topic=5408898.0
+              2024-05-04: https://groups.google.com/g/bitcoindev/c/RCi1Exs0ZvQ/m/vp6Xo36aBwAJ
+              2025-05-10: https://bitcoin.stackexchange.com/questions/126277/where-can-i-use-bip322-to-sign-a-message-to-verify-a-multisig-address
+              2026-04-20: https://groups.google.com/g/bitcoindev/c/qd6BNz9gxCk/m/k1fHq4RKAQAJ
+  Version: 2.0.0
+  Requires: 174, 340, 341</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0327.html" rel="prev">BIP 327</a>
+        <a class="pager-next" href="bip-0322.html" rel="next">BIP 322</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

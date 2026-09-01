@@ -42,7 +42,7 @@ if [[ "$failed" -ne 0 ]]; then
 fi
 
 {
-    echo "## Source snapshot"
+    echo "# Source snapshot"
     echo ""
     echo "This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins."
     echo ""

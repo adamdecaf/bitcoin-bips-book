@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 342 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0341.html" accesskey="p" rel="prev">BIP 341</a>
+        <a class="pager-next" href="keys-seeds-and-derivation.html" accesskey="n" rel="next">Keys, Seeds, and Derivation</a>
+      </nav>
+      <h2 data-number="7.3" id="bip-0342">BIP 342</h2>
+      <h3 data-number="7.3.1"
+      id="bip-0342-introduction">Introduction</h3>
+      <h4 data-number="7.3.1.1" id="bip-0342-abstract">Abstract</h4>
+      <p>This document specifies the semantics of the initial scripting
+      system under
+      <a href="bip-0341.mediawiki" class="wikilink" title="BIP341">BIP341</a>.</p>
+      <h4 data-number="7.3.1.2" id="bip-0342-copyright">Copyright</h4>
+      <p>This document is licensed under the 3-clause BSD license.</p>
+      <h4 data-number="7.3.1.3" id="bip-0342-motivation">Motivation</h4>
+      <p><a href="bip-0341.mediawiki" class="wikilink" title="BIP341">BIP341</a>
+      proposes improvements to just the script structure, but some of
+      its goals are incompatible with the semantics of certain opcodes
+      within the scripting language itself. While it is possible to deal
+      with these in separate optional improvements, their impact is not
+      guaranteed unless they are addressed simultaneously with
+      <a href="bip-0341.mediawiki" class="wikilink" title="BIP341">BIP341</a>
+      itself.</p>
+      <p>Specifically, the goal is making <strong>Schnorr
+      signatures</strong>, <strong>batch validation</strong>, and
+      <strong>signature hash</strong> improvements available to spends
+      that use the script system as well.</p>
+      <h3 data-number="7.3.2" id="bip-0342-design">Design</h3>
+      <p>In order to achieve these goals, signature opcodes
+      <code>OP_CHECKSIG</code> and <code>OP_CHECKSIGVERIFY</code> are
+      modified to verify Schnorr signatures as specified in
+      <a href="bip-0340.mediawiki" class="wikilink" title="BIP340">BIP340</a>
+      and to use a signature message algorithm based on the common
+      message calculation in
+      <a href="bip-0341.mediawiki" class="wikilink" title="BIP341">BIP341</a>.
+      The tapscript signature message also simplifies
+      <code>OP_CODESEPARATOR</code> handling and makes it more
+      efficient.</p>
+      <p>The inefficient <code>OP_CHECKMULTISIG</code> and
+      <code>OP_CHECKMULTISIGVERIFY</code> opcodes are disabled. Instead,
+      a new opcode <code>OP_CHECKSIGADD</code> is introduced to allow
+      creating the same multisignature policies in a batch-verifiable
+      way. Tapscript uses a new, simpler signature opcode limit fixing
+      complicated interactions with transaction weight. Furthermore, a
+      potential malleability vector is eliminated by requiring
+      MINIMALIF.</p>
+      <p>Tapscript can be upgraded through soft forks by defining
+      unknown key types, for example to add new <code>hash_types</code>
+      or signature algorithms. Additionally, the new tapscript
+      <code>OP_SUCCESS</code> opcodes allow introducing new opcodes more
+      cleanly than through <code>OP_NOP</code>.</p>
+      <h3 data-number="7.3.3"
+      id="bip-0342-specification">Specification</h3>
+      <p>The rules below only apply when validating a transaction input
+      for which all of the conditions below are true:</p>
+      <ul>
+      <li>The transaction input is a <strong>segregated witness
+      spend</strong> (i.e., the scriptPubKey contains a witness program
+      as defined in
+      <a href="bip-0141.mediawiki" class="wikilink" title="BIP141">BIP141</a>).</li>
+      <li>It is a <strong>taproot spend</strong> as defined in
+      <a href="bip-0341.mediawiki#design" class="wikilink" title="BIP341">BIP341</a>
+      (i.e., the witness version is 1, the witness program is 32 bytes,
+      and it is not P2SH wrapped).</li>
+      <li>It is a <strong>script path spend</strong> as defined in
+      <a href="bip-0341.mediawiki#design" class="wikilink" title="BIP341">BIP341</a>
+      (i.e., after removing the optional annex from the witness stack,
+      two or more stack elements remain).</li>
+      <li>The leaf version is <em>0xc0</em> (i.e. the first byte of the
+      last witness element after removing the optional annex is
+      <em>0xc0</em> or <em>0xc1</em>), marking it as a <strong>tapscript
+      spend</strong>.</li>
+      </ul>
+      <p>Validation of such inputs must be equivalent to performing the
+      following steps in the specified order.</p>
+      <ol type="1">
+      <li>If the input is invalid due to BIP141 or BIP341, fail.</li>
+      <li>The script as defined in BIP341 (i.e., the penultimate witness
+      stack element after removing the optional annex) is called the
+      <strong>tapscript</strong> and is decoded into opcodes, one by
+      one:
+      <ol type="1">
+      <li>If any opcode numbered <em>80, 98, 126-129, 131-134, 137-138,
+      141-142, 149-153, 187-254</em> is encountered, validation succeeds
+      (none of the rules below apply). This is true even if later bytes
+      in the tapscript would fail to decode otherwise. These opcodes are
+      renamed to <code>OP_SUCCESS80</code>, …,
+      <code>OP_SUCCESS254</code>, and collectively known as
+      <code>OP_SUCCESSx</code><strong><code>OP_SUCCESSx</code></strong>
+      <code>OP_SUCCESSx</code> is a mechanism to upgrade the Script
+      system. Using an <code>OP_SUCCESSx</code> before its meaning is
+      defined by a softfork is insecure and leads to fund loss. The
+      inclusion of <code>OP_SUCCESSx</code> in a script will pass it
+      unconditionally. It precedes any script execution rules to avoid
+      the difficulties in specifying various edge cases, for example:
+      <code>OP_SUCCESSx</code> in a script with an input stack larger
+      than 1000 elements, <code>OP_SUCCESSx</code> after too many
+      signature opcodes, or even scripts with conditionals lacking
+      <code>OP_ENDIF</code>. The mere existence of an
+      <code>OP_SUCCESSx</code> anywhere in the script will guarantee a
+      pass for all such cases. <code>OP_SUCCESSx</code> are similar to
+      the <code>OP_RETURN</code> in very early bitcoin versions (v0.1 up
+      to and including v0.3.5). The original <code>OP_RETURN</code>
+      terminates script execution immediately, and return pass or fail
+      based on the top stack element at the moment of termination. This
+      was one of a major design flaws in the original bitcoin protocol
+      as it permitted unconditional third party theft by placing an
+      <code>OP_RETURN</code> in <code>scriptSig</code>. This is not a
+      concern in the present proposal since it is not possible for a
+      third party to inject an <code>OP_SUCCESSx</code> to the
+      validation process, as the <code>OP_SUCCESSx</code> is part of the
+      script (and thus committed to by the taproot output), implying the
+      consent of the coin owner. <code>OP_SUCCESSx</code> can be used
+      for a variety of upgrade possibilities:</li>
+      </ol></li>
+      </ol>
+      <ul>
+      <li>An <code>OP_SUCCESSx</code> could be turned into a functional
+      opcode through a softfork. Unlike <code>OP_NOPx</code>-derived
+      opcodes which only have read-only access to the stack,
+      <code>OP_SUCCESSx</code> may also write to the stack. Any rule
+      changes to an <code>OP_SUCCESSx</code>-containing script may only
+      turn a valid script into an invalid one, and this is always
+      achievable with softforks.</li>
+      <li>Since <code>OP_SUCCESSx</code> precedes size check of initial
+      stack and push opcodes, an <code>OP_SUCCESSx</code>-derived opcode
+      requiring stack elements bigger than 520 bytes may uplift the
+      limit in a softfork.</li>
+      <li><code>OP_SUCCESSx</code> may also redefine the behavior of
+      existing opcodes so they could work together with the new opcode.
+      For example, if an <code>OP_SUCCESSx</code>-derived opcode works
+      with 64-bit integers, it may also allow the existing arithmetic
+      opcodes in the <em>same script</em> to do the same.</li>
+      <li>Given that <code>OP_SUCCESSx</code> even causes potentially
+      unparseable scripts to pass, it can be used to introduce
+      multi-byte opcodes, or even a completely new scripting language
+      when prefixed with a specific <code>OP_SUCCESSx</code>
+      opcode..</li>
+      </ul>
+      <ol type="1">
+      <li><ol type="1">
+      <li>If any push opcode fails to decode because it would extend
+      past the end of the tapscript, fail.</li>
+      </ol></li>
+      <li>If the <strong>initial stack</strong> as defined in BIP341
+      (i.e., the witness stack after removing both the optional annex
+      and the two last stack elements after that) violates any resource
+      limits (stack size, and size of the elements in the stack; see
+      “Resource Limits” below), fail. Note that this check can be
+      bypassed using <code>OP_SUCCESSx</code>.</li>
+      <li>The tapscript is executed according to the rules in the
+      following section, with the initial stack as input.
+      <ol type="1">
+      <li>If execution fails for any reason, fail.</li>
+      <li>If the execution results in anything but exactly one element
+      on the stack which evaluates to true with
+      <code>CastToBool()</code>, fail.</li>
+      </ol></li>
+      <li>If this step is reached without encountering a failure,
+      validation succeeds.</li>
+      </ol>
+      <h4 data-number="7.3.3.1" id="bip-0342-script-execution">Script
+      execution</h4>
+      <p>The execution rules for tapscript are based on those for P2WSH
+      according to BIP141, including the
+      <code>OP_CHECKLOCKTIMEVERIFY</code> and
+      <code>OP_CHECKSEQUENCEVERIFY</code> opcodes defined in
+      <a href="bip-0065.mediawiki" class="wikilink" title="BIP65">BIP65</a>
+      and
+      <a href="bip-0112.mediawiki" class="wikilink" title="BIP112">BIP112</a>,
+      but with the following modifications:</p>
+      <ul>
+      <li><strong>Disabled script opcodes</strong> The following script
+      opcodes are disabled in tapscript: <code>OP_CHECKMULTISIG</code>
+      and <code>OP_CHECKMULTISIGVERIFY</code><strong>Why are
+      <code>OP_CHECKMULTISIG</code> and
+      <code>OP_CHECKMULTISIGVERIFY</code> disabled, and not turned into
+      OP_SUCCESSx?</strong> This is a precaution to make sure people who
+      accidentally keep using <code>OP_CHECKMULTISIG</code> in Tapscript
+      notice a problem immediately. It also avoids the complication of
+      script disassemblers needing to become context-dependent.. The
+      disabled opcodes behave in the same way as <code>OP_RETURN</code>,
+      by failing and terminating the script immediately when executed,
+      and being ignored when found in unexecuted branch of the
+      script.</li>
+      <li><strong>Consensus-enforced MINIMALIF</strong> The MINIMALIF
+      rules, which are only a standardness rule in P2WSH, are consensus
+      enforced in tapscript. This means that the input argument to the
+      <code>OP_IF</code> and <code>OP_NOTIF</code> opcodes must be
+      either exactly 0 (the empty vector) or exactly 1 (the one-byte
+      vector with value 1)<strong>Why make MINIMALIF consensus?</strong>
+      This makes it considerably easier to write non-malleable scripts
+      that take branch information from the stack..</li>
+      <li><strong>OP_SUCCESSx opcodes</strong> As listed above, some
+      opcodes are renamed to <code>OP_SUCCESSx</code>, and make the
+      script unconditionally valid.</li>
+      <li><strong>Signature opcodes</strong>. The
+      <code>OP_CHECKSIG</code> and <code>OP_CHECKSIGVERIFY</code> are
+      modified to operate on Schnorr public keys and signatures (see
+      <a href="bip-0340.mediawiki" class="wikilink" title="BIP340">BIP340</a>)
+      instead of ECDSA, and a new opcode <code>OP_CHECKSIGADD</code> is
+      added.
+      <ul>
+      <li>The opcode 186 (<code>0xba</code>) is named as
+      <code>OP_CHECKSIGADD</code>.
+      <strong><code>OP_CHECKSIGADD</code></strong> This opcode is added
+      to compensate for the loss of <code>OP_CHECKMULTISIG</code>-like
+      opcodes, which are incompatible with batch verification.
+      <code>OP_CHECKSIGADD</code> is functionally equivalent to
+      <code>OP_ROT OP_SWAP OP_CHECKSIG OP_ADD</code>, but only takes 1
+      byte. All <code>CScriptNum</code>-related behaviours of
+      <code>OP_ADD</code> are also applicable to
+      <code>OP_CHECKSIGADD</code>.<strong>Alternatives to
+      <code>CHECKMULTISIG</code></strong> There are multiple ways of
+      implementing a threshold <em>k</em>-of-<em>n</em> policy using
+      Taproot and Tapscript:</li>
+      </ul></li>
+      <li><strong>Using a single <code>OP_CHECKSIGADD</code>-based
+      script</strong> A <code>CHECKMULTISIG</code> script
+      <code>m &lt;pubkey_1&gt; ... &lt;pubkey_n&gt; n CHECKMULTISIG</code>
+      with witness
+      <code>0 &lt;signature_1&gt; ... &lt;signature_m&gt;</code> can be
+      rewritten as script
+      <code>&lt;pubkey_1&gt; CHECKSIG &lt;pubkey_2&gt; CHECKSIGADD ... &lt;pubkey_n&gt; CHECKSIGADD m NUMEQUAL</code>
+      with witness <code>&lt;w_n&gt; ... &lt;w_1&gt;</code>. Every
+      witness element <code>w_i</code> is either a signature
+      corresponding to <code>pubkey_i</code> or an empty vector. A
+      similar <code>CHECKMULTISIGVERIFY</code> script can be translated
+      to BIP342 by replacing <code>NUMEQUAL</code> with
+      <code>NUMEQUALVERIFY</code>. This approach has very similar
+      characteristics to the existing
+      <code>OP_CHECKMULTISIG</code>-based scripts.</li>
+      <li><strong>Using a <em>k</em>-of-<em>k</em> script for every
+      combination</strong> A <em>k</em>-of-<em>n</em> policy can be
+      implemented by splitting the script into several leaves of the
+      Merkle tree, each implementing a <em>k</em>-of-<em>k</em> policy
+      using
+      <code>&lt;pubkey_1&gt; CHECKSIGVERIFY ... &lt;pubkey_(n-1)&gt; CHECKSIGVERIFY &lt;pubkey_n&gt; CHECKSIG</code>.
+      This may be preferable for privacy reasons over the previous
+      approach, as it only exposes the participating public keys, but it
+      is only more cost effective for small values of <em>k</em>
+      (1-of-<em>n</em> for any <em>n</em>, 2-of-<em>n</em> for <em>n ≥
+      6</em>, 3-of-<em>n</em> for <em>n ≥ 9</em>, …). Furthermore, the
+      signatures here commit to the branch used, which means signers
+      need to be aware of which other signers will be participating, or
+      produce signatures for each of the tree leaves.</li>
+      <li><strong>Using an aggregated public key for every
+      combination</strong> Instead of building a tree where every leaf
+      consists of <em>k</em> public keys, it is possible instead build a
+      tree where every leaf contains a single <em>aggregate</em> of
+      those <em>k</em> keys using <a
+      href="https://eprint.iacr.org/2018/068">MuSig</a>. This approach
+      is far more efficient, but does require a 3-round interactive
+      signing protocol to jointly produce the (single) signature.</li>
+      <li><strong>Native Schnorr threshold signatures</strong> Multisig
+      policies can also be realized with <a
+      href="http://cacr.uwaterloo.ca/techreports/2001/corr2001-13.ps">threshold
+      signatures</a> using verifiable secret sharing. This results in
+      outputs and inputs that are indistinguishable from single-key
+      payments, but at the cost of needing an interactive protocol (and
+      associated backup procedures) before determining the address to
+      send to.</li>
+      </ul>
+      <h4 data-number="7.3.3.2"
+      id="bip-0342-rules-for-signature-opcodes">Rules for signature
+      opcodes</h4>
+      <p>The following rules apply to <code>OP_CHECKSIG</code>,
+      <code>OP_CHECKSIGVERIFY</code>, and
+      <code>OP_CHECKSIGADD</code>.</p>
+      <ul>
+      <li>For <code>OP_CHECKSIGVERIFY</code> and
+      <code>OP_CHECKSIG</code>, the public key (top element) and a
+      signature (second to top element) are popped from the stack.
+      <ul>
+      <li>If fewer than 2 elements are on the stack, the script MUST
+      fail and terminate immediately.</li>
+      </ul></li>
+      <li>For <code>OP_CHECKSIGADD</code>, the public key (top element),
+      a <code>CScriptNum</code> <code>n</code> (second to top element),
+      and a signature (third to top element) are popped from the stack.
+      <ul>
+      <li>If fewer than 3 elements are on the stack, the script MUST
+      fail and terminate immediately.</li>
+      <li>If <code>n</code> is larger than 4 bytes, the script MUST fail
+      and terminate immediately.</li>
+      </ul></li>
+      <li>If the public key size is zero, the script MUST fail and
+      terminate immediately.</li>
+      <li>If the public key size is 32 bytes, it is considered to be a
+      public key as described in BIP340:
+      <ul>
+      <li>If the signature is not the empty vector, the signature is
+      validated against the public key (see the next subsection).
+      Validation failure in this case immediately terminates script
+      execution with failure.</li>
+      </ul></li>
+      <li>If the public key size is not zero and not 32 bytes, the
+      public key is of an <em>unknown public key
+      type</em><strong>Unknown public key types</strong> allow adding
+      new signature validation rules through softforks. A softfork could
+      add actual signature validation which either passes or makes the
+      script fail and terminate immediately. This way, new
+      <code>SIGHASH</code> modes can be added, as well as <a
+      href="https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2018-December/016549.html">NOINPUT-tagged
+      public keys</a> and a public key constant which is replaced by the
+      taproot internal key for signature validation. and no actual
+      signature verification is applied. During script execution of
+      signature opcodes they behave exactly as known public key types
+      except that signature validation is considered to be
+      successful.</li>
+      <li>If the script did not fail and terminate before this step,
+      regardless of the public key type:
+      <ul>
+      <li>If the signature is the empty vector:
+      <ul>
+      <li>For <code>OP_CHECKSIGVERIFY</code>, the script MUST fail and
+      terminate immediately.</li>
+      <li>For <code>OP_CHECKSIG</code>, an empty vector is pushed onto
+      the stack, and execution continues with the next opcode.</li>
+      <li>For <code>OP_CHECKSIGADD</code>, a <code>CScriptNum</code>
+      with value <code>n</code> is pushed onto the stack, and execution
+      continues with the next opcode.</li>
+      </ul></li>
+      <li>If the signature is not the empty vector, the opcode is
+      counted towards the sigops budget (see further).
+      <ul>
+      <li>For <code>OP_CHECKSIGVERIFY</code>, execution continues
+      without any further changes to the stack.</li>
+      <li>For <code>OP_CHECKSIG</code>, a 1-byte value <code>0x01</code>
+      is pushed onto the stack.</li>
+      <li>For <code>OP_CHECKSIGADD</code>, a <code>CScriptNum</code>
+      with value of <code>n + 1</code> is pushed onto the stack.</li>
+      </ul></li>
+      </ul></li>
+      </ul>
+      <h4 data-number="7.3.3.3"
+      id="bip-0342-common-signature-message-extension">Common Signature
+      Message Extension</h4>
+      <p>We define the tapscript message extension <em>ext</em> to
+      <a href="bip-0341.mediawiki#common-signature-message" class="wikilink" title="BIP341 Common Signature Message">BIP341
+      Common Signature Message</a>, indicated by <em>ext_flag =
+      1</em>:</p>
+      <ul>
+      <li><em>tapleaf_hash</em> (32): the tapleaf hash as defined in
+      <a href="bip-0341.mediawiki#design" class="wikilink" title="BIP341">BIP341</a></li>
+      <li><em>key_version</em> (1): a constant value <em>0x00</em>
+      representing the current version of public keys in the tapscript
+      signature opcode execution.</li>
+      <li><em>codesep_pos</em> (4): the opcode position of the last
+      executed <code>OP_CODESEPARATOR</code> before the currently
+      executed signature opcode, with the value in little endian (or
+      <em>0xffffffff</em> if none executed). The first opcode in a
+      script has a position of 0. A multi-byte push opcode is counted as
+      one opcode, regardless of the size of data being pushed. Opcodes
+      in parsed but unexecuted branches count towards this value as
+      well.</li>
+      </ul>
+      <h4 data-number="7.3.3.4"
+      id="bip-0342-signature-validation">Signature validation</h4>
+      <p>To validate a signature <em>sig</em> with public key
+      <em>p</em>:</p>
+      <ul>
+      <li>Compute the tapscript message extension <em>ext</em> described
+      above.</li>
+      <li>If the <em>sig</em> is 64 bytes long, return <em>Verify(p,
+      hash<sub>TapSighash</sub>(0x00 || SigMsg(0x00, 1) || ext),
+      sig)</em>, where <em>Verify</em> is defined in
+      <a href="bip-0340.mediawiki#design" class="wikilink" title="BIP340">BIP340</a>.</li>
+      <li>If the <em>sig</em> is 65 bytes long, return <em>sig[64] ≠
+      0x00 and Verify(p, hash<sub>TapSighash</sub>(0x00 ||
+      SigMsg(sig[64], 1) || ext), sig[0:64])</em>.</li>
+      <li>Otherwise, fail.</li>
+      </ul>
+      <p>In summary, the semantics of signature validation is identical
+      to BIP340, except the following:</p>
+      <ol type="1">
+      <li>The signature message includes the tapscript-specific data
+      <em>key_version</em>.<strong>Why does the signature message commit
+      to the <em>key_version</em>?</strong> This is for future
+      extensions that define unknown public key types, making sure
+      signatures can’t be moved from one key type to another.</li>
+      <li>The signature message commits to the executed script through
+      the <em>tapleaf_hash</em> which includes the leaf version and
+      script instead of <em>scriptCode</em>. This implies that this
+      commitment is unaffected by <code>OP_CODESEPARATOR</code>.</li>
+      <li>The signature message includes the opcode position of the last
+      executed <code>OP_CODESEPARATOR</code>.<strong>Why does the
+      signature message include the position of the last executed
+      <code>OP_CODESEPARATOR</code>?</strong> This allows continuing to
+      use <code>OP_CODESEPARATOR</code> to sign the executed path of the
+      script. Because the <code>codeseparator_position</code> is the
+      last input to the hash, the SHA256 midstate can be efficiently
+      cached for multiple <code>OP_CODESEPARATOR</code>s in a single
+      script. In contrast, the BIP143 handling of
+      <code>OP_CODESEPARATOR</code> is to commit to the executed script
+      only from the last executed <code>OP_CODESEPARATOR</code> onwards
+      which requires unnecessary rehashing of the script. It should be
+      noted that the one known <code>OP_CODESEPARATOR</code> use case of
+      saving a second public key push in a script by sharing the first
+      one between two code branches can be most likely expressed even
+      cheaper by moving each branch into a separate taproot leaf.</li>
+      </ol>
+      <h4 data-number="7.3.3.5" id="bip-0342-resource-limits">Resource
+      limits</h4>
+      <p>In addition to changing the semantics of a number of opcodes,
+      there are also some changes to the resource limitations:</p>
+      <ul>
+      <li><strong>Script size limit</strong> The maximum script size of
+      10000 bytes does not apply. Their size is only implicitly bounded
+      by the block weight limit.<strong>Why is a limit on script size no
+      longer needed?</strong> Since there is no <code>scriptCode</code>
+      directly included in the signature hash (only indirectly through a
+      precomputable tapleaf hash), the CPU time spent on a signature
+      check is no longer proportional to the size of the script being
+      executed.</li>
+      <li><strong>Non-push opcodes limit</strong> The maximum non-push
+      opcodes limit of 201 per script does not apply.<strong>Why is a
+      limit on the number of opcodes no longer needed?</strong> An
+      opcode limit only helps to the extent that it can prevent data
+      structures from growing unboundedly during execution (both because
+      of memory usage, and because of time that may grow in proportion
+      to the size of those structures). The size of stack and altstack
+      is already independently limited. By using O(1) logic for
+      <code>OP_IF</code>, <code>OP_NOTIF</code>, <code>OP_ELSE</code>,
+      and <code>OP_ENDIF</code> as suggested <a
+      href="https://bitslog.com/2017/04/17/new-quadratic-delays-in-bitcoin-scripts/">here</a>
+      and implemented <a
+      href="https://github.com/bitcoin/bitcoin/pull/16902">here</a>, the
+      only other instance can be avoided as well.</li>
+      <li><strong>Sigops limit</strong> The sigops in tapscripts do not
+      count towards the block-wide limit of 80000 (weighted). Instead,
+      there is a per-script sigops <em>budget</em>. The budget equals 50
+      + the total serialized size in bytes of the transaction input’s
+      witness (including the <code>CompactSize</code> prefix). Executing
+      a signature opcode (<code>OP_CHECKSIG</code>,
+      <code>OP_CHECKSIGVERIFY</code>, or <code>OP_CHECKSIGADD</code>)
+      with a non-empty signature decrements the budget by 50. If that
+      brings the budget below zero, the script fails immediately.
+      Signature opcodes with unknown public key type and non-empty
+      signature are also counted.<strong>The tapscript sigop
+      limit</strong> The signature opcode limit protects against scripts
+      which are slow to verify due to excessively many signature
+      operations. In tapscript the number of signature opcodes does not
+      count towards the BIP141 or legacy sigop limit. The old sigop
+      limit makes transaction selection in block construction
+      unnecessarily difficult because it is a second constraint in
+      addition to weight. Instead, the number of tapscript signature
+      opcodes is limited by witness weight. Additionally, the limit
+      applies to the transaction input instead of the block and only
+      actually executed signature opcodes are counted. Tapscript
+      execution allows one signature opcode per 50 witness weight units
+      plus one free signature opcode.<strong>Parameter choice of the
+      sigop limit</strong> Regular witnesses are unaffected by the limit
+      as their weight is composed of public key and
+      (<code>SIGHASH_ALL</code>) signature pairs with <em>33 + 65</em>
+      weight units each (which includes a 1 weight unit
+      <code>CompactSize</code> tag). This is also the case if public
+      keys are reused in the script because a signature’s weight alone
+      is 65 or 66 weight units. However, the limit increases the fees of
+      abnormal scripts with duplicate signatures (and public keys) by
+      requiring additional weight. The weight per sigop factor 50
+      corresponds to the ratio of BIP141 block limits: 4 mega weight
+      units divided by 80,000 sigops. The “free” signature opcode
+      permitted by the limit exists to account for the weight of the
+      non-witness parts of the transaction input.<strong>Why are only
+      signature opcodes counted toward the budget, and not for example
+      hashing opcodes or other expensive operations?</strong> It turns
+      out that the CPU cost per witness byte for verification of a
+      script consisting of the maximum density of signature checking
+      opcodes (taking the 50 WU/sigop limit into account) is already
+      very close to that of scripts packed with other opcodes, including
+      hashing opcodes (taking the 520 byte stack element limit into
+      account) and <code>OP_ROLL</code> (taking the 1000 stack element
+      limit into account). That said, the construction is very flexible,
+      and allows adding new signature opcodes like
+      <code>CHECKSIGFROMSTACK</code> to count towards the limit through
+      a soft fork. Even if in the future new opcodes are introduced
+      which change normal script cost there is no need to stuff the
+      witness with meaningless data. Instead, the taproot annex can be
+      used to add weight to the witness without increasing the actual
+      witness size..</li>
+      <li><strong>Stack + altstack element count limit</strong> The
+      existing limit of 1000 elements in the stack and altstack together
+      after every executed opcode remains. It is extended to also apply
+      to the size of initial stack.</li>
+      <li><strong>Stack element size limit</strong> The existing limit
+      of maximum 520 bytes per stack element remains, both in the
+      initial stack and in push opcodes.</li>
+      </ul>
+      <h3 data-number="7.3.4" id="bip-0342-rationale">Rationale</h3>
+      <h3 data-number="7.3.5" id="bip-0342-deployment">Deployment</h3>
+      <p>This proposal is deployed identically to Taproot
+      (<a href="bip-0341.mediawiki" class="wikilink" title="BIP341">BIP341</a>).</p>
+      <h3 data-number="7.3.6" id="bip-0342-examples">Examples</h3>
+      <p>The Taproot
+      (<a href="bip-0341.mediawiki" class="wikilink" title="BIP341">BIP341</a>)
+      test vectors also contain examples for Tapscript execution.</p>
+      <h3 data-number="7.3.7"
+      id="bip-0342-acknowledgements">Acknowledgements</h3>
+      <p>This document is the result of many discussions and contains
+      contributions by a number of people. The authors wish to thank all
+      those who provided valuable feedback and reviews, including the
+      participants of the <a
+      href="https://github.com/ajtowns/taproot-review">structured
+      reviews</a>.</p>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0341.html" rel="prev">BIP 341</a>
+        <a class="pager-next" href="keys-seeds-and-derivation.html" rel="next">Keys, Seeds, and Derivation</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

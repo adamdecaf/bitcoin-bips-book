@@ -1,4 +1,4 @@
-## Introduction
+# Introduction
 
 Welcome to the Bitcoin Book of BIPs. This is a reading copy of the [Bitcoin Improvement Proposals](https://github.com/bitcoin/bips) that actually shape Bitcoin today — the deployed and complete documents, grouped by theme instead of by number.
 

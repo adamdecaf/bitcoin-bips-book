@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 434 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0339.html" accesskey="p" rel="prev">BIP 339</a>
+        <a class="pager-next" href="mining-and-block-templates.html" accesskey="n" rel="next">Mining and Block Templates</a>
+      </nav>
+      <h2 data-number="11.17" id="bip-0434">BIP 434</h2>
+      <h3 data-number="11.17.1" id="bip-0434-abstract">Abstract</h3>
+      <p>This BIP defines a peer-to-peer (P2P) message that can be used
+      for announcements and negotiation related to support of new
+      peer-to-peer features.</p>
+      <h3 data-number="11.17.2" id="bip-0434-motivation">Motivation</h3>
+      <p>Historically, new peer-to-peer protocol changes have been tied
+      to bumping the protocol version, so that nodes know to only
+      attempt feature negotiation with peers that support the feature.
+      Coordinating the protocol version across implementations, when
+      different clients may have different priorities for features to
+      implement, is an unnecessary burden in the upgrade process for P2P
+      features that do not require universal support. And at a more
+      philosophical level, having the P2P protocol be <a
+      href="https://github.com/bitcoin/bitcoin/pull/20564#issuecomment-738456560">permissionlessly
+      extensible</a>, with no coordination required between
+      implementations or developers, seems ideal for a decentralized
+      system.</p>
+      <p>Many earlier P2P protocol upgrades were implemented as new
+      messages sent after a peer connection is set up (ie, after receipt
+      of a <code>verack</code> message by both sides). See <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0130.mediawiki">BIP
+      130 (sendheaders)</a>, <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0133.mediawiki">BIP
+      133 (feefilter)</a>, and <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0152.mediawiki">BIP
+      152 (compact blocks)</a> for some examples. However, for some P2P
+      upgrades, it is helpful to perform feature negotiation prior to a
+      connection being fully established (ie, prior to the
+      <code>verack</code> being received by both sides). <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0155.mediawiki">BIP
+      155 (addrv2)</a> and <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0339.mediawiki">BIP
+      339 (wtxid-relay)</a> are examples of this approach, which
+      involves sending and receiving a single new message
+      (<code>sendaddrv2</code> and <code>wtxidrelay</code>
+      respectively), in between <code>version</code> and
+      <code>verack</code> to indicate support of the new feature.</p>
+      <p>In all these cases, sending new messages on the network raises
+      the question of what non-implementing software will do with such
+      messages. The common behavior observed on the network was for
+      software to ignore unknown messages received from a peer, so these
+      proposals posed minimal risk of potential network partitioning. In
+      fact, supporting protocol extensibility in this manner was given
+      as an explicit reason to ignore unknown messages in Bitcoin’s <a
+      href="https://github.com/benjiqq/bitcoinArchive/blob/master/bitcoin0.1/src/main.cpp#L2035-L2039">first
+      release</a>.</p>
+      <p>However, if nodes respond to unknown messages by disconnecting,
+      then the network might partition in the future as incompatible
+      software is deployed. And in fact, some clients on the network
+      have historically discouraged or disallowed unknown messages, both
+      between <code>version</code> and <code>verack</code> (eg, Bitcoin
+      Core discouraged such messages between <a
+      href="https://github.com/bitcoin/bitcoin/pull/9720">PR#9720</a>
+      and <a
+      href="https://github.com/bitcoin/bitcoin/pull/19723">PR#19723</a>,
+      and btcd disallowed such messages until <a
+      href="https://github.com/btcsuite/btcd/pull/1812">PR#1812</a>, but
+      see also discussion in <a
+      href="https://github.com/btcsuite/btcd/issues/1661">#1661</a>), as
+      well as after <code>verack</code>.</p>
+      <p>To maximise compatibility with such clients, most of these BIPs
+      require that peers bump the protocol version:</p>
+      <ul>
+      <li><a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0130.mediawiki">BIP
+      130</a> requires version 70012 or higher,</li>
+      <li><a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0133.mediawiki">BIP
+      133</a> requires version 70013 or higher,</li>
+      <li><a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0152.mediawiki">BIP
+      152</a> recommends version 70014/70015 or higher, and</li>
+      <li><a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0339.mediawiki">BIP
+      339</a> requires version 70016 or higher.</li>
+      </ul>
+      <p>And while <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0155.mediawiki">BIP
+      155</a> does not specify a minimum protocol version,
+      implementations have <a
+      href="https://github.com/bitcoin/bitcoin/pull/20564">added</a> a
+      de facto requirement of version 70016 or higher.</p>
+      <p>In this BIP, we propose codifying and generalising the
+      mechanism used by <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0339.mediawiki">BIP
+      339</a> for future P2P upgrades, by adding a single new feature
+      negotiation message that can be reused for advertising arbitrary
+      new features, and requiring that implementing software ignore
+      unknown features that might be advertised. This allows future
+      upgrades to negotiate new features by exchanging messages prior to
+      exchanging <code>verack</code> messages, without concerns of being
+      unnecessarily disconnected by a peer which doesn’t understand the
+      messages, and without needing to coordinate updating the protocol
+      version.</p>
+      <h3 data-number="11.17.3"
+      id="bip-0434-specification">Specification</h3>
+      <p>The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHOULD”, “SHOULD
+      NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to
+      be interpreted as described in RFC 2119.</p>
+      <p>For the purposes of this section, <code>CompactSize</code>
+      refers to the variable-length integer encoding used across the
+      existing P2P protocol to encode array lengths, among other things,
+      in 1, 3, 5 or 9 bytes. Only <code>CompactSize</code> encodings
+      which are minimally-encoded (ie the shortest length possible) are
+      used by this specification.</p>
+      <p>Nodes implementing this BIP:</p>
+      <ul>
+      <li>MUST advertise a protocol version number
+      <code>&gt;= 70017</code>,</li>
+      <li>MUST NOT send <code>feature</code> messages to peers that
+      advertise a protocol version number <code>&lt; 70017</code>,</li>
+      <li>MUST accept <code>feature</code> messages received after the
+      <code>version</code> message and before the <code>verack</code>
+      message, and</li>
+      <li>MUST NOT send <code>feature</code> messages after sending the
+      <code>verack</code> message.</li>
+      </ul>
+      <p>In addition, nodes implementing this BIP:</p>
+      <ul>
+      <li>SHOULD ignore unknown messages received after the
+      <code>version</code> message and before the <code>verack</code>
+      message,</li>
+      <li>MAY ignore <code>feature</code> messages sent after
+      <code>verack</code>, and</li>
+      <li>MAY disconnect peers who send <code>feature</code> messages
+      after <code>verack</code>.</li>
+      </ul>
+      <p>Feature specifications based on this BIP:</p>
+      <ul>
+      <li>MUST forbid sending messages it introduces after
+      <code>verack</code> to a peer that has not indicated support for
+      the feature via a <code>feature</code> message.</li>
+      </ul>
+      <h4 data-number="11.17.3.1"
+      id="bip-0434-feature-message"><code>feature</code> message</h4>
+      <p>The payload of the <code>feature</code> message contains
+      exactly the following data:</p>
+      <table>
+      <thead>
+      <tr>
+      <th>Type</th>
+      <th>Name</th>
+      <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>string</td>
+      <td><code>featureid</code></td>
+      <td>Unique identifier for the feature</td>
+      </tr>
+      <tr>
+      <td>byte-vector</td>
+      <td><code>featuredata</code></td>
+      <td>Feature-specific configuration data</td>
+      </tr>
+      </tbody>
+      </table>
+      <p>The <code>featureid</code> is encoded in the usual way, that
+      is, as a <code>CompactSize</code> specifying the string length,
+      followed by that many bytes. The string length MUST be between 4<a
+      href="#fn1" class="footnote-ref" id="fnref1"
+      role="doc-noteref"><sup>1</sup></a> and 80<a href="#fn2"
+      class="footnote-ref" id="fnref2"
+      role="doc-noteref"><sup>2</sup></a>, inclusive. The string SHOULD
+      include only printable ASCII characters (ie, each byte should have
+      a value between 32 and 126, inclusive).</p>
+      <p>Likewise, <code>featuredata</code> is encoded as a
+      <code>CompactSize</code> specifying the byte-vector size, followed
+      by that many bytes. How these bytes are interpreted is part of the
+      feature’s specification. The byte-vector size MUST NOT be more
+      than 512 bytes<a href="#fn3" class="footnote-ref" id="fnref3"
+      role="doc-noteref"><sup>3</sup></a>. Note that the
+      <code>featuredata</code> field is not optional, so if no data is
+      required, an empty vector should be provided, ie serialized as
+      <code>CompactSize</code> of 0.</p>
+      <p>The <code>featureid</code> MUST be a globally unique identifier
+      for the feature.</p>
+      <p>For features published as a BIP, the <code>featureid</code>
+      SHOULD be the assigned BIP number, eg “BIP434”, or be based on the
+      BIP number (eg, “BIP434v2” where the “v2” suffix covers
+      versioning, or “BIP434.3” where the “.3” suffix covers part 3 of
+      the BIP). For experimental features that do not (yet) have a BIP
+      number assigned, some other unique identifier MUST be chosen, such
+      as a URL to the repository where development is taking place, or
+      the sha256 digest of some longer reference.</p>
+      <p>Nodes implementing this BIP MUST ignore <code>feature</code>
+      messages specifying a <code>featureid</code> they do not support,
+      so long as the payload conforms to the requirements above.</p>
+      <p>Nodes implementing this BIP MAY disconnect peers that send
+      <code>feature</code> messages where the <code>feature</code>
+      message’s payload cannot be correctly parsed (including having
+      missing or additional data), even if they do not recognise the
+      <code>featureid</code>.</p>
+      <h5 data-number="11.17.3.1.1"
+      id="bip-0434-feature-message-1-byte-identifier"><code>feature</code>
+      message 1-byte identifier</h5>
+      <p>Nodes implementing both this BIP and <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0324.mediawiki">BIP
+      324 (v2 P2P encrypted transport)</a> MUST treat a message with a
+      1-byte <code>message_type</code> equal to <code>37</code> that is
+      received prior to <code>verack</code> as the <code>feature</code>
+      message.</p>
+      <h4 data-number="11.17.3.2"
+      id="bip-0434-feature-negotiation">Feature negotiation</h4>
+      <p>It is RECOMMENDED that feature negotiation be designed and
+      implemented as follows:</p>
+      <ul>
+      <li>all <code>feature</code> messages and the <code>verack</code>
+      message should be sent immediately on receipt of the peer’s
+      <code>version</code> message</li>
+      <li>any negotiation calculations should be performed immediately
+      on receipt of the peer’s <code>verack</code> message</li>
+      </ul>
+      <p>This structure is fairly easy to implement, and avoids
+      introducing any significant latency that might result from more
+      interactive negotiation methods.</p>
+      <p>Feature specifications defining a <code>featureid</code> MAY
+      make use of the following approaches:</p>
+      <h5 data-number="11.17.3.2.1"
+      id="bip-0434-feature-advertisement">Feature advertisement:</h5>
+      <ol type="1">
+      <li>Send a <code>feature</code> message advertising the
+      <code>featureid</code> unconditionally</li>
+      <li>Accept messages related to the feature unconditionally</li>
+      <li>Only send messages defined by the feature if the peer sent a
+      valid <code>feature</code> message for the
+      <code>featureid</code>.</li>
+      </ol>
+      <p>This approach is appropriate for many simple features that
+      define new messages, particularly where an implementation might
+      only implement sending or receiving a message, but not both, eg <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0035.mediawiki">BIP
+      35 (mempool)</a>.</p>
+      <h5 data-number="11.17.3.2.2"
+      id="bip-0434-feature-coordination">Feature coordination:</h5>
+      <ol type="1">
+      <li>Send a <code>feature</code> message advertising the
+      <code>featureid</code> unconditionally</li>
+      <li>Check if the peer sends the same <code>feature</code> message
+      (or a compatible one), and enable the feature for this peer if
+      so.</li>
+      <li>Only send/accept messages or encode data items according to
+      the feature’s specification if the feature is enabled for this
+      peer.</li>
+      </ol>
+      <p>This approach is appropriate for upgrades to data encoding in
+      P2P messages, eg <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0339.mediawiki">BIP
+      339 (wtxidrelay)</a> or <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0155.mediawiki">BIP
+      155 (addrv2)</a>.</p>
+      <h5 data-number="11.17.3.2.3"
+      id="bip-0434-feature-versioning">Feature versioning:</h5>
+      <ol type="1">
+      <li>Send <code>feature</code> messages for multiple incompatible
+      features, eg <code>BIP434v3</code>, <code>BIP434v2</code>,
+      <code>BIP434v1</code>, ordered from most preferred to least.</li>
+      <li>Track the corresponding <code>feature</code> messages from
+      your peer.</li>
+      <li>If you were the listening peer, enable your highest preference
+      feature that your peer also supports.</li>
+      <li>If you were the initiating peer, enable the first feature that
+      your peer announced, that you also support.</li>
+      <li>For example if the listening peer sends <code>BIP434v3</code>,
+      <code>BIP434v2</code>, <code>BIP434v1</code>, and the initiating
+      peer sends <code>BIP434v1</code>, <code>BIP434v2</code>, then the
+      listening peer should select <code>BIP434v2</code> when
+      <code>verack</code> is received, and the initiating peer should
+      select <code>BIP434v2</code> as soon as
+      <code>feature BIP434v2</code> is received.</li>
+      <li>Conversely, if the initiating peer sends
+      <code>BIP434v3</code>, <code>BIP434v2</code>,
+      <code>BIP434v1</code>, and the listening peer sends
+      <code>BIP434v1</code>, <code>BIP434v2</code>, then the listening
+      peer should select <code>BIP434v1</code> when <code>verack</code>
+      is received, and the initiating peer should select
+      <code>BIP434v1</code> as soon as <code>feature BIP434v1</code> is
+      received.</li>
+      <li>In most cases, implementations should simply advertise
+      incompatible features in order from most recent to oldest, on the
+      basis that the only reason to make incompatible updates is because
+      there are significant improvements. Exceptions to that may occur
+      when two incompatible features are both receiving active
+      development, or when an implementation has only partially
+      implemented the latest spec, and the older spec is better
+      supported (and thus should be listed first, as the preferred
+      protocol to adopt).</li>
+      </ol>
+      <p>This approach may be appropriate when making substantial
+      changes to a deployed protocol and backwards compatibility is
+      desirable on a short-term basis, or when there is disagreement
+      amongst implementations or users as to which approach is most
+      desirable.</p>
+      <h3 data-number="11.17.4"
+      id="bip-0434-considerations">Considerations</h3>
+      <p>The advantage this approach has over bumping the protocol
+      version number when introducing new P2P messages or data
+      structures, is that no coordination is required (that is, there is
+      no longer a question whether version “n+1” belongs to Alice’s new
+      feature, or Bob’s new feature), and there is no implication that
+      supporting each new feature means all prior features are also
+      supported.</p>
+      <p>The advantage this approach has over defining new messages for
+      each feature is that the <code>featureid</code> can be much longer
+      (at up to 80 bytes) than a message type id (which are limited to
+      12 bytes). With a <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0324.mediawiki">BIP
+      324</a> one-byte <code>message_type</code>, the overhead compared
+      to that approach is also kept small.</p>
+      <p>This approach is largely equivalent to adding a <a
+      href="https://gnusha.org/pi/bitcoindev/B514142F-382B-4D49-B68D-0115ECBD1D79@voskuil.org/">payload
+      to the <code>verack</code> message</a> (eg, a vector of
+      <code>featureid</code>, <code>featuredata</code> pairs). It was
+      chosen because:</p>
+      <ul>
+      <li>it retains compatibility with any implementations that expect
+      <code>verack</code> to have no payload;</li>
+      <li>it allows peers to process each feature request individually,
+      rather than having to first load the configuration information for
+      all features into memory at once (in order to validate the
+      message’s checksum), and then deal with each feature’s
+      configuration;</li>
+      <li>limiting the maximum message payload size you accept (eg to
+      4MB) does not limit the number of features you can accept;
+      and</li>
+      <li>we have experience with negotiating features with individual
+      messages, but no experience with doing so via <code>verack</code>
+      payload.</li>
+      </ul>
+      <p>A mild disadvantage compared to using a <code>verack</code>
+      payload is that this approach allows the possibility of
+      interactive feature negotiation prior to <code>verack</code>,
+      which would make negotiation more complex and increase latency.
+      However interactive feature negotiation is always possible simply
+      by having the initiating peer disconnect and reconnect after
+      discovering the listening peer’s supported features.</p>
+      <p>This specification attempts to maximise compatibility with
+      implementations that prefer to fully validate each message
+      received:</p>
+      <ul>
+      <li><code>feature</code> messages, even for unknown features, must
+      always be fully parseable into a <code>featureid</code> and
+      <code>featuredata</code></li>
+      <li>Ignoring unknown messages prior to <code>verack</code> is only
+      a recommendation, not a requirement, so compliant implementations
+      may disconnect on an unknown message that cannot be
+      validated.</li>
+      <li>Sending unknown messages after <code>verack</code> is
+      explicitly forbidden, in so far as that is possible.</li>
+      </ul>
+      <h3 data-number="11.17.5"
+      id="bip-0434-reference-implementation">Reference
+      implementation</h3>
+      <p>This feature was implemented in Bitcoin Core <a
+      href="https://github.com/bitcoin/bitcoin/pull/35221">PR#35221</a>,
+      which may be used as a reference implementation.</p>
+      <h3 data-number="11.17.6"
+      id="bip-0434-backward-compatibility">Backward compatibility</h3>
+      <p>Clients specifying a version number prior to <code>70017</code>
+      remain fully compatible with this change.</p>
+      <p>Clients specifying a version number of <code>70017</code> or
+      higher that do not implement this BIP remain fully compatible
+      provided they do not disconnect peers upon receiving unexpected
+      messages received between <code>version</code> and
+      <code>verack</code>.</p>
+      <h3 data-number="11.17.7"
+      id="bip-0434-acknowledgements">Acknowledgements</h3>
+      <p>Much of the logic here, and much of the text in the motivation
+      section, is based on Suhas Daftuar’s 2020 post on <a
+      href="https://gnusha.org/pi/bitcoindev/CAFp6fsE=HPFUMFhyuZkroBO_QJ-dUWNJqCPg9=fMJ3Jqnu1hnw@mail.gmail.com/">Generalizing
+      feature negotiation</a>.</p>
+      <h3 data-number="11.17.8" id="bip-0434-copyright">Copyright</h3>
+      <p>This BIP is licensed under the 2-clause BSD license.</p>
+      <section id="footnotes"
+      class="footnotes footnotes-end-of-document" role="doc-endnotes">
+      <hr />
+      <ol>
+      <li id="fn1"><p>The minimum <code>featureid</code> length of 4
+      characters corresponds with a “BIPx” string for BIPs in the range
+      1-9. Longer identifiers than this will almost always be needed in
+      order to meet the “globally unique” requirement.<a href="#fnref1"
+      class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+      <li id="fn2"><p>The maximum values for the <code>featureid</code>
+      and <code>featuredata</code> lengths serve only to bound the
+      volume of the feature message payload, particularly as this data
+      will be automatically advertised even to peers that do not support
+      the features in question.<a href="#fnref2" class="footnote-back"
+      role="doc-backlink">↩︎</a></p></li>
+      <li id="fn3"><p>The maximum values for the <code>featureid</code>
+      and <code>featuredata</code> lengths serve only to bound the
+      volume of the feature message payload, particularly as this data
+      will be automatically advertised even to peers that do not support
+      the features in question.<a href="#fnref3" class="footnote-back"
+      role="doc-backlink">↩︎</a></p></li>
+      </ol>
+      </section>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0339.html" rel="prev">BIP 339</a>
+        <a class="pager-next" href="mining-and-block-templates.html" rel="next">Mining and Block Templates</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

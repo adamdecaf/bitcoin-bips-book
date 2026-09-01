@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 145 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0023.html" accesskey="p" rel="prev">BIP 23</a>
+        <a class="pager-next" href="paying-people.html" accesskey="n" rel="next">Paying People</a>
+      </nav>
+      <h2 data-number="12.3" id="bip-0145">BIP 145</h2>
+      <h3 data-number="12.3.1" id="bip-0145-abstract">Abstract</h3>
+      <p>This BIP describes modifications to the getblocktemplate
+      JSON-RPC call
+      (<a href="bip-0022.mediawiki" class="wikilink" title="BIP 22">BIP
+      22</a>) to support segregated witness as defined by
+      <a href="bip-0141.mediawiki" class="wikilink" title="BIP 141">BIP
+      141</a>.</p>
+      <h3 data-number="12.3.2"
+      id="bip-0145-specification">Specification</h3>
+      <h4 data-number="12.3.2.1" id="bip-0145-block-template">Block
+      Template</h4>
+      <p>The template Object is revised to include a new key:</p>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="4">
+      <p>
+      template
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Required
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      weightlimit
+      </p>
+      </td>
+      <td>
+      <p>
+      No
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      total weight allowed in blocks
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p>The ‘!’ rule prefix MUST be enabled on the “segwit” rule for
+      templates including transactions with witness data. In particular,
+      note that even if the client’s “rules” list lacks “segwit”, server
+      MAY support old miners by producing a witness-free template and
+      omitting the ‘!’ rule prefix for “segwit” in the template’s
+      “rules” list. If the GBT server does not support producing
+      witness-free templates after its activation, it must also use the
+      ‘!’ rule prefix in the “vbavailable” list prior to activation.</p>
+      <h5 data-number="12.3.2.1.1"
+      id="bip-0145-transactions-object-format">Transactions Object
+      Format</h5>
+      <p>The Objects listed in the response’s “transactions” key is
+      revised to include these keys:</p>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="3">
+      <p>
+      template “transactions” element
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      txid
+      </p>
+      </td>
+      <td>
+      <p>
+      String
+      </p>
+      </td>
+      <td>
+      <p>
+      transaction id encoded in hexadecimal; required for transactions
+      with witness data
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      weight
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      numeric weight of the transaction, as counted for purposes of the
+      block’s weightlimit; if key is not present, weight is unknown and
+      clients MUST NOT assume it is zero, although they MAY choose to
+      calculate it themselves
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      hash
+      </p>
+      </td>
+      <td>
+      <p>
+      String
+      </p>
+      </td>
+      <td>
+      <p>
+      reversed hash of complete transaction (with witness data included)
+      encoded in hexadecimal
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p>Transactions with witness data may only be included if the
+      template’s “rules” list (see
+      <a href="bip-0009.mediawiki#getblocktemplate-changes" class="wikilink" title="BIP 9">BIP
+      9</a>) includes “segwit”.</p>
+      <h4 data-number="12.3.2.2" id="bip-0145-sigops">Sigops</h4>
+      <p>For templates with “segwit” enabled as a rule, the “sigoplimit”
+      and “sigops” keys must use the new values as calculated in
+      <a href="bip-0141.mediawiki#sigops" class="wikilink" title="BIP 141">BIP
+      141</a>.</p>
+      <h4 data-number="12.3.2.3"
+      id="bip-0145-block-assembly-with-witness-transactions">Block
+      Assembly with Witness Transactions</h4>
+      <p>When block assembly is done without witness transactions, no
+      changes are made by this BIP, and it should be assembled as
+      previously.</p>
+      <p>When witness transactions are included in the block, the
+      primary merkle root MUST be calculated with those transactions’
+      “txid” field instead of “hash”. A secondary merkle root MUST be
+      calculated as per
+      <a href="bip-0141.mediawiki#commitment-structure" class="wikilink" title="BIP 141&#39;s commitment structure specification">BIP
+      141’s commitment structure specification</a> to be inserted into
+      the generation (coinbase) transaction.</p>
+      <p>Servers MUST NOT include a commitment in the “coinbasetxn” key
+      on the template. Clients MUST insert the commitment as an
+      additional output at the end of the final generation (coinbase)
+      transaction. Only if the template includes a “mutable” key (see
+      <a href="bip-0023.mediawiki#mutations" class="wikilink" title="BIP 23 Mutations">BIP
+      23 Mutations</a>) including “generation”, the client MAY in that
+      case place the commitment output in any position it chooses,
+      provided that no later output matches the commitment pattern.</p>
+      <h3 data-number="12.3.3" id="bip-0145-motivation">Motivation</h3>
+      <p>Segregated witness substantially changes the structure of
+      blocks, so the previous getblocktemplate specification is no
+      longer sufficient. It additionally also adds a new way of counting
+      resource limits, and so GBT must be extended to convey this
+      information correctly as well.</p>
+      <h3 data-number="12.3.4" id="bip-0145-rationale">Rationale</h3>
+      <p>Why doesn’t “weightlimit” simply redefine the existing
+      “sizelimit”?</p>
+      <ul>
+      <li>“sizelimit” is already enforced by clients by counting the sum
+      of bytes in transactions’ “data” keys.</li>
+      <li>Servers may wish to limit the overall size of a block,
+      independently from the “weight” of the block.</li>
+      </ul>
+      <p>Why is “sigoplimit” redefined instead of a new
+      “sigopweightlimit” being added?</p>
+      <ul>
+      <li>The old limit was already arbitrarily defined, and could not
+      be counted by clients on their own anyway. The concept of “sigop
+      weight” is merely a change in the arbitrary formula used.</li>
+      </ul>
+      <p>Why is “sigoplimit” divided by 4?</p>
+      <ul>
+      <li>To resemble the previous values. (FIXME: is this a good
+      reason? maybe we shouldn’t divide it?)</li>
+      </ul>
+      <p>Why is the witness commitment required to be added to the end
+      of the generation transaction rather than anywhere else?</p>
+      <ul>
+      <li>Servers which do not allow modification of the generation
+      outputs ought to be checking this as part of the validity of
+      submissions. By requiring a specific placement, they can simply
+      strip the commitment and do a byte-for-byte comparison of the
+      outputs. Placing it at the end avoids the possibility of a later
+      output matching the pattern and overriding it.</li>
+      </ul>
+      <p>Why shouldn’t the server simply add the commitment upfront in
+      the “coinbasetxn”, and simply send the client stripped transaction
+      data?</p>
+      <ul>
+      <li>It would become impossible for servers to specify only
+      “coinbasevalue”, since clients would no longer have the
+      information required to construct the commitment.</li>
+      <li>getblocktemplate is intended to be a *decentralised* mining
+      protocol, and allowing clients to be blinded to the content of the
+      block works contrary to that purpose.</li>
+      <li>BIP 23’s “transactions” mutations allow the client to modify
+      the transaction-set on their own, which is impossible without the
+      complete transaction data.</li>
+      </ul>
+      <h3 data-number="12.3.5"
+      id="bip-0145-reference-implementation">Reference
+      Implementation</h3>
+      <ul>
+      <li><a
+      href="https://github.com/bitcoin/libblkmaker/tree/segwit">libblkmaker</a></li>
+      <li><a
+      href="https://github.com/luke-jr/eloipool/tree/segwit">Eloipool</a></li>
+      <li><a
+      href="https://github.com/bitcoin/bitcoin/pull/7404/files">Bitcoin
+      Core</a></li>
+      </ul>
+      <h3 data-number="12.3.6" id="bip-0145-see-also">See Also</h3>
+      <ul>
+      <li><a href="bip-0009.mediawiki" class="wikilink" title="BIP 9: Version bits with timeout and delay">BIP
+      9: Version bits with timeout and delay</a></li>
+      <li><a href="bip-0022.mediawiki" class="wikilink" title="BIP 22: getblocktemplate - Fundamentals">BIP
+      22: getblocktemplate - Fundamentals</a></li>
+      <li><a href="bip-0023.mediawiki" class="wikilink" title="BIP 23: getblocktemplate - Pooled Mining">BIP
+      23: getblocktemplate - Pooled Mining</a></li>
+      <li><a href="bip-0141.mediawiki" class="wikilink" title="BIP 141: Segregated Witness (Consensus layer)">BIP
+      141: Segregated Witness (Consensus layer)</a></li>
+      </ul>
+      <h3 data-number="12.3.7" id="bip-0145-copyright">Copyright</h3>
+      <p>This BIP is dual-licensed under the Open Publication License
+      and BSD 2-clause license.</p>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0023.html" rel="prev">BIP 23</a>
+        <a class="pager-next" href="paying-people.html" rel="next">Paying People</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

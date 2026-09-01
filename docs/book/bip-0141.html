@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 141 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0113.html" accesskey="p" rel="prev">BIP 113</a>
+        <a class="pager-next" href="bip-0143.html" accesskey="n" rel="next">BIP 143</a>
+      </nav>
+      <h2 data-number="6.10" id="bip-0141">BIP 141</h2>
+      <h3 data-number="6.10.1" id="bip-0141-abstract">Abstract</h3>
+      <p>This BIP defines a new structure called a “witness” that is
+      committed to blocks separately from the transaction merkle tree.
+      This structure contains data required to check transaction
+      validity but not required to determine transaction effects. In
+      particular, scripts and signatures are moved into this new
+      structure.</p>
+      <p>The witness is committed in a tree that is nested into the
+      block’s existing merkle root via the coinbase transaction for the
+      purpose of making this BIP soft fork compatible. A future hard
+      fork can place this tree in its own branch.</p>
+      <h3 data-number="6.10.2" id="bip-0141-motivation">Motivation</h3>
+      <p>The entirety of the transaction’s effects are determined by
+      output consumption (spends) and new output creation. Other
+      transaction data, and signatures in particular, are only required
+      to validate the blockchain state, not to determine it.</p>
+      <p>By removing this data from the transaction structure committed
+      to the transaction merkle tree, several problems are fixed:</p>
+      <ol type="1">
+      <li><strong>Nonintentional malleability becomes
+      impossible</strong>. Since signature data is no longer part of the
+      transaction hash, changes to how the transaction was signed are no
+      longer relevant to transaction identification. As a solution of
+      transaction malleability, this is superior to the canonical
+      signature approach (<a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0062.mediawiki">BIP62</a>):
+      <ul>
+      <li>It prevents involuntary transaction malleability for any type
+      of scripts, as long as all inputs are signed (with at least one
+      CHECKSIG or CHECKMULTISIG operation)</li>
+      <li>In the case of an m-of-n CHECKMULTISIG script, a transaction
+      is malleable only with agreement of m private key holders (as
+      opposed to only 1 private key holder with BIP62)</li>
+      <li>It prevents involuntary transaction malleability due to
+      unknown ECDSA signature malleability</li>
+      <li>It allows creation of unconfirmed transaction dependency
+      chains without counterparty risk, an important feature for
+      offchain protocols such as the Lightning Network</li>
+      </ul></li>
+      <li><strong>Transmission of signature data becomes
+      optional</strong>. It is needed only if a peer is trying to
+      validate a transaction instead of just checking its existence.
+      This reduces the size of SPV proofs and potentially improves the
+      privacy of SPV clients as they can download more transactions
+      using the same bandwidth.</li>
+      <li><strong>Some constraints could be bypassed with a soft
+      fork</strong> by moving part of the transaction data to a
+      structure unknown to current protocol, for example:
+      <ul>
+      <li>Size of witness could be ignored / discounted when calculating
+      the block size, effectively increasing the block size to some
+      extent</li>
+      <li>Hard coded constants, such as maximum data push size (520
+      bytes) or sigops limit could be reevaluated or removed</li>
+      <li>New script system could be introduced without any limitation
+      from the existing script semantic. For example, a new transaction
+      digest algorithm for transaction signature verification is
+      described in <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki">BIP143</a></li>
+      </ul></li>
+      </ol>
+      <h3 data-number="6.10.3"
+      id="bip-0141-specification">Specification</h3>
+      <h4 data-number="6.10.3.1"
+      id="bip-0141-transaction-id">Transaction ID</h4>
+      <p>A new data structure, <code>witness</code>, is defined. Each
+      transaction will have 2 IDs.</p>
+      <p>Definition of <code>txid</code> remains unchanged: the double
+      SHA256 of the traditional serialization format:</p>
+      <p><code> [nVersion][txins][txouts][nLockTime]</code></p>
+      <p>A new <code>wtxid</code> is defined: the double SHA256 of the
+      new serialization with witness data:</p>
+      <p><code> [nVersion][marker][flag][txins][txouts][witness][nLockTime]</code></p>
+      <p>Format of <code>nVersion</code>, <code>txins</code>,
+      <code>txouts</code>, and <code>nLockTime</code> are same as
+      traditional serialization.</p>
+      <p>The <code>marker</code> MUST be a 1-byte zero value:
+      <code>0x00</code>.</p>
+      <p>The <code>flag</code> MUST be a 1-byte non-zero value.
+      Currently, <code>0x01</code> MUST be used.</p>
+      <p>The <code>witness</code> is a serialization of all witness
+      fields of the transaction. Each txin is associated with a witness
+      field. A witness field starts with a <code>var_int</code> to
+      indicate the number of stack items for the txin. It is followed by
+      stack items, with each item starts with a <code>var_int</code> to
+      indicate the length. Witness data is NOT script.</p>
+      <p>A non-witness program (defined hereinafter) txin MUST be
+      associated with an empty witness field, represented by a
+      <code>0x00</code>. If all txins are not witness program, a
+      transaction’s <code>wtxid</code> is equal to its
+      <code>txid</code>.</p>
+      <h4 data-number="6.10.3.2"
+      id="bip-0141-commitment-structure">Commitment structure</h4>
+      <p>A new block rule is added which requires a commitment to the
+      <code>wtxid</code>. The <code>wtxid</code> of coinbase transaction
+      is assumed to be <code>0x0000....0000</code>.</p>
+      <p>A <code>witness root hash</code> is calculated with all those
+      <code>wtxid</code> as leaves, in a way similar to the
+      <code>hashMerkleRoot</code> in the block header.</p>
+      <p>The commitment is recorded in a <code>scriptPubKey</code> of
+      the coinbase transaction. It must be at least 38 bytes, with the
+      first 6-byte of <code>0x6a24aa21a9ed</code>, that is:</p>
+      <p><code>  1-byte - OP_RETURN (0x6a)</code><br />
+      <code>  1-byte - Push the following 36 bytes (0x24)</code><br />
+      <code>  4-byte - Commitment header (0xaa21a9ed)</code><br />
+      <code> 32-byte - Commitment hash: Double-SHA256(witness root hash|witness reserved value)</code></p>
+      <p><code> 39th byte onwards: Optional data with no consensus meaning</code></p>
+      <p>and the coinbase’s input’s witness must consist of a single
+      32-byte array for the <code>witness reserved value</code>.</p>
+      <p>If there are more than one <code>scriptPubKey</code> matching
+      the pattern, the one with highest output index is assumed to be
+      the commitment.</p>
+      <p>If all transactions in a block do not have witness data, the
+      commitment is optional.</p>
+      <h4 data-number="6.10.3.3" id="bip-0141-witness-program">Witness
+      program</h4>
+      <p>A <code>scriptPubKey</code> (or <code>redeemScript</code> as
+      defined in BIP16/P2SH) that consists of a 1-byte push opcode (one
+      of <code>OP_0,OP_1,OP_2,...,OP_16</code>) followed by a direct
+      data push between 2 and 40 bytes gets a new special meaning. The
+      value of the first push is called the “version byte”. The
+      following byte vector pushed is called the “witness program”. In
+      more detail, this means a <code>scriptPubKey</code> or
+      <code>redeemScript</code> which consists of (in order):</p>
+      <ul>
+      <li>First, byte 0x00 (<code>OP_0</code>) or any byte between 0x51
+      (<code>OP_1</code>) and 0x60 (<code>OP_16</code>) inclusive (the
+      version byte).</li>
+      <li>Then, a byte <em>L</em> between 0x02 (push of 2 bytes) and
+      0x28 (push of 40 bytes) inclusive.</li>
+      <li>Finally, <em>L</em> arbitrary bytes (the witness
+      program).</li>
+      </ul>
+      <p>There are two cases in which witness validation logic are
+      triggered. Each case determines the location of the witness
+      version byte and program, as well as the form of the
+      scriptSig:</p>
+      <ol type="1">
+      <li>Triggered by a <code>scriptPubKey</code> that is exactly a
+      push of a version byte, plus a push of a witness program. The
+      scriptSig must be exactly empty or validation fails. (<em>“native
+      witness program”</em>)</li>
+      <li>Triggered when a <code>scriptPubKey</code> is a P2SH script,
+      and the BIP16 <code>redeemScript</code> pushed in the
+      <code>scriptSig</code> is exactly a push of a version byte plus a
+      push of a witness program. The <code>scriptSig</code> must be
+      exactly a push of the BIP16 <code>redeemScript</code> or
+      validation fails. (<em>“P2SH witness program”</em>)</li>
+      </ol>
+      <p>If the version byte is 0, and the witness program is 20 bytes
+      (<em>L = 20</em>):</p>
+      <ul>
+      <li>It is interpreted as a pay-to-witness-public-key-hash (P2WPKH)
+      program.</li>
+      <li>The witness must consist of exactly 2 items (≤ 520 bytes
+      each). The first one a signature, and the second one a public
+      key.</li>
+      <li>The HASH160 of the public key must match the 20-byte witness
+      program.</li>
+      <li>After normal script evaluation, the signature is verified
+      against the public key with CHECKSIG operation. The verification
+      must result in a single TRUE on the stack.</li>
+      </ul>
+      <p>If the version byte is 0, and the witness program is 32 bytes
+      (<em>L = 32</em>):</p>
+      <ul>
+      <li>It is interpreted as a pay-to-witness-script-hash (P2WSH)
+      program.</li>
+      <li>The witness must consist of an input stack to feed to the
+      script, followed by a serialized script
+      (<code>witnessScript</code>).</li>
+      <li>The <code>witnessScript</code> (≤ 10,000 bytes) is popped off
+      the initial witness stack. SHA256 of the
+      <code>witnessScript</code> must match the 32-byte witness
+      program.</li>
+      <li>The <code>witnessScript</code> is deserialized, and executed
+      after normal script evaluation with the remaining witness stack (≤
+      520 bytes for each stack item).</li>
+      <li>The script must not fail, and result in exactly a single TRUE
+      on the stack.</li>
+      </ul>
+      <p>If the version byte is 0, but the witness program is neither 20
+      nor 32 bytes, the script must fail.For example, a scriptPubKey
+      with OP_0 followed by a 40-byte non-zero data push will fail due
+      to incorrect program size. However, a scriptPubKey with OP_0
+      followed by a 41-byte non-zero data push will pass, since it is
+      not considered to be a witness program</p>
+      <p>If the version byte is 1 to 16, no further interpretation of
+      the witness program or witness stack happens, and there is no size
+      restriction for the witness stack. These versions are reserved for
+      future extensions.For backward compatibility, for any version byte
+      from 0 to 16, the script must fail if the witness program has a
+      <code>CastToBool</code> value of zero. However, having a hash like
+      this is a successful preimage attack against the hash function,
+      and the risk is negligible.</p>
+      <h4 data-number="6.10.3.4"
+      id="bip-0141-other-consensus-critical-limits">Other consensus
+      critical limits</h4>
+      <h5 data-number="6.10.3.4.1" id="bip-0141-block-size">Block
+      size</h5>
+      <p>Blocks are currently limited to 1,000,000 bytes (1MB) total
+      size. We change this restriction as follows:</p>
+      <p><em>Block weight</em> is defined as <em>Base size</em> * 3 +
+      <em>Total size</em>. (rationaleRationale of using a single
+      composite constraint, instead of two separate limits such as 1MB
+      base data and 3MB witness data: Using two separate limits would
+      make mining and fee estimation nearly impossible. Miners would
+      need to solve a complex non-linear optimization problem to find
+      the set of transactions that maximize fees given both constraints,
+      and wallets would not be able to know what to pay as it depends on
+      which of the two conditions is most constrained by the time miners
+      try to produce blocks with their transactions in. Another problem
+      with such an approach is freeloading. Once a set of transactions
+      hit the base data 1MB constraint, up to 3MB extra data could be
+      added to the witness by just minimally increasing the fee. The
+      marginal cost for extra witness space effectively becomes zero in
+      that case.)</p>
+      <p><em>Base size</em> is the block size in bytes with the original
+      transaction serialization without any witness-related data, as
+      seen by a non-upgraded node.</p>
+      <p><em>Total size</em> is the block size in bytes with
+      transactions serialized as described in
+      <a href="bip-0144.mediawiki" class="wikilink" title="BIP144">BIP144</a>,
+      including base data and witness data.</p>
+      <p>The new rule is <em>block weight</em> ≤ 4,000,000.</p>
+      <h5 data-number="6.10.3.4.2" id="bip-0141-sigops">Sigops</h5>
+      <p>Sigops per block is currently limited to 20,000. We change this
+      restriction as follows:</p>
+      <p>Sigops in the current pubkey script, signature script, and P2SH
+      check script are counted at 4 times their previous value. The
+      sigop limit is likewise quadrupled to ≤ 80,000.</p>
+      <p>Each P2WPKH input is counted as 1 sigop. In addition, opcodes
+      within a P2WSH <code>witnessScript</code> are counted identically
+      as previously within the P2SH <code>redeemScript</code>. That is,
+      CHECKSIG is counted as only 1 sigop. When preceded by OP_1 to
+      OP_16 CHECKMULTISIG is counted as 1 to 16 sigops respectively,
+      otherwise it is counted as 20 sigops. This rule applies to both
+      native witness program and P2SH witness program.</p>
+      <h4 data-number="6.10.3.5"
+      id="bip-0141-additional-definitions">Additional definitions</h4>
+      <p>The following definitions are not used for consensus limits,
+      but are suggested to provide language consistent with the
+      terminology introduced above.</p>
+      <h5 data-number="6.10.3.5.1"
+      id="bip-0141-transaction-size-calculations">Transaction size
+      calculations</h5>
+      <p><em>Transaction weight</em> is defined as <em>Base transaction
+      size</em> * 3 + <em>Total transaction size</em> (ie. the same
+      method as calculating <em>Block weight</em> from <em>Base
+      size</em> and <em>Total size</em>).</p>
+      <p><em>Virtual transaction size</em> is defined as <em>Transaction
+      weight</em> / 4 (rounded up to the next integer).</p>
+      <p><em>Base transaction size</em> is the size of the transaction
+      serialised with the witness data stripped.</p>
+      <p><em>Total transaction size</em> is the transaction size in
+      bytes serialized as described in
+      <a href="bip-0144.mediawiki" class="wikilink" title="BIP144">BIP144</a>,
+      including base data and witness data.</p>
+      <h4 data-number="6.10.3.6" id="bip-0141-new-script-semantics">New
+      script semantics</h4>
+      <p>Despite that the script language for P2WPKH and P2WSH looks
+      very similar to pre-segregated witness script, there are several
+      notable differences. Users MUST NOT assume that a script spendable
+      in pre-segregated witness system would also be spendable as a
+      P2WPKH or P2WSH script. Before large-scale deployment in the
+      production network, developers should test the scripts on testnet
+      with the default relay policy turned on, and with a small amount
+      of money after BIP141 is activated on mainnet.</p>
+      <p>A major difference at consensus level is described in <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki">BIP143</a>,
+      as a new transaction digest algorithm for signature verification
+      in version 0 witness program.</p>
+      <p>Three relay and mining policies are also included in the first
+      release of segregated witness at reference implementation version
+      0.13.1. Softforks based on these policies are likely to be
+      proposed in the near future. To avoid indefinite delay in
+      transaction confirmation and permanent fund loss in a potential
+      softfork, users MUST observe the new semantics carefully:</p>
+      <ol type="1">
+      <li>Only compressed public keys are accepted in P2WPKH and P2WSH
+      (See <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0143.mediawiki#Restrictions_on_public_key_type">BIP143</a>)</li>
+      <li>The argument of OP_IF/NOTIF in P2WSH must be
+      minimalhttps://lists.linuxfoundation.org/pipermail/bitcoin-dev/2016-August/013014.html</li>
+      <li>Signature(s) must be null vector(s) if an OP_CHECKSIG or
+      OP_CHECKMULTISIG is failed (for both pre-segregated witness script
+      and P2WSH. See <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0146.mediawiki">BIP146</a>)</li>
+      </ol>
+      <h3 data-number="6.10.4" id="bip-0141-examples">Examples</h3>
+      <h4 data-number="6.10.4.1" id="bip-0141-p2wpkh">P2WPKH</h4>
+      <p>The following example is a version 0
+      pay-to-witness-public-key-hash (P2WPKH):</p>
+      <p><code>   witness:      &lt;signature&gt; &lt;pubkey&gt;</code><br />
+      <code>   scriptSig:    (empty)</code><br />
+      <code>   scriptPubKey: 0 &lt;20-byte-key-hash&gt;</code><br />
+      <code>                 (0x0014{20-byte-key-hash})</code></p>
+      <p>The ‘0’ in scriptPubKey indicates the following push is a
+      version 0 witness program. The length of the witness program
+      indicates that it is a P2WPKH type. The witness must consist of
+      exactly 2 items. The HASH160 of the pubkey in witness must match
+      the witness program.</p>
+      <p>The signature is verified as</p>
+      <p><code>   &lt;signature&gt; &lt;pubkey&gt; CHECKSIG</code></p>
+      <p>Comparing with a traditional P2PKH output, the P2WPKH
+      equivalent occupies 3 less bytes in the scriptPubKey, and moves
+      the signature and public key from scriptSig to witness.</p>
+      <h4 data-number="6.10.4.2"
+      id="bip-0141-p2wpkh-nested-in-bip16-p2sh">P2WPKH nested in BIP16
+      P2SH</h4>
+      <p>The following example is the same P2WPKH, but nested in a BIP16
+      P2SH output.</p>
+      <p><code>   witness:      &lt;signature&gt; &lt;pubkey&gt;</code><br />
+      <code>   scriptSig:    &lt;0 &lt;20-byte-key-hash&gt;&gt;</code><br />
+      <code>                 (0x160014{20-byte-key-hash})</code><br />
+      <code>   scriptPubKey: HASH160 &lt;20-byte-script-hash&gt; EQUAL</code><br />
+      <code>                 (0xA914{20-byte-script-hash}87)</code></p>
+      <p>The only item in scriptSig is hashed with HASH160, compared
+      against the 20-byte-script-hash in scriptPubKey, and interpreted
+      as:</p>
+      <p><code>   0 &lt;20-byte-key-hash&gt;</code></p>
+      <p>The public key and signature are then verified as described in
+      the previous example.</p>
+      <p>Comparing with the previous example, the scriptPubKey is 1 byte
+      bigger and the scriptSig is 23 bytes bigger. Although a nested
+      witness program is less efficient, its payment address is fully
+      transparent and backward compatible for all Bitcoin reference
+      client since version 0.6.0.</p>
+      <h4 data-number="6.10.4.3" id="bip-0141-p2wsh">P2WSH</h4>
+      <p>The following example is an 1-of-2 multi-signature version 0
+      pay-to-witness-script-hash (P2WSH).</p>
+      <p><code>   witness:      0 &lt;signature1&gt; &lt;1 &lt;pubkey1&gt; &lt;pubkey2&gt; 2 CHECKMULTISIG&gt;</code><br />
+      <code>   scriptSig:    (empty)</code><br />
+      <code>   scriptPubKey: 0 &lt;32-byte-hash&gt;</code><br />
+      <code>                 (0x0020{32-byte-hash})</code></p>
+      <p>The ‘0’ in scriptPubKey indicates the following push is a
+      version 0 witness program. The length of the witness program
+      indicates that it is a P2WSH type. The last item in the witness
+      (the “witnessScript”) is popped off, hashed with SHA256, compared
+      against the 32-byte-hash in scriptPubKey, and deserialized:</p>
+      <p><code>   1 &lt;pubkey1&gt; &lt;pubkey2&gt; 2 CHECKMULTISIG</code></p>
+      <p>The script is executed with the remaining data from
+      witness:</p>
+      <p><code>   0 &lt;signature1&gt; 1 &lt;pubkey1&gt; &lt;pubkey2&gt; 2 CHECKMULTISIG</code></p>
+      <p>P2WSH allows maximum script size of 10,000 bytes, as the
+      520-byte push limit is bypassed.</p>
+      <p>The scriptPubKey occupies 34 bytes, as opposed to 23 bytes of
+      BIP16 P2SH. The increased size improves security against possible
+      collision attacks, as 2<sup>80</sup> work is not infeasible
+      anymore (By the end of 2015, 2<sup>84</sup> hashes have been
+      calculated in Bitcoin mining since the creation of Bitcoin). The
+      spending script is same as the one for an equivalent BIP16 P2SH
+      output but is moved to witness.</p>
+      <h4 data-number="6.10.4.4"
+      id="bip-0141-p2wsh-nested-in-bip16-p2sh">P2WSH nested in BIP16
+      P2SH</h4>
+      <p>The following example is the same 1-of-2 multi-signature P2WSH
+      script, but nested in a BIP16 P2SH output.</p>
+      <p><code>   witness:      0 &lt;signature1&gt; &lt;1 &lt;pubkey1&gt; &lt;pubkey2&gt; 2 CHECKMULTISIG&gt;</code><br />
+      <code>   scriptSig:    &lt;0 &lt;32-byte-hash&gt;&gt;</code><br />
+      <code>                 (0x220020{32-byte-hash})</code><br />
+      <code>   scriptPubKey: HASH160 &lt;20-byte-hash&gt; EQUAL</code><br />
+      <code>                 (0xA914{20-byte-hash}87)</code></p>
+      <p>The only item in scriptSig is hashed with HASH160, compared
+      against the 20-byte-hash in scriptPubKey, and interpreted as:</p>
+      <p><code>   0 &lt;32-byte-hash&gt;</code></p>
+      <p>The P2WSH witnessScript is then executed as described in the
+      previous example.</p>
+      <p>Comparing with the previous example, the scriptPubKey is 11
+      bytes smaller (with reduced security) while witness is the same.
+      However, it also requires 35 bytes in scriptSig.</p>
+      <h4 data-number="6.10.4.5"
+      id="bip-0141-extensible-commitment-structure">Extensible
+      commitment structure</h4>
+      <p>The new commitment in coinbase transaction is a hash of the
+      <code>witness root hash</code> and a
+      <code>witness reserved value</code>. The
+      <code>witness reserved value</code> currently has no consensus
+      meaning, but in the future allows new commitment values for future
+      softforks. For example, if a new consensus-critical commitment is
+      required in the future, the commitment in coinbase becomes:</p>
+      <p><code> Double-SHA256(Witness root hash|Hash(new commitment|witness reserved value))</code></p>
+      <p>For backward compatibility, the
+      <code>Hash(new commitment|witness reserved value)</code> will go
+      to the coinbase witness, and the
+      <code>witness reserved value</code> will be recorded in another
+      location specified by the future softfork. Any number of new
+      commitment could be added in this way.</p>
+      <p>Any commitments that are not consensus-critical to Bitcoin,
+      such as merge-mining, MUST NOT use the
+      <code>witness reserved value</code> to preserve the ability to do
+      upgrades of the Bitcoin consensus protocol.</p>
+      <p>The optional data space following the commitment also leaves
+      room for metadata of future softforks, and MUST NOT be used for
+      other purpose.</p>
+      <h4 data-number="6.10.4.6"
+      id="bip-0141-trust-free-unconfirmed-transaction-dependency-chain">Trust-free
+      unconfirmed transaction dependency chain</h4>
+      <p>Segregated witness fixes the problem of transaction
+      malleability fundamentally, which enables the building of
+      unconfirmed transaction dependency chains in a trust-free
+      manner.</p>
+      <p>Two parties, Alice and Bob, may agree to send certain amount of
+      Bitcoin to a 2-of-2 multisig output (the “funding transaction”).
+      Without signing the funding transaction, they may create another
+      transaction, time-locked in the future, spending the 2-of-2
+      multisig output to third account(s) (the “spending transaction”).
+      Alice and Bob will sign the spending transaction and exchange the
+      signatures. After examining the signatures, they will sign and
+      commit the funding transaction to the blockchain. Without further
+      action, the spending transaction will be confirmed after the
+      lock-time and release the funding according to the original
+      contract. It also retains the flexibility of revoking the original
+      contract before the lock-time, by another spending transaction
+      with shorter lock-time, but only with mutual-agreement of both
+      parties.</p>
+      <p>Such setups are not possible with BIP62 as the malleability
+      fix, since the spending transaction could not be created without
+      both parties first signing the funding transaction. If Alice
+      reveals the funding transaction signature before Bob does, Bob is
+      able to lock up the funding indefinitely without ever signing the
+      spending transaction.</p>
+      <p>Unconfirmed transaction dependency chain is a fundamental
+      building block of more sophisticated payment networks, such as
+      duplex micropayment channel and the Lightning Network, which have
+      the potential to greatly improve the scalability and efficiency of
+      the Bitcoin system.</p>
+      <h3 data-number="6.10.5" id="bip-0141-future-extensions">Future
+      extensions</h3>
+      <h4 data-number="6.10.5.1"
+      id="bip-0141-compact-fraud-proof-for-spv-nodes">Compact fraud
+      proof for SPV nodes</h4>
+      <p>Bitcoin right now only has two real security models. A user
+      either runs a full-node which validates every block with all rules
+      in the system, or a SPV (Simple Payment Verification) client which
+      only validates the headers as a proof of publication of some
+      transactions. The Bitcoin whitepaper suggested that SPV nodes may
+      accept alerts from full nodes when they detect an invalid block,
+      prompting the SPV node to download the questioned blocks and
+      transactions for validation. This approach, however, could become
+      a DoS attack vector as there is virtually no cost to generate a
+      false alarm. An alarm must come with a compact, yet deterministic
+      fraud proof.</p>
+      <p>In the current Bitcoin protocol, it is possible to generate
+      compact fraud proof for almost all rules except a few:</p>
+      <ol type="1">
+      <li>It is not possible to prove a miner has introduced too many
+      Bitcoins in the coinbase transaction outputs without showing the
+      whole block itself and all input transactions.</li>
+      <li>It is not possible to prove the violation of any block
+      specific constraints, such as size and sigop limits, without
+      showing the whole block (and all input transactions in the case of
+      sigop limit)</li>
+      <li>It is not possible to prove the spending of a non-existing
+      input without showing all transaction IDs in the blockchain way
+      back to the genesis block.</li>
+      </ol>
+      <p>Extra witness data can be committed that allows short proofs of
+      block invalidity that SPV nodes can quickly verify:</p>
+      <ol type="1">
+      <li>Sum trees for transaction fee can be committed making it
+      possible to construct short proofs that the miner does not add
+      excessive fees to the coinbase transaction. Similar for the block
+      size and sigop count limit.</li>
+      <li>Backlinks for the outputs spent by the transaction’s inputs
+      can be provided. These backlinks consist of a block hash and an
+      offset that thin clients can easily query and check to verify that
+      the outputs exist.</li>
+      </ol>
+      <p>These commitments could be included in the extensible
+      commitment structure through a soft fork and will be transparent
+      to nodes that do not understand such new rules.</p>
+      <h4 data-number="6.10.5.2" id="bip-0141-new-script-system">New
+      script system</h4>
+      <p>Since a version byte is pushed before a witness program, and
+      programs with unknown versions are always considered as
+      anyone-can-spend script, it is possible to introduce any new
+      script system with a soft fork. The witness as a structure is not
+      restricted by any existing script semantics and constraints, the
+      520-byte push limit in particular, and therefore allows
+      arbitrarily large scripts and signatures.</p>
+      <p>Examples of new script systems include Schnorr signatures,
+      which reduce the size of multisig transactions dramatically;
+      Lamport signatures, which are quantum computing resistant; and
+      Merklized abstract syntax trees, which allow very compact
+      witnesses for conditional scripts with extreme complexity.</p>
+      <h4 data-number="6.10.5.3"
+      id="bip-0141-per-input-lock-time-and-relative-lock-time">Per-input
+      lock-time and relative-lock-time</h4>
+      <p>Currently there is only one nLockTime field in a transaction
+      and all inputs must share the same value. <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki">BIP68</a>
+      enables per-input relative-lock-time using the nSequence field,
+      however, with a limited lock-time period and resolution.</p>
+      <p>With a soft fork, it is possible to introduce a separate
+      witness structure to allow per-input lock-time and
+      relative-lock-time, and a new script system that could sign and
+      manipulate the new data (like <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki">BIP65</a>
+      and <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki">BIP112</a>).</p>
+      <h3 data-number="6.10.6"
+      id="bip-0141-backward-compatibility">Backward compatibility</h3>
+      <p>As a soft fork, older software will continue to operate without
+      modification. Non-upgraded nodes, however, will not see nor
+      validate the witness data and will consider all witness programs
+      as anyone-can-spend scripts (except a few edge cases where the
+      witness programs are equal to 0, which the script must fail).
+      Wallets should always be wary of anyone-can-spend scripts and
+      treat them with suspicion. Non-upgraded nodes are strongly
+      encouraged to upgrade in order to take advantage of the new
+      features.</p>
+      <p><strong>What a non-upgraded wallet can do</strong></p>
+      <ul>
+      <li>Receiving bitcoin from non-upgraded and upgraded wallets</li>
+      <li>Sending bitcoin to non-upgraded and upgraded wallets with
+      traditional P2PKH address (without any benefit of segregated
+      witness)</li>
+      <li>Sending bitcoin to upgraded wallets using a P2SH address</li>
+      <li>Sending bitcoin to upgraded wallets using a native witness
+      program through <a
+      href="https://github.com/bitcoin/bips/blob/master/bip-0070.mediawiki">BIP70</a>
+      payment protocol</li>
+      </ul>
+      <p><strong>What a non-upgraded wallet cannot do</strong></p>
+      <ul>
+      <li>Validating segregated witness transaction. It assumes such a
+      transaction is always valid</li>
+      </ul>
+      <h3 data-number="6.10.7" id="bip-0141-deployment">Deployment</h3>
+      <p>This BIP will be deployed by “version bits” BIP9 with the name
+      “segwit” and using bit 1.</p>
+      <p>For Bitcoin mainnet, the BIP9 starttime will be midnight 15
+      November 2016 UTC (Epoch timestamp 1479168000) and BIP9 timeout
+      will be midnight 15 November 2017 UTC (Epoch timestamp
+      1510704000).</p>
+      <p>For Bitcoin testnet, the BIP9 starttime will be midnight 1 May
+      2016 UTC (Epoch timestamp 1462060800) and BIP9 timeout will be
+      midnight 1 May 2017 UTC (Epoch timestamp 1493596800).</p>
+      <h3 data-number="6.10.8" id="bip-0141-credits">Credits</h3>
+      <p>Special thanks to Gregory Maxwell for originating many of the
+      ideas in this BIP and Luke-Jr for figuring out how to deploy this
+      as a soft fork.</p>
+      <h3 data-number="6.10.9" id="bip-0141-footnotes">Footnotes</h3>
+      <h3 data-number="6.10.10"
+      id="bip-0141-reference-implementation">Reference
+      Implementation</h3>
+      <p><a href="https://github.com/bitcoin/bitcoin/pull/8149"
+      class="uri">https://github.com/bitcoin/bitcoin/pull/8149</a></p>
+      <h3 data-number="6.10.11" id="bip-0141-references">References</h3>
+      <ul>
+      <li><a href="bip-0016.mediawiki" class="wikilink" title="BIP16 Pay to Script Hash">BIP16
+      Pay to Script Hash</a></li>
+      <li><a href="bip-0143.mediawiki" class="wikilink" title="BIP143 Transaction Signature Verification for Version 0 Witness Program">BIP143
+      Transaction Signature Verification for Version 0 Witness
+      Program</a></li>
+      <li><a href="bip-0144.mediawiki" class="wikilink" title="BIP144 Segregated Witness (Peer Services)">BIP144
+      Segregated Witness (Peer Services)</a></li>
+      <li><a href="bip-0173.mediawiki" class="wikilink" title="BIP173 Base32 address format for native v0-16 witness outputs">BIP173
+      Base32 address format for native v0-16 witness outputs</a></li>
+      </ul>
+      <h3 data-number="6.10.12" id="bip-0141-copyright">Copyright</h3>
+      <p>This document is placed in the public domain.</p>
+      <pre><code>  BIP: 143
+  Layer: Consensus (soft fork)
+  Title: Transaction Signature Verification for Version 0 Witness Program
+  Authors: Johnson Lau &lt;jl2012@xbt.hk&gt;
+           Pieter Wuille &lt;pieter.wuille@gmail.com&gt;
+  Status: Deployed
+  Type: Specification
+  Assigned: 2016-01-03
+  License: PD</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0113.html" rel="prev">BIP 113</a>
+        <a class="pager-next" href="bip-0143.html" rel="next">BIP 143</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

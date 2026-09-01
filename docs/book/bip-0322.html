@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 322 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0137.html" accesskey="p" rel="prev">BIP 137</a>
+        <a class="pager-next" href="scripts-miniscript-and-policy.html" accesskey="n" rel="next">Scripts, Miniscript, and Policy</a>
+      </nav>
+      <h2 data-number="13.11" id="bip-0322">BIP 322</h2>
+      <h3 data-number="13.11.1" id="bip-0322-abstract">Abstract</h3>
+      <p>A standard for interoperable signed messages based on the
+      Bitcoin Script format, either for proving availability of funds,
+      or for committing to a message as the intended recipient of funds
+      sent to the invoice address.</p>
+      <h3 data-number="13.11.2" id="bip-0322-motivation">Motivation</h3>
+      <p>The current message signing standard only works for P2PKH (1…)
+      invoice addresses. We propose to extend and generalize the
+      standard by using an approach based on Bitcoin Script. This
+      ensures that any coins, no matter what script they are controlled
+      by, can in principle be signed for. For easy interoperability with
+      existing signing hardware, we also define a signature message
+      format that resembles a Bitcoin transaction (except that it
+      contains an invalid input, so it cannot be spent on any real
+      network).</p>
+      <p>Additionally, the current message signature format uses ECDSA
+      signatures that do not commit to the public key, meaning that they
+      do not actually prove knowledge of any secret keys. (Indeed, valid
+      signatures can be tweaked by third parties to become valid
+      signatures on certain related keys.)</p>
+      <p>Ultimately, no message signing protocol can actually prove
+      control of funds, both because a signature is obsolete as soon as
+      it is created, and because the possessor of a secret key may be
+      willing to sign messages on others’ behalf even if it would not
+      sign actual transactions. No message signing protocol can fix
+      these limitations.</p>
+      <p>Finally, this BIP only addresses the use case where a signer
+      shows they will be able to control funds sent to the invoice
+      address. Proving that a signer sent a prior transaction is not
+      possible using this BIP.</p>
+      <h3 data-number="13.11.3"
+      id="bip-0322-terminology">Terminology</h3>
+      <p>In the context of this BIP, whenever the word “signature” or
+      similar is used, it refers to the output of the signing process
+      described below, and, depending on the script type of the
+      <code>message_challenge</code>, is either a full transaction input
+      witness stack, a full transaction, or a PSBT packet that can be
+      validated against a Bitcoin Script Interpreter. Such a “signature”
+      may or may not contain an actual cryptographic (ECDSA or Schnorr)
+      signature, depending on what is required to satisfy the script
+      corresponding to the <code>message_challenge</code>.</p>
+      <h3 data-number="13.11.4" id="bip-0322-types-of-signatures">Types
+      of Signatures</h3>
+      <p>This BIP specifies three formats for signing messages:
+      <em>legacy</em>, <em>simple</em> and <em>full</em>. Additionally,
+      a variant of the <em>full</em> format can be used to demonstrate
+      control over a set of UTXOs.</p>
+      <table>
+      <thead>
+      <tr>
+      <th>
+      </th>
+      <th>
+      <p>
+      Compatible script types
+      </p>
+      </th>
+      <th>
+      <p>
+      Signature prefix
+      </p>
+      </th>
+      <th>
+      <p>
+      Signature format
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Legacy
+      </p>
+      </td>
+      <td>
+      <p>
+      <code>P2PKH</code>, <code>P2SH-P2WPKH</code><sup>1</sup>,
+      <code>P2WPKH</code><sup>1</sup>
+      </p>
+      </td>
+      <td>
+      <p>
+      n/a
+      </p>
+      </td>
+      <td>
+      <p>
+      compact, public key recoverable ECDSA signature, base64-encoded
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      Simple
+      </p>
+      </td>
+      <td>
+      <p>
+      <code>P2WPKH</code>, <code>P2WSH</code><sup>2</sup>,
+      <code>P2TR</code><sup>2</sup><br />
+      </p>
+      </td>
+      <td>
+      <p>
+      <code>smp</code>
+      </p>
+      </td>
+      <td>
+      <p>
+      witness stack, consensus-encoded and base64-encoded
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      Full
+      </p>
+      </td>
+      <td>
+      <p>
+      <code>all</code>
+      </p>
+      </td>
+      <td>
+      <p>
+      <code>ful</code>
+      </p>
+      </td>
+      <td>
+      <p>
+      full <code>to_sign</code> transaction, consensus-encoded and
+      base64-encoded
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      Full (Proof of Funds)
+      </p>
+      </td>
+      <td>
+      <p>
+      <code>all</code>
+      </p>
+      </td>
+      <td>
+      <p>
+      <code>pof</code>
+      </p>
+      </td>
+      <td>
+      <p>
+      full finalized PSBT of the <code>to_sign</code> transaction,
+      consensus-encoded and base64-encoded
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p><sup>1</sup>: Possible on a technical level but SHOULD NOT be
+      used anymore in the context of this BIP, see section
+      <a href="#legacy" class="wikilink" title="Legacy">Legacy</a>
+      below.<br />
+      <sup>2</sup>: Excluding time lock scripts.</p>
+      <p>Signers MUST prefix the signature with the variant that was
+      used to create the signature. To support backward compatibility
+      with implementations of this BIP before it was finalized, a
+      verifier might assume the <em>simple</em> variant in the absence
+      of a prefix.</p>
+      <h4 data-number="13.11.4.1" id="bip-0322-legacy">Legacy</h4>
+      <p>New proofs SHOULD use the new format for all invoice address
+      formats, including P2PKH.</p>
+      <p>The legacy format MAY be used, but MUST be restricted to the
+      legacy P2PKH invoice address format.</p>
+      <h4 data-number="13.11.4.2" id="bip-0322-simple">Simple</h4>
+      <p>A <em>simple</em> signature consists of a witness stack,
+      consensus encoded as a vector of vectors of bytes, and
+      base64-encoded, prefixed by the variant (<code>smp</code>).
+      Validators should construct <code>to_spend</code> and
+      <code>to_sign</code> as defined below, with default values for all
+      fields except that</p>
+      <ul>
+      <li><code> ``message_hash`` is a BIP340-tagged hash of the message, as specified below</code></li>
+      <li><code> ``message_challenge`` in ``to_spend`` is set to the scriptPubKey being signed</code><br />
+      <code> with</code></li>
+      <li><code> ``message_signature`` in ``to_sign`` is set to the provided simple signature.</code></li>
+      </ul>
+      <p>and then proceed as they would for a full signature.</p>
+      <h4 data-number="13.11.4.3" id="bip-0322-full">Full</h4>
+      <p>Full signatures follow an analogous specification to the BIP325
+      challenges and solutions used by Signet.</p>
+      <p>Let there be two virtual transactions <code>to_spend</code> and
+      <code>to_sign</code>.</p>
+      <p>The <code>to_spend</code> transaction is:</p>
+      <p><code>   nVersion = 0</code><br />
+      <code>   nLockTime = 0</code><br />
+      <code>   vin[0].prevout.hash = 0000...000</code><br />
+      <code>   vin[0].prevout.n = 0xFFFFFFFF</code><br />
+      <code>   vin[0].nSequence = 0</code><br />
+      <code>   vin[0].scriptSig = OP_0 PUSH32[ message_hash ]</code><br />
+      <code>   vin[0].scriptWitness = []</code><br />
+      <code>   vout[0].nValue = 0</code><br />
+      <code>   vout[0].scriptPubKey = message_challenge</code></p>
+      <p>where <code>message_hash</code> is a BIP340-tagged hash of the
+      message, i.e., sha256_tag(m), where tag =
+      <code>BIP0322-signed-message</code> and <code>m</code> is the
+      message as-is without length prefix or null terminator, and
+      <code>message_challenge</code> is the (public) key script to be
+      proven.</p>
+      <p>The <code>to_sign</code> transaction is:</p>
+      <p><code>   nVersion = 0 or (FULL format only) as appropriate (e.g., 2 for time locks)</code><br />
+      <code>   nLockTime = 0 or (FULL format only) as appropriate (for time locks)</code><br />
+      <code>   vin[0].prevout.hash = to_spend.txid</code><br />
+      <code>   vin[0].prevout.n = 0</code><br />
+      <code>   vin[0].nSequence = 0 or (FULL format only) as appropriate (for time locks)</code><br />
+      <code>   vin[0].scriptSig = [] or (FULL format only) as appropriate (for non segwit-native transactions)</code><br />
+      <code>   vin[0].scriptWitness = message_signature</code><br />
+      <code>   vout[0].nValue = 0</code><br />
+      <code>   vout[0].scriptPubKey = OP_RETURN</code></p>
+      <p>A <em>full</em> signature consists of the variant-prefixed
+      (<code>ful</code>) base64-encoding of the <code>to_sign</code>
+      transaction in standard network serialisation once it has been
+      signed.</p>
+      <h4 data-number="13.11.4.4" id="bip-0322-full-proof-of-funds">Full
+      (Proof of Funds)</h4>
+      <p>The Proof of Funds variant extends the basic scheme: in
+      addition to signing a message under a single address’s key, the
+      signer proves control over an arbitrary set of UTXOs. This UTXO
+      set is chosen freely by the signer and MAY be associated with the
+      signing address (the <code>message_challenge</code>). For example,
+      it may consist of outputs paid to that address, but any UTXOs the
+      signer wants to show control over are permitted. In any case,
+      however, the UTXO list does not aim to prove completeness (e.g.,
+      it does NOT mean: “these are all UTXOs that exist for an
+      address”), nor that they are unspent (e.g., a validator must
+      consult the blockchain to verify that).</p>
+      <p>A signer may construct a proof of funds, demonstrating control
+      of a set of UTXOs, by constructing a full signature as above, with
+      the following modifications.</p>
+      <ul>
+      <li><code> The ``to_spend`` transaction is represented as a finalized PSBT instead of a raw</code><br />
+      <code> transaction (see </code><a href="bip-0174.mediawiki#input-finalizer" class="wikilink" title="BIP174"><code>BIP174</code></a><code> for details on the finalization</code><br />
+      <code> process).</code></li>
+      <li><code> All outputs that the signer wishes to demonstrate control of are included as additional inputs of</code><br />
+      <code> ``to_sign``, and their witness and scriptSig data should be set as though these outputs</code><br />
+      <code> were actually being spent.</code></li>
+      <li><code> The Non-Witness or Witness UTXO fields (as appropriate for the type) of each additional input must</code><br />
+      <code> be set to the corresponding UTXO.</code></li>
+      <li><code> As an optimization for large sets of Non-Witness UTXOs that spend outputs from the same</code><br />
+      <code> transaction, the Non-Witness UTXO field may be omitted for any input that spends an output from</code><br />
+      <code> the same transaction as an input earlier in the list.</code></li>
+      </ul>
+      <p>A <em>full Proof of Funds</em> signature consists of the
+      variant-prefixed (<code>pof</code>) base64-encoding of the
+      finalized PSBT once it has been signed.</p>
+      <p>Unlike an ordinary signature, validators of a proof of funds
+      need access to the current UTXO set, to learn that the claimed
+      inputs exist on the blockchain and remain unspent. An offline
+      validator therefore can only attest to the cryptographic validity
+      of the additional inputs’ witness stack, but not its blockchain
+      state. An attested list of UTXOs can also never prove that there
+      do not exist more UTXOs for a certain address.</p>
+      <h3 data-number="13.11.5"
+      id="bip-0322-detailed-specification">Detailed Specification</h3>
+      <p>For all signature types, except legacy, the
+      <code>to_spend</code> and <code>to_sign</code> transactions must
+      be valid transactions which pass all consensus checks, except of
+      course that the output with prevout
+      <code>000...000:FFFFFFFF</code> does not exist.</p>
+      <h4 data-number="13.11.5.1"
+      id="bip-0322-verification">Verification</h4>
+      <p>A validator is given as input an address <em>A</em>, signature
+      <em>s</em> and message <em>m</em>, and outputs one of three
+      states:</p>
+      <ul>
+      <li><code> </code><em><code>valid at time T and age S</code></em><code> indicates that the signature has set timelocks but is otherwise</code><br />
+      <code> valid</code></li>
+      <li><code> </code><em><code>inconclusive</code></em><code> means the validator was unable to check the scripts</code></li>
+      <li><code> </code><em><code>invalid</code></em><code> means that some check failed</code></li>
+      </ul>
+      <h5 data-number="13.11.5.1.1"
+      id="bip-0322-verification-process">Verification Process</h5>
+      <p>Validation consists of the following steps:</p>
+      <ol type="1">
+      <li>Basic validation
+      <ol type="1">
+      <li>Compute the transaction <code>to_spend</code> from <em>m</em>
+      and <em>A</em></li>
+      <li>Decode <em>s</em> as the transaction <code>to_sign</code></li>
+      <li>If <em>s</em> was a full transaction or PSBT, confirm all
+      fields are set as specified above; in particular that
+      <ul>
+      <li><code>to_sign</code> has at least one input and its first
+      input spends the output of <code>to_spend</code></li>
+      <li><code>to_sign</code> with more than one input has an
+      appropriate Witness UTXO or Non-Witness UTXO for each input
+      <ul>
+      <li>If (based on the input type) a Non-Witness UTXO is required
+      but not provided, check if the first input with the same
+      transaction ID has a Non-Witness UTXO set and use that; fail
+      validation if no such Non-Witness UTXO can be found</li>
+      </ul></li>
+      <li><code>to_sign</code> has exactly one output, as specified
+      above</li>
+      </ul></li>
+      <li>Confirm that the two transactions together satisfy all
+      consensus rules, except for <code>to_spend</code>’s missing input,
+      and except that <em>nSequence</em> of <code>to_sign</code>’s first
+      input and <em>nLockTime</em> of <code>to_sign</code> are not
+      checked.</li>
+      </ol></li>
+      <li>(Optional) If the validator does not have a full script
+      interpreter, it should check that it understands all scripts being
+      satisfied. If not, it should stop here and output
+      <em>inconclusive</em>.</li>
+      <li>Check the <strong>required rules</strong>:
+      <ol type="1">
+      <li>All signatures MUST use the <code>SIGHASH_ALL</code> flag,
+      unless the output type supports <code>SIGHASH_DEFAULT</code>,
+      which then MAY be used alternatively (e.g.,
+      <a href="bip-0341.mediawiki" class="wikilink" title="BIP341 P2TR">BIP341
+      P2TR</a>).</li>
+      <li>The use of <code>CODESEPARATOR</code> or
+      <code>FindAndDelete</code> is forbidden.</li>
+      <li><code>LOW_S</code>, <code>STRICTENC</code> and
+      <code>NULLFAIL</code>: valid ECDSA signatures must be strictly
+      DER-encoded and have a low-S value; invalid ECDSA signature must
+      be the empty push</li>
+      <li><code>MINIMALDATA</code>: all pushes must be minimally
+      encoded</li>
+      <li><code>CLEANSTACK</code>: require that only a single stack
+      element remains after evaluation</li>
+      <li><code>MINIMALIF</code>: the argument of
+      <code>IF</code>/<code>NOTIF</code> must be exactly 0x01 or empty
+      push</li>
+      <li>If any of the above steps failed, the validator should stop
+      and output the <em>invalid</em> state.</li>
+      </ol></li>
+      <li>Check the <strong>upgradeable rules</strong>
+      <ol type="1">
+      <li>The version of <code>to_sign</code> must be 0 or 2.</li>
+      <li>The use of NOPs reserved for upgrades is forbidden.</li>
+      <li>The use of Segwit versions greater than 1 is forbidden.</li>
+      <li>If any of the above steps failed, the validator should stop
+      and output the <em>inconclusive</em> state.</li>
+      </ol></li>
+      <li>Let <em>T</em> be the nLockTime of <code>to_sign</code> and
+      <em>S</em> be the nSequence of the first input of
+      <code>to_sign</code>. Output the state <em>valid at time T and age
+      S</em>.
+      <ol type="1">
+      <li>For <em>full Proof of Funds</em> signatures, a validator MAY
+      additionally report any non-zero nSequence values on the Proof of
+      Funds inputs (i.e., <code>vin[1..n]</code>), and MAY verify them
+      against the current chain state when the UTXO set is available;
+      such checks are advisory and do not affect the output state.</li>
+      </ol></li>
+      </ol>
+      <h4 data-number="13.11.5.2" id="bip-0322-signing">Signing</h4>
+      <p>Signers who control an address <em>A</em> who wish to sign a
+      message <em>m</em> act as follows:</p>
+      <ol type="1">
+      <li><code> They construct ``to_spend`` and ``to_sign`` as specified above, using the</code><br />
+      <code> scriptPubKey of </code><em><code>A</code></em><code> for ``message_challenge`` and tagged hash of </code><em><code>m</code></em><code> as</code><br />
+      <code> ``message_hash``.</code></li>
+      <li><code> Optionally, they may set nVersion/nLockTime of ``to_sign`` or nSequence of its first</code><br />
+      <code> input.</code></li>
+      <li><code> Optionally, they may add any additional inputs to ``to_sign`` that they wish to prove</code><br />
+      <code> control of.</code></li>
+      <li><code> They satisfy ``to_sign`` as they would any other transaction.</code></li>
+      </ol>
+      <p>They then encode their signature, choosing either
+      <em>simple</em>, <em>full</em> or <em>full-pof</em> as
+      follows:</p>
+      <ul>
+      <li><code> If they added no inputs to ``to_sign``, left nVersion, nSequence and nLockTime at 0, and</code><br />
+      <code> </code><em><code>A</code></em><code> is a "native" Segwit address (P2WPKH, P2WSH, P2TR), then they may base64-encode</code><br />
+      <code> ``message_signature`` with ``smp`` as prefix.</code></li>
+      <li><code> If they added no inputs to ``to_sign``, they may base64-encode ``to_sign`` with</code><br />
+      <code> ``ful`` as prefix.</code></li>
+      <li><code> Otherwise, they must base64-encode the finalized PSBT of ``to_sign`` with</code><br />
+      <code> ``pof`` as prefix.</code></li>
+      </ul>
+      <h4 data-number="13.11.5.3"
+      id="bip-0322-psbt-based-signing">PSBT-based signing</h4>
+      <p>A valid witness stack for a multisig address must be
+      constructed by coordinating different signers to produce a partial
+      signature each. The coordination procedure is not specified by
+      this BIP, but due to the use of PSBTs it should closely resemble
+      the coordination of signing a multisig transaction for publishing
+      to the network.</p>
+      <p>The main difference is a new global PSBT field and the way a
+      signer presents the transaction signing request to the user. The
+      new global type is defined as follows:</p>
+      <table style="width:100%;">
+      <colgroup>
+      <col style="width: 11%" />
+      <col style="width: 11%" />
+      <col style="width: 11%" />
+      <col style="width: 11%" />
+      <col style="width: 11%" />
+      <col style="width: 11%" />
+      <col style="width: 11%" />
+      <col style="width: 11%" />
+      <col style="width: 11%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Name</th>
+      <th><code>&lt;keytype&gt;</code></th>
+      <th><code>&lt;keydata&gt;</code></th>
+      <th><code>&lt;keydata&gt;</code> Description</th>
+      <th><code>&lt;valuedata&gt;</code></th>
+      <th><code>&lt;valuedata&gt;</code> Description</th>
+      <th>Versions Requiring Inclusion</th>
+      <th>Versions Requiring Exclusion</th>
+      <th>Versions Allowing Inclusion</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>Generic Signed Message</td>
+      <td><code>PSBT_GLOBAL_GENERIC_SIGNED_MESSAGE = 0x09</code></td>
+      <td>None</td>
+      <td>No key data</td>
+      <td><code>&lt;bytes message&gt;</code></td>
+      <td>The UTF-8 encoded message to be signed.</td>
+      <td></td>
+      <td></td>
+      <td>0, 2</td>
+      </tr>
+      </tbody>
+      </table>
+      <h4 data-number="13.11.5.4" id="bip-0322-psbt-creator">PSBT
+      creator</h4>
+      <p>The <strong>transaction creator</strong> of a BIP322 PSBT must
+      follow these steps:</p>
+      <ol type="1">
+      <li><code> They construct ``to_spend`` and ``to_sign`` as specified above, using the</code><br />
+      <code> scriptPubKey of </code><em><code>A</code></em><code> for ``message_challenge`` and tagged hash of </code><em><code>m</code></em><code> as</code><br />
+      <code> ``message_hash``.</code></li>
+      <li><code> Optionally, they may set nVersion/nLockTime of ``to_sign`` or nSequence of its first</code><br />
+      <code> input.</code></li>
+      <li><code> Optionally, they may add any additional inputs to ``to_sign`` that they wish to prove</code><br />
+      <code> control of.</code></li>
+      <li><code> They set the appropriate ``witness_utxo`` and ``non_witness_utxo`` fields of the</code><br />
+      <code> first input, using the ``to_spend`` transaction as a ``non_witness_utxo`` or</code><br />
+      <code> the first output of the ``to_spend`` transaction as ``witness_utxo``.</code></li>
+      <li><code> They set the appropriate ``witness_utxo`` and ``non_witness_utxo`` fields of</code><br />
+      <code> each additional input.</code></li>
+      <li><code> They set the appropriate PSBT input and global fields as required by the signers(s) to produce a</code><br />
+      <code> partial signature.</code></li>
+      <li><code> They set the ``PSBT_GLOBAL_GENERIC_SIGNED_MESSAGE`` field, using the full UTF-8-encoded</code><br />
+      <code> message as the ``valuedata``.</code><br />
+      <code> </code>
+      <ol type="1">
+      <li><code> There is no specified maximum length of an input's ``valuedata`` or a PSBT as a whole in</code><br />
+      <code> </code><a href="bip-0174.mediawiki" class="wikilink" title="BIP174"><code>BIP174</code></a><code>, but different signers might impose safety limits. It is</code><br />
+      <code> recommended to use a maximum length of a few kilobytes to maximize compatibility. Very large</code><br />
+      <code> messages should be committed to by hash instead.</code><br />
+      <code> </code></li>
+      </ol></li>
+      </ol>
+      <h4 data-number="13.11.5.5" id="bip-0322-psbt-signer">PSBT
+      signer</h4>
+      <p>A <strong>transaction signer</strong> of a BIP322 PSBT must
+      follow these steps:</p>
+      <ol type="1">
+      <li><code> They decode the base64-encoded PSBT as specified in </code><a href="bip-0174.mediawiki" class="wikilink" title="BIP174"><code>BIP174</code></a><code>.</code></li>
+      <li><code> If they detect the following properties (all must be true, otherwise this is NOT a BIP322 PSBT</code><br />
+      <code> and they should treat it as an ordinary PSBT):</code><br />
+      <code> </code>
+      <ol type="1">
+      <li><code> The PSBT has the ``PSBT_GLOBAL_GENERIC_SIGNED_MESSAGE`` field set. Extract and use as</code><br />
+      <code> ``message`` in the next steps.</code><br />
+      <code> </code></li>
+      <li><code> The first PSBT input has either a ``witness_utxo`` or a ``non_witness_utxo</code><br />
+      <code> field set and the ``scriptPubKey`` can be extracted. Use that as</code><br />
+      <code> ``message_challenge`` in the next steps.</code><br />
+      <code> </code></li>
+      <li><code> The first PSBT input has ``prevout.n = 0``.</code><br />
+      <code> </code></li>
+      <li><code> The first PSBT input has ``prevout.hash = to_spend.txid`` where</code><br />
+      <code> ``to_spend.txid`` is constructed using the rules described above using the</code><br />
+      <code> ``message`` and ``message_challenge`` from the previous steps.</code><br />
+      <code> </code></li>
+      <li><code> The PSBT's unsigned transaction has a single output with a value of ``0`` and the</code><br />
+      <code> ``scriptPubKey`` set to ``OP_RETURN`` (``0x6a``).</code><br />
+      <code> </code></li>
+      </ol></li>
+      <li><code> If all of the above steps are true, the signer must inform the user about the message they are</code><br />
+      <code> signing and the address they are signing for.</code><br />
+      <code> </code>
+      <ol type="1">
+      <li><code> Even though the message being signed is a transaction, the user interaction (e.g., the steps and</code><br />
+      <code> messages shown on a hardware signing device's screen) should resemble the steps to sign a legacy</code><br />
+      <code> message, not the steps for signing a transaction.</code><br />
+      <code> </code></li>
+      <li><code> Example: Instead of showing "spending 0 satoshi from address &lt;challenge_address&gt;" the</code><br />
+      <code> device should show "signing message &lt;message&gt; for address &lt;challenge_address&gt;".</code><br />
+      <code> </code></li>
+      </ol></li>
+      <li><code> Upon user approval, the signer adds a partial signature for each input it is capable of signing.</code></li>
+      </ol>
+      <h4 data-number="13.11.5.6" id="bip-0322-psbt-finalizer">PSBT
+      finalizer</h4>
+      <p>A <strong>transaction finalizer</strong> of a BIP322 PSBT must
+      follow these steps:</p>
+      <ol type="1">
+      <li><code> They decode the base64-encoded PSBT as specified in </code><a href="bip-0174.mediawiki" class="wikilink" title="BIP174"><code>BIP174</code></a><code>.</code></li>
+      <li><code> They finalize the PSBT as specified in </code><a href="bip-0174.mediawiki#input-finalizer" class="wikilink" title="BIP174"><code>BIP174</code></a><code>.</code></li>
+      <li><code> They then encode the signature following the same steps as described in </code><a href="#signing" class="wikilink" title="Signing"><code>Signing</code></a><br />
+      <code> above.</code></li>
+      </ol>
+      <h3 data-number="13.11.6"
+      id="bip-0322-compatibility">Compatibility</h3>
+      <p>This specification is backwards-compatible with the legacy
+      signmessage/verifymessage specification through the special case
+      <a href="#legacy" class="wikilink" title="as described above">as
+      described above</a>. To support backward compatibility with
+      implementations of this BIP before it was finalized, a verifier
+      might assume the <em>simple</em> variant in the absence of a
+      prefix.</p>
+      <h3 data-number="13.11.7"
+      id="bip-0322-reference-implementation">Reference
+      implementation</h3>
+      <ul>
+      <li><code> Bitcoin Core pull request (basic support) at: </code><a
+      href="https://github.com/bitcoin/bitcoin/pull/24058"><code>https://github.com/bitcoin/bitcoin/pull/24058</code></a></li>
+      <li><code> btcd pull request (complete support, source of test vectors) at:</code><br />
+      <code> </code><a
+      href="https://github.com/btcsuite/btcd/pull/2521"><code>https://github.com/btcsuite/btcd/pull/2521</code></a></li>
+      </ul>
+      <h3 data-number="13.11.8"
+      id="bip-0322-acknowledgements">Acknowledgements</h3>
+      <p>Thanks to David Harding, Jim Posen, Kalle Rosenbaum, Pieter
+      Wuille, Andrew Poelstra, Luke Dashjr, and many others for their
+      feedback on the specification.</p>
+      <h3 data-number="13.11.9" id="bip-0322-references">References</h3>
+      <ol type="1">
+      <li><code> Original mailing list thread:</code><br />
+      <code> </code><a
+      href="https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2018-March/015818.html"><code>https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2018-March/015818.html</code></a></li>
+      </ol>
+      <h3 data-number="13.11.10" id="bip-0322-changelog">Changelog</h3>
+      <ul>
+      <li><strong>2.0.0</strong> (2026-06-04):
+      <ul>
+      <li>Clarify that the message_challenge is <em>not</em> optional
+      for “Proof of Funds”.</li>
+      </ul></li>
+      <li><strong>1.0.0</strong> (2026-04-15):
+      <ul>
+      <li>Mark Complete</li>
+      <li>Breaking change: Add human-readable prefix to encoded
+      signature</li>
+      <li>Breaking change: Format of “Proof of Funds” signatures to be
+      base64-encoded finalized PSBT</li>
+      <li>Add new PSBT global field for PSBT-based signing</li>
+      </ul></li>
+      <li><strong>0.0.1</strong> (2018-09-10):
+      <ul>
+      <li>Proposed as draft</li>
+      </ul></li>
+      </ul>
+      <h3 data-number="13.11.11" id="bip-0322-copyright">Copyright</h3>
+      <p>This document is licensed under the Creative Commons CC0 1.0
+      Universal license.</p>
+      <h3 data-number="13.11.12" id="bip-0322-test-vectors">Test
+      vectors</h3>
+      <p>Basic test vectors for message hashing, transaction hashes and
+      “simple” variant test cases can be found in
+      <a href="bip-0322/basic-test-vectors.json" class="wikilink" title="basic-test-vectors.json"><code>basic-test-vectors.json</code></a>.</p>
+      <p>Generated test vectors for more “simple” and “full” variant
+      test cases can be found in
+      <a href="bip-0322/generated-test-vectors.json" class="wikilink" title="generated-test-vectors.json"><code>generated-test-vectors.json</code></a>.</p>
+      <p>They were generated using <a
+      href="https://github.com/btcsuite/btcd/pull/2521">this
+      code</a>.</p>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0137.html" rel="prev">BIP 137</a>
+        <a class="pager-next" href="scripts-miniscript-and-policy.html" rel="next">Scripts, Miniscript, and Policy</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

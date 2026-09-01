@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 69 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0067.html" accesskey="p" rel="prev">BIP 67</a>
+        <a class="pager-next" href="bip-0125.html" accesskey="n" rel="next">BIP 125</a>
+      </nav>
+      <h2 data-number="14.3" id="bip-0069">BIP 69</h2>
+      <h3 data-number="14.3.1" id="bip-0069-abstract">Abstract</h3>
+      <p>Currently there is no standard for bitcoin wallet clients when
+      ordering transaction inputs and outputs. As a result, wallet
+      clients often have a discernible blockchain fingerprint, and can
+      leak private information about their users. By contrast, a
+      standard for non-deterministic sorting could be difficult to
+      audit. This document proposes deterministic lexicographical
+      sorting, using hashes of previous transactions and output indices
+      to sort transaction inputs, as well as values and scriptPubKeys to
+      sort transaction outputs.</p>
+      <h3 data-number="14.3.2" id="bip-0069-copyright">Copyright</h3>
+      <p>This BIP is in the public domain.</p>
+      <h3 data-number="14.3.3" id="bip-0069-motivation">Motivation</h3>
+      <p>Currently, there is no clear standard for how wallet clients
+      ought to order transaction inputs and outputs. Since wallet
+      clients are left to their own devices to determine this ordering,
+      they often leak information about their users’ finances. For
+      example, a wallet client might naively order inputs based on when
+      addresses were added to a wallet by the user through importing or
+      random generation. Many wallets will place spending outputs first
+      and change outputs second, leaking information about both the
+      sender and receiver’s finances to passive blockchain observers.
+      Such information should remain private not only for the benefit of
+      consumers, but in higher order financial systems must be kept
+      secret to prevent fraud. A researcher recently demonstrated this
+      principle when he detected that Bitstamp leaked information when
+      creating exchange transactions, enabling potential espionage among
+      traders. [1]</p>
+      <p>One way to address these privacy weaknesses is by randomizing
+      the order of inputs and outputs. [2] After all, the order of
+      inputs and outputs does not impact the function of the transaction
+      they belong to, making random sorting viable. Unfortunately, it
+      can be difficult to prove that this sorting process is genuinely
+      randomly sorted based on code or run-time analysis, especially if
+      the software is closed source. A malicious software developer can
+      abuse the ordering of inputs and outputs as a side channel of
+      leaking information. For example, if an attacker can patch a
+      victim’s HD wallet client to order inputs and outputs based on the
+      bits of a master private key, then the attacker can eventually
+      steal all of the victim’s funds by monitoring the blockchain.
+      Non-deterministic methods of sorting are difficult to audit
+      because they are not repeatable.</p>
+      <p>The lack of standardization between wallet clients when
+      ordering inputs and outputs can yield predictable quirks that
+      characterize particular wallet clients or services. Such quirks
+      create unique fingerprints that a privacy attacker can employ
+      through simple passive blockchain observation.</p>
+      <p>The solution is to create an algorithm for sorting transaction
+      inputs and outputs that is deterministic. Since it is
+      deterministic, it should also be unambiguous — that is, given a
+      particular transaction, the proper order of inputs and outputs
+      should be obvious. To make this standard as widely applicable as
+      possible, it should rely on information that is downloaded by both
+      full nodes (with or without typical efficiency techniques such as
+      pruning) and SPV nodes. In order to ensure that it does not leak
+      confidential data, it must rely on information that is publicly
+      accessible through the blockchain. The use of public blockchain
+      information also allows a transaction to be sorted even when it is
+      a multi-party transaction, such as in the example of a
+      CoinJoin.</p>
+      <h3 data-number="14.3.4"
+      id="bip-0069-specification">Specification</h3>
+      <h4 data-number="14.3.4.1"
+      id="bip-0069-applicability">Applicability</h4>
+      <p>This BIP applies to any transaction for which the order of its
+      inputs and outputs does not impact the transaction’s function.
+      Currently, this refers to any transaction that employs the
+      SIGHASH_ALL signature hash type, in which signatures commit to the
+      exact order of inputs and outputs. Transactions that use
+      SIGHASH_ANYONECANPAY and/or SIGHASH_NONE may include inputs and/or
+      outputs that are not signed; however, compliant software should
+      still emit transactions with lexicographically sorted inputs and
+      outputs, even though they may later be modified by others.</p>
+      <p>In the event that future protocol upgrades introduce new
+      signature hash types, compliant software should apply the
+      lexicographical ordering principle analogously.</p>
+      <p>While out of scope of this BIP, protocols that do require a
+      specified order of inputs/outputs (e.g. due to use of
+      SIGHASH_SINGLE) should consider the goals of this BIP and how best
+      to adapt them to the specific needs of those protocols.</p>
+      <h4 data-number="14.3.4.2"
+      id="bip-0069-lexicographical-ordering">Lexicographical
+      Ordering</h4>
+      <p>Lexicographical ordering is an algorithm for comparison used to
+      sort two sets based on their cartesian order within their common
+      superset. Lexicographic order is also often known as alphabetical
+      order, or dictionary order.</p>
+      <p>Common implementations include:</p>
+      <ul>
+      <li>`std::lexicographical_compare` in C++ [5]</li>
+      <li>`cmp` in Python 2.7</li>
+      <li>`memcmp` in C [6]</li>
+      <li>`Buffer.compare` in Node.js [7]</li>
+      </ul>
+      <p>For more information, see the wikipedia entry on
+      Lexicographical order. [8]</p>
+      <p>N.B. All comparisons do not need to operate in constant time
+      since they are not processing secret information.</p>
+      <h4 data-number="14.3.4.3"
+      id="bip-0069-transaction-inputs">Transaction Inputs</h4>
+      <p>Transaction inputs are defined by the hash of a previous
+      transaction, the output index of a UTXO from that previous
+      transaction, the size of an unlocking script, the unlocking
+      script, and a sequence number. [3] For sorting inputs, the hash of
+      the previous transaction and the output index within that
+      transaction are sufficient for sorting purposes; each transaction
+      hash has an extremely high probability of being unique in the
+      blockchain — this is enforced for coinbase transactions by BIP30 —
+      and output indices within a transaction are unique. For the sake
+      of efficiency, transaction hashes should be compared first before
+      output indices, since output indices from different transactions
+      are often equivalent, while all bytes of the transaction hash are
+      effectively random variables.</p>
+      <p>Previous transaction hashes (in reversed byte-order) are to be
+      sorted in ascending order, lexicographically. In the event of two
+      matching transaction hashes, the respective previous output
+      indices will be compared by their integer value, in ascending
+      order. If the previous output indices match, the inputs are
+      considered equal.</p>
+      <p>Transaction malleability will not negatively impact the
+      correctness of this process. Even if a wallet client follows this
+      process using unconfirmed UTXOs as inputs and an attacker modifies
+      the blockchain’s record of the hash of the previous transaction,
+      the wallet client will include the invalidated previous
+      transaction hash in its input data, and will still correctly sort
+      with respect to that invalidated hash.</p>
+      <h4 data-number="14.3.4.4"
+      id="bip-0069-transaction-outputs">Transaction Outputs</h4>
+      <p>A transaction output is defined by its scriptPubKey and amount.
+      [3] For the sake of efficiency, amounts should be compared first
+      for sorting, since they contain fewer bytes of information (8
+      bytes) compared to a standard P2PKH scriptPubKey (25 bytes).
+      [4]</p>
+      <p>Transaction output amounts (as 64-bit unsigned integers) are to
+      be sorted in ascending order. In the event of two matching output
+      amounts, the respective output scriptPubKeys (as a byte-array)
+      will be compared lexicographically, in ascending order. If the
+      scriptPubKeys match, the outputs are considered equal.</p>
+      <h4 data-number="14.3.4.5" id="bip-0069-examples">Examples</h4>
+      <p>Transaction
+      0a6a357e2f7796444e02638749d9611c008b253fb55f5dc88b739b230ed0c4c3:</p>
+      <p>Inputs:</p>
+      <p><code>0: 0e53ec5dfb2cb8a71fec32dc9a634a35b7e24799295ddd5278217822e0b31f57[0]</code><br />
+      <code> 1: 26aa6e6d8b9e49bb0630aac301db6757c02e3619feb4ee0eea81eb1672947024[1]</code><br />
+      <code> 2: 28e0fdd185542f2c6ea19030b0796051e7772b6026dd5ddccd7a2f93b73e6fc2[0]</code><br />
+      <code> 3: 381de9b9ae1a94d9c17f6a08ef9d341a5ce29e2e60c36a52d333ff6203e58d5d[1]</code><br />
+      <code> 4: 3b8b2f8efceb60ba78ca8bba206a137f14cb5ea4035e761ee204302d46b98de2[0]</code><br />
+      <code> 5: 402b2c02411720bf409eff60d05adad684f135838962823f3614cc657dd7bc0a[1]</code><br />
+      <code> 6: 54ffff182965ed0957dba1239c27164ace5a73c9b62a660c74b7b7f15ff61e7a[1]</code><br />
+      <code> 7: 643e5f4e66373a57251fb173151e838ccd27d279aca882997e005016bb53d5aa[0]</code><br />
+      <code> 8: 6c1d56f31b2de4bfc6aaea28396b333102b1f600da9c6d6149e96ca43f1102b1[1]</code><br />
+      <code> 9: 7a1de137cbafb5c70405455c49c5104ca3057a1f1243e6563bb9245c9c88c191[0]</code><br />
+      <code> 10: 7d037ceb2ee0dc03e82f17be7935d238b35d1deabf953a892a4507bfbeeb3ba4[1]</code><br />
+      <code> 11: a5e899dddb28776ea9ddac0a502316d53a4a3fca607c72f66c470e0412e34086[0]</code><br />
+      <code> 12: b4112b8f900a7ca0c8b0e7c4dfad35c6be5f6be46b3458974988e1cdb2fa61b8[0]</code><br />
+      <code> 13: bafd65e3c7f3f9fdfdc1ddb026131b278c3be1af90a4a6ffa78c4658f9ec0c85[0]</code><br />
+      <code> 14: de0411a1e97484a2804ff1dbde260ac19de841bebad1880c782941aca883b4e9[1]</code><br />
+      <code> 15: f0a130a84912d03c1d284974f563c5949ac13f8342b8112edff52971599e6a45[0]</code><br />
+      <code> 16: f320832a9d2e2452af63154bc687493484a0e7745ebd3aaf9ca19eb80834ad60[0]</code></p>
+      <p>Outputs:</p>
+      <p><code>0:    400057456    76a9144a5fba237213a062f6f57978f796390bdcf8d01588ac</code><br />
+      <code> 1:    40000000000    76a9145be32612930b8323add2212a4ec03c1562084f8488ac</code></p>
+      <p>Transaction
+      28204cad1d7fc1d199e8ef4fa22f182de6258a3eaafe1bbe56ebdcacd3069a5f</p>
+      <p>Inputs:</p>
+      <p><code>0: 35288d269cee1941eaebb2ea85e32b42cdb2b04284a56d8b14dcc3f5c65d6055[0]</code><br />
+      <code> 1: 35288d269cee1941eaebb2ea85e32b42cdb2b04284a56d8b14dcc3f5c65d6055[1]</code></p>
+      <p>Outputs:</p>
+      <p><code>0:    100000000    41046a0765b5865641ce08dd39690aade26dfbf5511430ca428a3089261361cef170e3929a68aee3d8d4848b0c5111b0a37b82b86ad559fd2a745b44d8e8d9dfdc0cac</code><br />
+      <code> 1:    2400000000    41044a656f065871a353f216ca26cef8dde2f03e8c16202d2e8ad769f02032cb86a5eb5e56842e92e19141d60a01928f8dd2c875a390f67c1f6c94cfc617c0ea45afac</code></p>
+      <h3 data-number="14.3.5" id="bip-0069-discussion">Discussion</h3>
+      <ul>
+      <li><a href="https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2015-June/008484.html" class="wikilink" title="[Bitcoin-development] Lexicographical Indexing of Transaction Inputs and Outputs">[Bitcoin-development]
+      Lexicographical Indexing of Transaction Inputs and
+      Outputs</a></li>
+      <li><a href="https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2015-June/008487.html" class="wikilink" title="[Bitcoin-development] [RFC] Canonical input and output ordering in transactions">[Bitcoin-development]
+      [RFC] Canonical input and output ordering in transactions</a></li>
+      </ul>
+      <h3 data-number="14.3.6" id="bip-0069-references">References</h3>
+      <ul>
+      <li><a href="https://bitcoinmagazine.com/20273/bitstamp-exchange-activity-trackable-due-multisig-wallet-implementation/" class="wikilink" title="1: Bitstamp Info Leak">1:
+      Bitstamp Info Leak</a></li>
+      <li><a href="https://github.com/OpenBitcoinPrivacyProject/wallet-ratings/blob/5a7e2e1555e91bb48edeca3aa710272777d98c2a/2015-1/criteria.md" class="wikilink" title="2: OBPP Random Indexing as Countermeasure">2:
+      OBPP Random Indexing as Countermeasure</a></li>
+      <li><a href="https://github.com/aantonop/bitcoinbook/blob/develop/ch05.asciidoc" class="wikilink" title="3: Mastering Bitcoin">3:
+      Mastering Bitcoin</a></li>
+      <li><a href="https://en.bitcoin.it/wiki/Script" class="wikilink" title="4: Bitcoin Wiki on Script">4:
+      Bitcoin Wiki on Script</a></li>
+      <li><a href="http://www.cplusplus.com/reference/algorithm/lexicographical_compare" class="wikilink" title="5: std::lexicographical_compare">5:
+      std::lexicographical_compare</a></li>
+      <li><a href="http://www.cplusplus.com/reference/cstring/memcmp" class="wikilink" title="6: memcmp">6:
+      memcmp</a></li>
+      <li><a href="https://nodejs.org/api/buffer.html#buffer_class_method_buffer_compare_buf1_buf2" class="wikilink" title="7: Buffer.compare">7:
+      Buffer.compare</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Lexicographical_order" class="wikilink" title="8: Lexicographical order">8:
+      Lexicographical order</a></li>
+      </ul>
+      <h3 data-number="14.3.7"
+      id="bip-0069-implementations">Implementations</h3>
+      <ul>
+      <li><a href="https://github.com/spesmilo/electrum/blob/2af670ea2b92e835919b745d94afcb8b4ec32fda/lib/transaction.py#L648" class="wikilink" title="Electrum">Electrum</a></li>
+      <li><a href="https://github.com/bitcoinjs/bip69/blob/master/index.js" class="wikilink" title="BitcoinJS">BitcoinJS</a></li>
+      <li><a href="https://github.com/bitcoinjs/bip69/blob/master/test/fixtures.json" class="wikilink" title="BitcoinJS Test Fixtures">BitcoinJS
+      Test Fixtures</a></li>
+      <li><a href="https://www.npmjs.com/package/bip69" class="wikilink" title="NodeJS">NodeJS</a></li>
+      <li><a href="https://github.com/blockchain/My-Wallet-V3/blob/v3.8.0/src/transaction.js#L120-L142" class="wikilink" title="Blockchain.info public beta">Blockchain.info
+      public beta</a></li>
+      <li><a href="https://github.com/btcsuite/btcd/blob/master/btcutil/txsort/txsort.go" class="wikilink" title="Btcsuite">Btcsuite</a></li>
+      </ul>
+      <h3 data-number="14.3.8"
+      id="bip-0069-acknowledgements">Acknowledgements</h3>
+      <p>Danno Ferrin &lt;danno@numisight.com&gt;, Sergio Demian Lerner
+      &lt;sergiolerner@certimix.com&gt;, Justus Ranvier
+      &lt;justus@openbitcoinprivacyproject.org&gt;, and Peter Todd
+      &lt;pete@petertodd.org&gt; contributed to the design and
+      motivations for this BIP. A similar proposal was submitted to the
+      Bitcoin-dev mailing list independently by Rusty Russell
+      &lt;rusty@rustcorp.com.au&gt;</p>
+      <pre><code>  BIP: 125
+  Layer: Applications
+  Title: Opt-in Full Replace-by-Fee Signaling
+  Authors: David A. Harding &lt;dave@dtrt.org&gt;
+           Peter Todd &lt;pete@petertodd.org&gt;
+  Comments-Summary: No comments yet.
+  Comments-URI: https://github.com/bitcoin/bips/wiki/Comments:BIP-0125
+  Status: Deployed
+  Type: Specification
+  Assigned: 2015-12-04
+  License: PD</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0067.html" rel="prev">BIP 67</a>
+        <a class="pager-next" href="bip-0125.html" rel="next">BIP 125</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -8,7 +8,7 @@ The book is compiled by Adam Shannon. The BIPs are written by their original aut
 
 ## Get the book
 
-- Website: [adamdecaf.github.io/bitcoin-bips-book](https://adamdecaf.github.io/bitcoin-bips-book/)
+- Read online: [adamdecaf.github.io/bitcoin-bips-book](https://adamdecaf.github.io/bitcoin-bips-book/) ([contents](https://adamdecaf.github.io/bitcoin-bips-book/book/))
 - [ePUB](https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub)
 - [PDF](https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf)
 
@@ -38,11 +38,10 @@ Editorial wrapping lives in `include/`. Reading order lives in `scripts/create.s
 
 ## Development
 
-You need [pandoc](https://github.com/jgm/pandoc/blob/main/INSTALL.md) and a LaTeX engine for PDF. On macOS:
+You need [pandoc](https://github.com/jgm/pandoc/blob/main/INSTALL.md). PDF uses [WeasyPrint](https://weasyprint.org/) when it is installed (`xelatex` is a fallback). On macOS:
 
 ```
-brew install pandoc basictex
-eval "$(/usr/libexec/path_helper)"
+brew install pandoc weasyprint
 ```
 
 Clone this repo, then pull the BIPs and build:
@@ -51,6 +50,7 @@ Clone this repo, then pull the BIPs and build:
 make setup    # clones bitcoin/bips into ./bips and converts mediawiki to markdown
 make epub
 make pdf
+make html     # writes the web book into docs/book/
 ```
 
 `make setup` also writes the upstream git commit into `include/git.md` so the book records which snapshot it was built from.

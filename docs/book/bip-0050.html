@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 50 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0090.html" accesskey="p" rel="prev">BIP 90</a>
+        <a class="pager-next" href="addresses-and-encodings.html" accesskey="n" rel="next">Addresses and Encodings</a>
+      </nav>
+      <h2 data-number="4.6" id="bip-0050">BIP 50</h2>
+      <h3 data-number="4.6.1" id="bip-0050-what-went-wrong">What went
+      wrong</h3>
+      <p>A block that had a larger number of total transaction inputs
+      than previously seen was mined and broadcasted. Bitcoin 0.8 nodes
+      were able to handle this, but some pre-0.8 Bitcoin nodes rejected
+      it, causing an unexpected fork of the blockchain. The
+      pre-0.8-incompatible chain (from here on, the 0.8 chain) at that
+      point had around 60% of the mining hash power ensuring the split
+      did not automatically resolve (as would have occurred if the
+      pre-0.8 chain outpaced the 0.8 chain in total work, forcing 0.8
+      nodes to reorganise to the pre-0.8 chain).</p>
+      <p>In order to restore a canonical chain as soon as possible,
+      BTCGuild and Slush downgraded their Bitcoin 0.8 nodes to 0.7 so
+      their pools would also reject the larger block. This placed
+      majority hashpower on the chain without the larger block, thus
+      eventually causing the 0.8 nodes to reorganise to the pre-0.8
+      chain.</p>
+      <p>During this time there was at least <a
+      href="https://bitcointalk.org/index.php?topic=152348.0">one large
+      double spend</a>. However, it was done by someone experimenting to
+      see if it was possible and was not intended to be malicious.</p>
+      <h3 data-number="4.6.2" id="bip-0050-what-went-right">What went
+      right</h3>
+      <ul>
+      <li>The split was detected very quickly.</li>
+      <li>The right people were online and available in IRC or could be
+      contacted directly.</li>
+      <li>Marek Palatinus (Slush) and Michael Marsee (Eleuthria of
+      BTCGuild) quickly downgraded their nodes to restore a pre-0.8
+      chain as canonical, despite the fact that this caused them to
+      sacrifice significant amounts of money.</li>
+      <li>Deposits to the major exchanges and payments via BitPay were
+      also suspended (and then un-suspended) very quickly.</li>
+      <li>Fortunately, the only attack on a merchant was done by someone
+      who was not intending to actually steal money.</li>
+      </ul>
+      <h3 data-number="4.6.3" id="bip-0050-root-cause">Root cause</h3>
+      <p>Bitcoin versions prior to 0.8 configure an insufficient number
+      of Berkeley DB locks to process large but otherwise valid blocks.
+      Berkeley DB locks have to be manually configured by API users
+      depending on anticipated load. The manual says this:</p>
+      <p>The recommended algorithm for selecting the maximum number of
+      locks, lockers, and lock objects is to run the application under
+      stressful conditions and then review the lock system’s statistics
+      to determine the maximum number of locks, lockers, and lock
+      objects that were used. Then, double these values for safety.</p>
+      <p>With the insufficiently high BDB lock configuration, it
+      implicitly had become a network consensus rule determining block
+      validity (albeit an inconsistent and unsafe rule, since the lock
+      usage could vary from node to node).</p>
+      <p>Because max-sized blocks had been successfully processed on the
+      testnet, it did not occur to anyone that there could be blocks
+      that were smaller but require more locks than were available.
+      Prior to 0.7 unmodified mining nodes self-imposed a maximum block
+      size of 500,000 bytes, which further prevented this case from
+      being triggered. 0.7 made the target size configurable and miners
+      had been encouraged to increase this target in the week prior to
+      the incident.</p>
+      <p>Bitcoin 0.8 did not use Berkeley DB. It switched to LevelDB
+      instead, which did not implement the same locking limits as BDB.
+      Therefore it was able to process the forking block
+      successfully.</p>
+      <p>Note that BDB locks are also required during processing of
+      re-organizations. Versions prior to 0.8 may be unable to process
+      some valid re-orgs.</p>
+      <p>This would be an issue even if the entire network was running
+      version 0.7.2. It is theoretically possible for one 0.7.2 node to
+      create a block that others are unable to validate, or for 0.7.2
+      nodes to create block re-orgs that peers cannot validate, because
+      the contents of each node’s blkindex.dat database is not
+      identical, and the number of locks required depends on the exact
+      arrangement of the blkindex.dat on disk (locks are acquired
+      per-page).</p>
+      <h3 data-number="4.6.4" id="bip-0050-action-items">Action
+      items</h3>
+      <h4 data-number="4.6.4.1"
+      id="bip-0050-immediately">Immediately</h4>
+      <p><strong>Done</strong>: Release a version 0.8.1, forked directly
+      from 0.8.0, that, for the next two months has the following new
+      rules:</p>
+      <ol type="1">
+      <li>Reject blocks that would probably cause more than 10,000 locks
+      to be taken.</li>
+      <li>Limit the maximum block-size created to 500,000 bytes</li>
+      <li>Release a patch for older versions that implements the same
+      rules, but also increases the maximum number of locks to
+      537,000</li>
+      <li>Create a web page on bitcoin.org that will urge users to
+      upgrade to 0.8.1, but will tell them how to set DB_CONFIG to
+      537,000 locks if they absolutely cannot.</li>
+      <li>Over the next 2 months, send a series of alerts to users of
+      older versions, pointing to the web page.</li>
+      </ol>
+      <h4 data-number="4.6.4.2" id="bip-0050-alert-system">Alert
+      system</h4>
+      <p><strong>Done</strong>: Review who has access to the alert
+      system keys, make sure they all have contact information for each
+      other, and get good timezone overlap by people with access to the
+      keys.</p>
+      <p><strong>Done</strong>: Implement a new bitcoind feature so
+      services can get timely notification of alerts:
+      -alertnotify=&lt;command&gt; Run command when an AppliesToMe()
+      alert is received.</p>
+      <p><strong>Done</strong>: Pre-generate 52 test alerts, and set a
+      time every week when they are broadcast on -testnet (so
+      -alertnotify scripts can be tested in as-close-to-real-world
+      conditions as possible).</p>
+      <p>Idea from Michael Gronager: encourage merchants/exchanges (and
+      maybe pools) to run new code behind a bitcoind running the
+      network-majority version.</p>
+      <h4 data-number="4.6.4.3" id="bip-0050-safe-mode">Safe mode</h4>
+      <p><strong>Done</strong>: Perhaps trigger an alert if there is a
+      long enough side chain detected, even if it is not the main chain.
+      Pools could use this to automatically suspend payouts if a long
+      side-chain suddenly appeared out of nowhere (it’s hard for an
+      attacker to mine such a thing).</p>
+      <h4 data-number="4.6.4.4" id="bip-0050-testing">Testing</h4>
+      <p>Start running bots on the testnet that grab some coins from a
+      testnet faucet, generate large numbers of random transactions that
+      split/recombine them and then send them back to the faucet.
+      Randomized online testing on the testnet might have revealed the
+      pathological block type earlier.</p>
+      <h4 data-number="4.6.4.5" id="bip-0050-double-spending">Double
+      spending</h4>
+      <p>A double spend attack was successful, despite that both sides
+      of the chain heard about the transactions in the same order. The
+      reason is most likely that the memory pools were cleared when the
+      mining pool nodes were downgraded. A solution is for nodes to sync
+      their mempools to each other at startup, however, this requires a
+      memory pool expiry policy to be implemented as currently node
+      restarts are the only way for unconfirmed transactions to be
+      evicted from the system.</p>
+      <h4 data-number="4.6.4.6" id="bip-0050-resolution">Resolution</h4>
+      <p>On 16 August, 2013 block 252,451
+      (0x0000000000000024b58eeb1134432f00497a6a860412996e7a260f47126eed07)
+      was accepted by the main network, forking unpatched nodes off the
+      network.</p>
+      <h3 data-number="4.6.5" id="bip-0050-copyright">Copyright</h3>
+      <p>This document is placed in the public domain.</p>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0090.html" rel="prev">BIP 90</a>
+        <a class="pager-next" href="addresses-and-encodings.html" rel="next">Addresses and Encodings</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

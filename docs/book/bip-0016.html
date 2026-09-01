@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 16 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="consensus-changes-that-shipped.html" accesskey="p" rel="prev">Consensus Changes That Shipped</a>
+        <a class="pager-next" href="bip-0030.html" accesskey="n" rel="next">BIP 30</a>
+      </nav>
+      <h2 data-number="6.1" id="bip-0016">BIP 16</h2>
+      <h3 data-number="6.1.1" id="bip-0016-abstract">Abstract</h3>
+      <p>This BIP describes a new “standard” transaction type for the
+      Bitcoin scripting system, and defines additional validation rules
+      that apply only to the new transactions.</p>
+      <h3 data-number="6.1.2" id="bip-0016-motivation">Motivation</h3>
+      <p>The purpose of pay-to-script-hash is to move the responsibility
+      for supplying the conditions to redeem a transaction from the
+      sender of the funds to the redeemer.</p>
+      <p>The benefit is allowing a sender to fund any arbitrary
+      transaction, no matter how complicated, using a fixed-length
+      20-byte hash that is short enough to scan from a QR code or easily
+      copied and pasted.</p>
+      <h3 data-number="6.1.3"
+      id="bip-0016-specification">Specification</h3>
+      <p>A new standard transaction type that is relayed and included in
+      mined blocks is defined:</p>
+      <p><code>   OP_HASH160 [20-byte-hash-value] OP_EQUAL</code></p>
+      <p>[20-byte-hash-value] shall be the push-20-bytes-onto-the-stack
+      opcode (0x14) followed by exactly 20 bytes.</p>
+      <p>This new transaction type is redeemed by a standard
+      scriptSig:</p>
+      <p><code>   ...signatures... {serialized script}</code></p>
+      <p>Transactions that redeem these pay-to-script outpoints are only
+      considered standard if the <em>serialized script</em> - also
+      referred to as the <em>redeemScript</em> - is, itself, one of the
+      other standard transaction types.</p>
+      <p>The rules for validating these outpoints when relaying
+      transactions or considering them for inclusion in a new block are
+      as follows:</p>
+      <ol type="1">
+      <li>Validation fails if there are any operations other than “push
+      data” operations in the scriptSig.</li>
+      <li>Normal validation is done: an initial stack is created from
+      the signatures and {serialized script}, and the hash of the script
+      is computed and validation fails immediately if it does not match
+      the hash in the outpoint.</li>
+      <li>{serialized script} is popped off the initial stack, and the
+      transaction is validated again using the popped stack and the
+      deserialized script as the scriptPubKey.</li>
+      </ol>
+      <p>These new rules should only be applied when validating
+      transactions in blocks with timestamps &gt;= 1333238400 (Apr 1
+      2012) <a
+      href="https://github.com/bitcoin/bitcoin/commit/8f188ece3c82c4cf5d52a3363e7643c23169c0ff">Remove
+      -bip16 and -paytoscripthashtime command-line arguments</a>. There
+      are transactions earlier than 1333238400 in the block chain that
+      fail these new validation rules. <a
+      href="https://web.archive.org/web/20141122040355/http://blockexplorer.com/tx/6a26d2ecb67f27d1fa5524763b49029d7106e91e3cc05743073461a719776192">Transaction
+      6a26d2ecb67f27d1fa5524763b49029d7106e91e3cc05743073461a719776192</a>.
+      Older transactions must be validated under the old rules. (see the
+      Backwards Compatibility section for details).</p>
+      <p>For example, the scriptPubKey and corresponding scriptSig for a
+      one-signature-required transaction is:</p>
+      <p><code>   scriptSig: [signature] {[pubkey] OP_CHECKSIG}</code><br />
+      <code>   scriptPubKey: OP_HASH160 [20-byte-hash of {[pubkey] OP_CHECKSIG} ] OP_EQUAL</code></p>
+      <p>Signature operations in the {serialized script} shall
+      contribute to the maximum number allowed per block (20,000) as
+      follows:</p>
+      <ol type="1">
+      <li>OP_CHECKSIG and OP_CHECKSIGVERIFY count as 1 signature
+      operation, whether or not they are evaluated.</li>
+      <li>OP_CHECKMULTISIG and OP_CHECKMULTISIGVERIFY immediately
+      preceded by OP_1 through OP_16 are counted as 1 to 16 signature
+      operation, whether or not they are evaluated.</li>
+      <li>All other OP_CHECKMULTISIG and OP_CHECKMULTISIGVERIFY are
+      counted as 20 signature operations.</li>
+      </ol>
+      <p>Examples:</p>
+      <p>+3 signature operations:</p>
+      <p><code>   {2 [pubkey1] [pubkey2] [pubkey3] 3 OP_CHECKMULTISIG}</code></p>
+      <p>+22 signature operations:</p>
+      <p><code>   {OP_CHECKSIG OP_IF OP_CHECKSIGVERIFY OP_ELSE OP_CHECKMULTISIGVERIFY OP_ENDIF}</code></p>
+      <h3 data-number="6.1.4" id="bip-0016-rationale">Rationale</h3>
+      <p>This BIP replaces BIP 12, which proposed a new Script opcode
+      (“OP_EVAL”) to accomplish everything in this BIP and more.</p>
+      <p>The Motivation for this BIP (and BIP 13, the pay-to-script-hash
+      address type) is somewhat controversial; several people feel that
+      it is unnecessary, and complex/multisignature transaction types
+      should be supported by simply giving the sender the complete
+      {serialized script}. The author believes that this BIP will
+      minimize the changes needed to all of the supporting
+      infrastructure that has already been created to send funds to a
+      base58-encoded-20-byte bitcoin addresses, allowing merchants and
+      exchanges and other software to start supporting multisignature
+      transactions sooner.</p>
+      <p>Recognizing one ‘special’ form of scriptPubKey and performing
+      extra validation when it is detected is ugly. However, the
+      consensus is that the alternatives are either uglier, are more
+      complex to implement, and/or expand the power of the expression
+      language in dangerous ways.</p>
+      <p>The signature operation counting rules are intended to be easy
+      and quick to implement by statically scanning the {serialized
+      script}. Bitcoin imposes a maximum-number-of-signature-operations
+      per block to prevent denial-of-service attacks on miners. If there
+      was no limit, a rogue miner might broadcast a block that required
+      hundreds of thousands of ECDSA signature operations to validate,
+      and it might be able to get a head start computing the next block
+      while the rest of the network worked to validate the current
+      one.</p>
+      <p>There is a 1-confirmation attack on old implementations, but it
+      is expensive and difficult in practice. The attack is:</p>
+      <ol type="1">
+      <li>Attacker creates a pay-to-script-hash transaction that is
+      valid as seen by old software, but invalid for new implementation,
+      and sends themselves some coins using it.</li>
+      <li>Attacker also creates a standard transaction that spends the
+      pay-to-script-hash transaction, and pays the victim who is running
+      old software.</li>
+      <li>Attacker mines a block that contains both transactions.</li>
+      </ol>
+      <p>If the victim accepts the 1-confirmation payment, then the
+      attacker wins because both transactions will be invalidated when
+      the rest of the network overwrites the attacker’s invalid
+      block.</p>
+      <p>The attack is expensive because it requires the attacker create
+      a block that they know will be invalidated by the rest of the
+      network. It is difficult because creating blocks is difficult and
+      users should not accept 1-confirmation transactions for
+      higher-value transactions.</p>
+      <h3 data-number="6.1.5"
+      id="bip-0016-backwards-compatibility">Backwards Compatibility</h3>
+      <p>These transactions are non-standard to old implementations,
+      which will (typically) not relay them or include them in
+      blocks.</p>
+      <p>Old implementations will validate that the {serialize script}’s
+      hash value matches when they validate blocks created by software
+      that fully support this BIP, but will do no other validation.</p>
+      <p>Avoiding a block-chain split by malicious pay-to-script
+      transactions requires careful handling of one case:</p>
+      <ul>
+      <li>A pay-to-script-hash transaction that is invalid for new
+      clients/miners but valid for old clients/miners.</li>
+      </ul>
+      <p>To gracefully upgrade and ensure no long-lasting block-chain
+      split occurs, more than 50% of miners must support full validation
+      of the new transaction type and must switch from the old
+      validation rules to the new rules at the same time.</p>
+      <p>To judge whether or not more than 50% of hashing power supports
+      this BIP, miners are asked to upgrade their software and put the
+      string “/P2SH/” in the input of the coinbase transaction for
+      blocks that they create.</p>
+      <p>On February 1, 2012, the block-chain will be examined to
+      determine the number of blocks supporting pay-to-script-hash for
+      the previous 7 days. If 550 or more contain “/P2SH/” in their
+      coinbase, then all blocks with timestamps after 15 Feb 2012,
+      00:00:00 GMT shall have their pay-to-script-hash transactions
+      fully validated. Approximately 1,000 blocks are created in a week;
+      550 should, therefore, be approximately 55% of the network
+      supporting the new feature.</p>
+      <p>If a majority of hashing power does not support the new
+      validation rules, then rollout will be postponed (or rejected if
+      it becomes clear that a majority will never be achieved).</p>
+      <h4 data-number="6.1.5.1"
+      id="bip-0016-byte-limitation-on-serialized-script-size">520-byte
+      limitation on serialized script size</h4>
+      <p>As a consequence of the requirement for backwards compatibility
+      the serialized script is itself subject to the same rules as any
+      other PUSHDATA operation, including the rule that no data greater
+      than 520 bytes may be pushed to the stack. Thus it is not possible
+      to spend a P2SH output if the redemption script it refers to is
+      &gt;520 bytes in length. For instance while the OP_CHECKMULTISIG
+      opcode can itself accept up to 20 pubkeys, with 33-byte compressed
+      pubkeys it is only possible to spend a P2SH output requiring a
+      maximum of 15 pubkeys to redeem: 3 bytes + 15 pubkeys * 34
+      bytes/pubkey = 513 bytes.</p>
+      <h3 data-number="6.1.6"
+      id="bip-0016-reference-implementation">Reference
+      Implementation</h3>
+      <p><a href="https://gist.github.com/gavinandresen/3966071"
+      class="uri">https://gist.github.com/gavinandresen/3966071</a></p>
+      <h3 data-number="6.1.7" id="bip-0016-see-also">See Also</h3>
+      <ul>
+      <li><a href="https://bitcointalk.org/index.php?topic=46538"
+      class="uri">https://bitcointalk.org/index.php?topic=46538</a></li>
+      <li>The
+      <a href="bip-0013.mediawiki" class="wikilink" title="Address format for Pay to Script Hash BIP">Address
+      format for Pay to Script Hash BIP</a></li>
+      <li>M-of-N Multisignature Transactions
+      <a href="bip-0011.mediawiki" class="wikilink" title="BIP 11">BIP
+      11</a></li>
+      <li><a href="bip-0016/qa.mediawiki" class="wikilink" title="Quality Assurance test checklist">Quality
+      Assurance test checklist</a></li>
+      </ul>
+      <h3 data-number="6.1.8" id="bip-0016-references">References</h3>
+      <pre><code>  BIP: 30
+  Layer: Consensus (soft fork)
+  Title: Duplicate transactions
+  Authors: Pieter Wuille &lt;pieter.wuille@gmail.com&gt;
+  Status: Deployed
+  Type: Specification
+  Assigned: 2012-02-22
+  License: BSD-2-Clause</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="consensus-changes-that-shipped.html" rel="prev">Consensus Changes That Shipped</a>
+        <a class="pager-next" href="bip-0030.html" rel="next">BIP 30</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

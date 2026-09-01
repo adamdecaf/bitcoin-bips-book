@@ -4,74 +4,15 @@
     <meta charset="utf-8" />
     <title>Bitcoin Book of BIPs</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Bitcoin Improvement Proposals, compiled into a readable book. Available as ePUB and PDF." />
-    <style>
-      :root {
-        color-scheme: light;
-        --bg: #f6f1e8;
-        --ink: #1c1916;
-        --muted: #5c564e;
-        --rule: #d7cfc2;
-        --link: #8a3b12;
-      }
-      * { box-sizing: border-box; }
-      html, body {
-        margin: 0;
-        padding: 0;
-        background: var(--bg);
-        color: var(--ink);
-        font: 18px/1.55 Georgia, "Times New Roman", serif;
-      }
-      main {
-        max-width: 36rem;
-        margin: 0 auto;
-        padding: 3.5rem 1.25rem 4rem;
-      }
-      h1 {
-        font-size: 2rem;
-        font-weight: normal;
-        letter-spacing: 0.01em;
-        margin: 0 0 0.35rem;
-      }
-      .byline {
-        color: var(--muted);
-        font-size: 0.95rem;
-        margin: 0 0 1.75rem;
-      }
-      p { margin: 0 0 1rem; }
-      .downloads {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.6rem 0.75rem;
-        margin: 1.5rem 0 2rem;
-      }
-      .downloads a {
-        display: inline-block;
-        padding: 0.45rem 0.9rem;
-        border: 1px solid var(--ink);
-        color: var(--ink);
-        text-decoration: none;
-        font-size: 0.95rem;
-      }
-      .downloads a:hover {
-        background: var(--ink);
-        color: var(--bg);
-      }
-      a { color: var(--link); }
-      footer {
-        margin-top: 2.5rem;
-        padding-top: 1rem;
-        border-top: 1px solid var(--rule);
-        color: var(--muted);
-        font-size: 0.95rem;
-      }
-      footer a { color: var(--muted); }
-    </style>
+    <meta name="description" content="Bitcoin Improvement Proposals, compiled into a readable book. Read online, or download ePUB and PDF." />
+    <link rel="stylesheet" href="web.css" />
   </head>
-  <body>
+  <body class="home">
     <main>
       <h1>Bitcoin Book of BIPs</h1>
       <p class="byline">compiled by Adam Shannon</p>
+
+      <img class="cover" src="cover.png" alt="Cover of the Bitcoin Book of BIPs" width="1536" height="2048" />
 
       <p>
         Deployed and complete Bitcoin Improvement Proposals, grouped by theme
@@ -84,21 +25,38 @@
         wallets, and the peer-to-peer network follow.
       </p>
 
-      <div class="downloads">
+      <div class="actions">
+        <a class="primary" href="book/introduction.html">Read online</a>
+        <a href="book/">Full contents</a>
         <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">Download ePUB</a>
         <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">Download PDF</a>
         <a href="https://github.com/adamdecaf/bitcoin-bips-book">Source on GitHub</a>
       </div>
 
-      <p>
-        Site:
-        <a href="https://adamdecaf.github.io/bitcoin-bips-book/">https://adamdecaf.github.io/bitcoin-bips-book/</a>
-      </p>
+      <h2>Contents</h2>
+      <ol class="chapter-list">
+        <li><a href="book/introduction.html"><span class="n">1</span> Introduction</a></li>
+        <li><a href="book/how-to-read-this-book.html"><span class="n">2</span> How to Read This Book</a></li>
+        <li><a href="book/process-history.html"><span class="n">3</span> Process &amp; History</a></li>
+        <li><a href="book/addresses-and-encodings.html"><span class="n">4</span> Addresses and Encodings</a></li>
+        <li><a href="book/consensus-changes-that-shipped.html"><span class="n">5</span> Consensus Changes That Shipped</a></li>
+        <li><a href="book/schnorr-taproot-tapscript.html"><span class="n">6</span> Schnorr, Taproot, Tapscript</a></li>
+        <li><a href="book/keys-seeds-and-derivation.html"><span class="n">7</span> Keys, Seeds, and Derivation</a></li>
+        <li><a href="book/output-script-descriptors.html"><span class="n">8</span> Output Script Descriptors</a></li>
+        <li><a href="book/partially-signed-transactions.html"><span class="n">9</span> Partially Signed Transactions</a></li>
+        <li><a href="book/peer-to-peer-network.html"><span class="n">10</span> Peer-to-Peer Network</a></li>
+        <li><a href="book/mining-and-block-templates.html"><span class="n">11</span> Mining and Block Templates</a></li>
+        <li><a href="book/paying-people.html"><span class="n">12</span> Paying People</a></li>
+        <li><a href="book/scripts-miniscript-and-policy.html"><span class="n">13</span> Scripts, Miniscript, and Policy</a></li>
+        <li><a href="book/conclusion.html"><span class="n">14</span> Conclusion</a></li>
+      </ol>
 
       <footer>
         <p>
           BIP changes belong upstream at
           <a href="https://github.com/bitcoin/bips">bitcoin/bips</a>.
+          Further discussion of this book belongs on the
+          <a href="https://github.com/adamdecaf/bitcoin-bips-book">bitcoin-bips-book repository</a>.
         </p>
       </footer>
     </main>

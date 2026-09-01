@@ -31,16 +31,21 @@ jobs:
         timeout-minutes: 15
         run: make pdf
 
+      - name: Build HTML
+        run: make html
+
       - name: Require outputs
         run: |
           test -s bitcoin-bips-book.epub
           test -s bitcoin-bips-book.pdf
+          test -s docs/book/index.html
+          test -s docs/book/bip-0003.html
 
       - name: Commit and Push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "support@github.com"
-          git add -A bitcoin-bips-book.epub bitcoin-bips-book.pdf ./include/git.md
+          git add -A bitcoin-bips-book.epub bitcoin-bips-book.pdf ./include/git.md docs/book docs/cover.png
           if git diff --cached --quiet; then
             echo "No published book changes"
           else

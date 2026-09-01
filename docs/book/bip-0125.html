@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 125 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0069.html" accesskey="p" rel="prev">BIP 69</a>
+        <a class="pager-next" href="bip-0388.html" accesskey="n" rel="next">BIP 388</a>
+      </nav>
+      <h2 data-number="14.4" id="bip-0125">BIP 125</h2>
+      <h3 data-number="14.4.1" id="bip-0125-abstract">Abstract</h3>
+      <p>Many nodes today will not replace any transaction in their
+      mempool with another transaction that spends the same inputs,
+      making it difficult for spenders to adjust their previously-sent
+      transactions to deal with unexpected confirmation delays or to
+      perform other useful replacements.</p>
+      <p>The opt-in full Replace-by-Fee (opt-in full-RBF) signaling
+      policy described here allows spenders to add a signal to a
+      transaction indicating that they want to be able to replace that
+      transaction in the future. In response to this signal,</p>
+      <ul>
+      <li>Nodes may allow transactions containing this signal to be
+      replaced in their mempools.</li>
+      </ul>
+      <!-- -->
+      <ul>
+      <li>The recipient or recipients of a transaction containing this
+      signal may choose not to treat it as payment until it has been
+      confirmed, eliminating the risk that the spender will use allowed
+      replacements to defraud them.</li>
+      </ul>
+      <p>Nodes and recipients may continue to treat transactions without
+      the signal the same way they treated them before, preserving the
+      existing status quo.</p>
+      <h3 data-number="14.4.2" id="bip-0125-summary">Summary</h3>
+      <p>This policy specifies two ways a transaction can signal that it
+      is replaceable.</p>
+      <ul>
+      <li><strong>Explicit signaling:</strong> A transaction is
+      considered to have opted in to allowing replacement of itself if
+      any of its inputs have an nSequence number less than (0xffffffff -
+      1).</li>
+      </ul>
+      <!-- -->
+      <ul>
+      <li><strong>Inherited signaling:</strong> Transactions that don’t
+      explicitly signal replaceability are replaceable under this policy
+      for as long as any one of their ancestors signals replaceability
+      and remains unconfirmed.</li>
+      </ul>
+      <h4 data-number="14.4.2.1"
+      id="bip-0125-implementation-details">Implementation Details</h4>
+      <p>The initial implementation expected in Bitcoin Core 0.12.0 uses
+      the following rules:</p>
+      <p>One or more transactions currently in the mempool (original
+      transactions) will be replaced by a new transaction (replacement
+      transaction) that spends one or more of the same inputs if,</p>
+      <ol type="1">
+      <li>The original transactions signal replaceability explicitly or
+      through inheritance as described in the above Summary
+      section.</li>
+      </ol>
+      <!-- -->
+      <ol type="1">
+      <li>The replacement transaction may only include an unconfirmed
+      input if that input was included in one of the original
+      transactions. (An unconfirmed input spends an output from a
+      currently-unconfirmed transaction.)</li>
+      </ol>
+      <!-- -->
+      <ol type="1">
+      <li>The replacement transaction pays an absolute fee of at least
+      the sum paid by the original transactions.</li>
+      </ol>
+      <!-- -->
+      <ol type="1">
+      <li>The replacement transaction must also pay for its own
+      bandwidth at or above the rate set by the node’s minimum relay fee
+      setting. For example, if the minimum relay fee is 1 satoshi/byte
+      and the replacement transaction is 500 bytes total, then the
+      replacement must pay a fee at least 500 satoshis higher than the
+      sum of the originals.</li>
+      </ol>
+      <!-- -->
+      <ol type="1">
+      <li>The number of original transactions to be replaced and their
+      descendant transactions which will be evicted from the mempool
+      must not exceed a total of 100 transactions.</li>
+      </ol>
+      <p>The initial implementation may be seen in <a
+      href="https://github.com/bitcoin/bitcoin/pull/6871">Bitcoin Core
+      PR#6871</a> and specifically the master branch commits from
+      5891f870d68d90408aa5ce5b597fb574f2d2cbca to
+      16a2f93629f75d182871f288f0396afe6cdc8504 (inclusive).</p>
+      <h4 data-number="14.4.2.2"
+      id="bip-0125-receiving-wallet-policy">Receiving wallet policy</h4>
+      <p>Wallets that display unconfirmed transactions to users or that
+      provide data about unconfirmed transactions to automated systems
+      should consider doing one of the following:</p>
+      <ol type="1">
+      <li>Conveying additional suspicion about opt-in full-RBF
+      transactions to the user or data consumer.</li>
+      </ol>
+      <!-- -->
+      <ol type="1">
+      <li>Ignoring the opt-in transaction until it has been
+      confirmed.</li>
+      </ol>
+      <p>Because descendant transactions may also be replaceable under
+      this policy through inherited signaling, any method used to
+      process opt-in full-RBF transactions should be inherited by any
+      descendant transactions for as long as any ancestor opt-in
+      full-RBF transactions remain unconfirmed.</p>
+      <h4 data-number="14.4.2.3"
+      id="bip-0125-spending-wallet-policy">Spending wallet policy</h4>
+      <p>Wallets that don’t want to signal replaceability should use
+      either a max sequence number (0xffffffff) or a sequence number of
+      (0xffffffff-1) when they also want to use locktime; all known
+      wallets currently do this. They should also take care not to spend
+      any unconfirmed transaction that signals replaceability explicitly
+      or through inherited signaling; most wallets also currently do
+      this by not spending any unconfirmed transactions except for those
+      they created themselves.</p>
+      <p>Wallets that do want to make replacements should use explicit
+      signaling and meet the criteria described above in the
+      Implementation Details section. A <a
+      href="https://en.bitcoin.it/wiki/Transaction_replacement">Bitcoin
+      Wiki page</a> has been created to help wallet authors track
+      deployed mempool policies relating to transaction replacement.</p>
+      <p>The initial implementation makes use of P2P protocol reject
+      messages for rejected replacements, allowing P2P clients to
+      determine whether their replacements were initially accepted by
+      their peers. Standard P2P lightweight client practice of sending
+      to some peers while listening for relays from other peers should
+      allow clients to determine whether the replacement has
+      propagated.</p>
+      <h3 data-number="14.4.3" id="bip-0125-motivation">Motivation</h3>
+      <p>Satoshi Nakamoto’s original Bitcoin implementation provided the
+      nSequence number field in each input to <a
+      href="https://github.com/trottier/original-bitcoin/blob/master/src/main.cpp#L434">allow
+      replacement</a> of transactions containing that input within the
+      mempool. When receiving replacements, nodes were supposed to
+      replace transactions whose inputs had lower sequence numbers with
+      transactions that had higher sequence numbers.</p>
+      <p>In that implementation, replacement transactions did not have
+      to pay additional fees, so there was no direct incentive for
+      miners to include the replacement and no built-in rate limiting
+      that prevented overuse of relay node bandwidth. Nakamoto <a
+      href="https://github.com/bitcoin/bitcoin/commit/05454818dc7ed92f577a1a1ef6798049f17a52e7#diff-118fcbaaba162ba17933c7893247df3aR522">removed
+      replacement</a> from Bitcoin version 0.3.12, leaving only the
+      comment, “Disable replacement feature for now”.</p>
+      <p>Replacing transactions with higher-fee transactions provided a
+      way for spenders to align their desires with miners, but by the
+      time a Replace-by-Fee (RBF) patch was available to re-enable
+      replacement, some receivers had begun to expect that the first
+      version of a transaction they saw was highly likely to be the
+      version of the transaction to be confirmed, and so some users
+      advocated that replacement should be disallowed.</p>
+      <p>To address those concerns, a variation on RBF was created that
+      required that the replacement transaction pay all of the same
+      outputs as the original transaction in equal or greater amount.
+      This was called RBF First Seen Safe (RBF-FSS), and the original
+      RBF became known as full-RBF. Although agreeable to recipients who
+      relied on the first-seen version of a transaction, each use of
+      RBF-FSS required adding an extra input to a transaction, resulting
+      in wallets being unable to use it if they had no spare inputs, a
+      loss of privacy when inputs from different origins get used in the
+      same transaction, and a wasteful increase in transaction byte
+      size.</p>
+      <p>Opt-in full-RBF uses Nakamoto’s original semantics (with a
+      slight tweak to allow locktime users to opt-out) to signal that
+      replacement is possible, providing first-seen users with the
+      ability to ignore those transactions while also allowing for the
+      efficiency benefits of full-RBF.</p>
+      <p>There are no known problematic interactions between opt-in
+      full-RBF and other uses of nSequence. Specifically, opt-in
+      full-RBF is compatible with consensus-enforced locktime as
+      provided in the Bitcoin 0.1 implementation, BIP68 (Relative
+      lock-time using consensus-enforced sequence numbers), and BIP112
+      (CHECKSEQUENCEVERIFY).</p>
+      <h3 data-number="14.4.4" id="bip-0125-deployment">Deployment</h3>
+      <p>Now, and since Bitcoin’s first release, 100% of the network
+      hash rate mines transactions using opt-in full-RBF semantics
+      (sequence less than (0xffffffff - 1)).</p>
+      <p>Opt-in full-RBF as a default mempool replacement policy among
+      nodes and miners is expected to become widespread as they upgrade
+      to Bitcoin Core 0.12.0 (release expected Jan/Feb 2016) and similar
+      node software such as Bitcoin LJR.</p>
+      <p>Actual replacement may be unreliable until two conditions have
+      been satisfied:</p>
+      <ol type="1">
+      <li>Enough nodes have upgraded to support it, providing a relay
+      path for replacements to go from spending wallets to miners
+      controlling significant amounts of hash rate.</li>
+      </ol>
+      <!-- -->
+      <ol type="1">
+      <li>Enough hash rate has upgraded to support replacement, allowing
+      for reasonable probability that a replacement can be mined.</li>
+      </ol>
+      <h3 data-number="14.4.5"
+      id="bip-0125-backwards-compatibility">Backwards compatibility</h3>
+      <p>At the time opt-in RBF support was added/proposed, no known
+      wallet created transactions by default with nSequence set below
+      (0xffffffff - 1), so no known wallet explicitly signaled
+      replaceability by default. Also no known popular wallet spent
+      other users’ unconfirmed transactions by default, so no known
+      wallets signaled inherited replaceability.</p>
+      <h3 data-number="14.4.6" id="bip-0125-see-also">See also</h3>
+      <ol type="1">
+      <li><a
+      href="https://en.bitcoin.it/wiki/Transaction_replacement">Transaction
+      Replaceability on Bitcoin Wiki</a> targeted at helping wallet
+      authors use RBF</li>
+      </ol>
+      <!-- -->
+      <ol type="1">
+      <li>Tools for creating opt-in full-RBF transactions: <a
+      href="https://github.com/petertodd/replace-by-fee-tools#replace-by-fee-tools"
+      class="uri">https://github.com/petertodd/replace-by-fee-tools#replace-by-fee-tools</a></li>
+      </ol>
+      <!-- -->
+      <ol type="1">
+      <li><a
+      href="https://www.reddit.com/r/Bitcoin/comments/3urm8o/optin_rbf_is_misunderstood_ask_questions_about_it/">Reddit:
+      Questions about opt-in RBF</a> targeted at helping community
+      members understand opt-in full-RBF</li>
+      </ol>
+      <h3 data-number="14.4.7" id="bip-0125-copyright">Copyright</h3>
+      <p>This document is placed in the public domain.</p>
+      <pre><code>  BIP: 388
+  Layer: Applications
+  Title: Wallet Policies for Descriptor Wallets
+  Authors: Salvatore Ingala &lt;salvatoshi@protonmail.com&gt;
+  Status: Complete
+  Type: Specification
+  Assigned: 2023-12-26
+  License: BSD-2-Clause
+  Discussion: 2022-05-10: https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2022-May/020423.html
+  Version: 1.1.0</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0069.html" rel="prev">BIP 69</a>
+        <a class="pager-next" href="bip-0388.html" rel="next">BIP 388</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-## How to Read This Book
+# How to Read This Book
 
 This book is organized by theme, not by BIP number. Start with process and history, then addresses, then the consensus changes that shipped, then Taproot. After that the chapters follow how software is built: keys and wallets, descriptors, PSBTs, the peer-to-peer network, mining templates, payments, and script policy.
 

@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 123 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0003.html" accesskey="p" rel="prev">BIP 3</a>
+        <a class="pager-next" href="bip-0009.html" accesskey="n" rel="next">BIP 9</a>
+      </nav>
+      <h2 data-number="4.2" id="bip-0123">BIP 123</h2>
+      <h3 data-number="4.2.1" id="bip-0123-abstract">Abstract</h3>
+      <p>This document describes a classification scheme for BIPs.</p>
+      <p>BIPs are classified by system layers with lower numbered layers
+      involving more intricate interoperability requirements.</p>
+      <p>The specification defines the layers and sets forth specific
+      criteria for deciding to which layer a particular standards BIP
+      belongs.</p>
+      <h3 data-number="4.2.2" id="bip-0123-copyright">Copyright</h3>
+      <p>This BIP is dual-licensed under the Creative Commons CC0 1.0
+      Universal and FSF All Permissive licenses.</p>
+      <h3 data-number="4.2.3" id="bip-0123-motivation">Motivation</h3>
+      <p>Bitcoin is a system involving a number of different standards.
+      Some standards are absolute requirements for interoperability
+      while others can be considered optional, giving implementers a
+      choice of whether to support them.</p>
+      <p>In order to have a BIP process which more closely reflects the
+      interoperability requirements, it is necessary to categorize BIPs
+      accordingly. Lower layers present considerably greater challenges
+      in getting standards accepted and deployed.</p>
+      <h3 data-number="4.2.4"
+      id="bip-0123-specification">Specification</h3>
+      <p>Standards BIPs are placed in one of four layers:</p>
+      <ol type="1">
+      <li>Consensus</li>
+      <li>Peer Services</li>
+      <li>API/RPC</li>
+      <li>Applications</li>
+      </ol>
+      <p>Non-standards BIPs may be placed in these layers, or none at
+      all.</p>
+      <h4 data-number="4.2.4.1" id="bip-0123-consensus-layer">1.
+      Consensus Layer</h4>
+      <p>The consensus layer defines cryptographic commitment
+      structures. Its purpose is ensuring that anyone can locally
+      evaluate whether a particular state and history is valid,
+      providing settlement guarantees, and assuring eventual
+      convergence.</p>
+      <p>The consensus layer is not concerned with how messages are
+      propagated on a network.</p>
+      <p>Disagreements over the consensus layer can result in network
+      partitioning, or forks, where different nodes might end up
+      accepting different incompatible histories. We further subdivide
+      consensus layer changes into soft forks and hard forks.</p>
+      <h5 data-number="4.2.4.1.1" id="bip-0123-soft-forks">Soft
+      Forks</h5>
+      <p>In a soft fork, some structures that were valid under the old
+      rules are no longer valid under the new rules. Structures that
+      were invalid under the old rules continue to be invalid under the
+      new rules.</p>
+      <h5 data-number="4.2.4.1.2" id="bip-0123-hard-forks">Hard
+      Forks</h5>
+      <p>In a hard fork, structures that were invalid under the old
+      rules become valid under the new rules.</p>
+      <h4 data-number="4.2.4.2" id="bip-0123-peer-services-layer">2.
+      Peer Services Layer</h4>
+      <p>The peer services layer specifies how nodes find each other and
+      propagate messages.</p>
+      <p>Only a subset of all specified peer services are required for
+      basic node interoperability. Nodes can support further optional
+      extensions.</p>
+      <p>It is always possible to add new services without breaking
+      compatibility with existing services, then gradually deprecate
+      older services. In this manner, the entire network can be upgraded
+      without serious risks of service disruption.</p>
+      <h4 data-number="4.2.4.3" id="bip-0123-apirpc-layer">3. API/RPC
+      Layer</h4>
+      <p>The API/RPC layer specifies higher level calls accessible to
+      applications. Support for these BIPs is not required for basic
+      network interoperability but might be expected by some client
+      applications.</p>
+      <p>There’s room at this layer to allow for competing standards
+      without breaking basic network interoperability.</p>
+      <h4 data-number="4.2.4.4" id="bip-0123-applications-layer">4.
+      Applications Layer</h4>
+      <p>The applications layer specifies high level structures,
+      abstractions, and conventions that allow different applications to
+      support similar features and share data.</p>
+      <h3 data-number="4.2.5"
+      id="bip-0123-classification-of-existing-bips">Classification of
+      existing BIPs</h3>
+      <table style="width:100%;">
+      <colgroup>
+      <col style="width: 16%" />
+      <col style="width: 16%" />
+      <col style="width: 16%" />
+      <col style="width: 16%" />
+      <col style="width: 16%" />
+      <col style="width: 16%" />
+      </colgroup>
+      <thead>
+      <tr>
+      <th>Number</th>
+      <th>Layer</th>
+      <th>Title</th>
+      <th>Owner</th>
+      <th>Type</th>
+      <th>Status</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td><a href="bip-0001.mediawiki" class="wikilink" title="1">1</a></td>
+      <td></td>
+      <td>BIP Purpose and Guidelines</td>
+      <td>Amir Taaki</td>
+      <td>Process</td>
+      <td>Active</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0002.mediawiki" class="wikilink" title="2">2</a></td>
+      <td></td>
+      <td>BIP process, revised</td>
+      <td>Luke Dashjr</td>
+      <td>Process</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0009.mediawiki" class="wikilink" title="9">9</a></td>
+      <td></td>
+      <td>Version bits with timeout and delay</td>
+      <td>Pieter Wuille, Peter Todd, Greg Maxwell, Rusty Russell</td>
+      <td>Informational</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0010.mediawiki" class="wikilink" title="10">10</a></td>
+      <td>Applications</td>
+      <td>Multi-Sig Transaction Distribution</td>
+      <td>Alan Reiner</td>
+      <td>Informational</td>
+      <td>Withdrawn</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0011.mediawiki" class="wikilink" title="11">11</a></td>
+      <td>Applications</td>
+      <td>M-of-N Standard Transactions</td>
+      <td>Gavin Andresen</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0012.mediawiki" class="wikilink" title="12">12</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>OP_EVAL</td>
+      <td>Gavin Andresen</td>
+      <td>Standard</td>
+      <td>Withdrawn</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0013.mediawiki" class="wikilink" title="13">13</a></td>
+      <td>Applications</td>
+      <td>Address Format for pay-to-script-hash</td>
+      <td>Gavin Andresen</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0014.mediawiki" class="wikilink" title="14">14</a></td>
+      <td>Peer Services</td>
+      <td>Protocol Version and User Agent</td>
+      <td>Amir Taaki, Patrick Strateman</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0015.mediawiki" class="wikilink" title="15">15</a></td>
+      <td>Applications</td>
+      <td>Aliases</td>
+      <td>Amir Taaki</td>
+      <td>Standard</td>
+      <td>Deferred</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0016.mediawiki" class="wikilink" title="16">16</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Pay to Script Hash</td>
+      <td>Gavin Andresen</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0017.mediawiki" class="wikilink" title="17">17</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>OP_CHECKHASHVERIFY (CHV)</td>
+      <td>Luke Dashjr</td>
+      <td>Standard</td>
+      <td>Withdrawn</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0018.mediawiki" class="wikilink" title="18">18</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>hashScriptCheck</td>
+      <td>Luke Dashjr</td>
+      <td>Standard</td>
+      <td>Accepted</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0019.mediawiki" class="wikilink" title="19">19</a></td>
+      <td>Applications</td>
+      <td>M-of-N Standard Transactions (Low SigOp)</td>
+      <td>Luke Dashjr</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0020.mediawiki" class="wikilink" title="20">20</a></td>
+      <td>Applications</td>
+      <td>URI Scheme</td>
+      <td>Luke Dashjr</td>
+      <td>Standard</td>
+      <td>Replaced</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0021.mediawiki" class="wikilink" title="21">21</a></td>
+      <td>Applications</td>
+      <td>URI Scheme</td>
+      <td>Nils Schneider, Matt Corallo</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0022.mediawiki" class="wikilink" title="22">22</a></td>
+      <td>API/RPC</td>
+      <td>getblocktemplate - Fundamentals</td>
+      <td>Luke Dashjr</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0023.mediawiki" class="wikilink" title="23">23</a></td>
+      <td>API/RPC</td>
+      <td>getblocktemplate - Pooled Mining</td>
+      <td>Luke Dashjr</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0030.mediawiki" class="wikilink" title="30">30</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Duplicate transactions</td>
+      <td>Pieter Wuille</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0031.mediawiki" class="wikilink" title="31">31</a></td>
+      <td>Peer Services</td>
+      <td>Pong message</td>
+      <td>Mike Hearn</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0032.mediawiki" class="wikilink" title="32">32</a></td>
+      <td>Applications</td>
+      <td>Hierarchical Deterministic Wallets</td>
+      <td>Pieter Wuille</td>
+      <td>Informational</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0033.mediawiki" class="wikilink" title="33">33</a></td>
+      <td>Peer Services</td>
+      <td>Stratized Nodes</td>
+      <td>Amir Taaki</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0034.mediawiki" class="wikilink" title="34">34</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Block v2, Height in Coinbase</td>
+      <td>Gavin Andresen</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0035.mediawiki" class="wikilink" title="35">35</a></td>
+      <td>Peer Services</td>
+      <td>mempool message</td>
+      <td>Jeff Garzik</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0036.mediawiki" class="wikilink" title="36">36</a></td>
+      <td>Peer Services</td>
+      <td>Custom Services</td>
+      <td>Stefan Thomas</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0037.mediawiki" class="wikilink" title="37">37</a></td>
+      <td>Peer Services</td>
+      <td>Connection Bloom filtering</td>
+      <td>Mike Hearn, Matt Corallo</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0038.mediawiki" class="wikilink" title="38">38</a></td>
+      <td>Applications</td>
+      <td>Passphrase-protected private key</td>
+      <td>Mike Caldwell, Aaron Voisine</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0039.mediawiki" class="wikilink" title="39">39</a></td>
+      <td>Applications</td>
+      <td>Mnemonic code for generating deterministic keys</td>
+      <td>Marek Palatinus, Pavol Rusnak, Aaron Voisine, Sean Bowe</td>
+      <td>Standard</td>
+      <td>Accepted</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0042.mediawiki" class="wikilink" title="42">42</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>A finite monetary supply for Bitcoin</td>
+      <td>Pieter Wuille</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0043.mediawiki" class="wikilink" title="43">43</a></td>
+      <td>Applications</td>
+      <td>Purpose Field for Deterministic Wallets</td>
+      <td>Marek Palatinus, Pavol Rusnak</td>
+      <td>Informational</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0044.mediawiki" class="wikilink" title="44">44</a></td>
+      <td>Applications</td>
+      <td>Multi-Account Hierarchy for Deterministic Wallets</td>
+      <td>Marek Palatinus, Pavol Rusnak</td>
+      <td>Standard</td>
+      <td>Accepted</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0045.mediawiki" class="wikilink" title="45">45</a></td>
+      <td>Applications</td>
+      <td>Structure for Deterministic P2SH Multisignature Wallets</td>
+      <td>Manuel Araoz, Ryan X. Charles, Matias Alejo Garcia</td>
+      <td>Standard</td>
+      <td>Accepted</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0047.mediawiki" class="wikilink" title="47">47</a></td>
+      <td>Applications</td>
+      <td>Reusable Payment Codes for Hierarchical Deterministic
+      Wallets</td>
+      <td>Justus Ranvier</td>
+      <td>Informational</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0049.mediawiki" class="wikilink" title="49">49</a></td>
+      <td>Applications</td>
+      <td>Derivation scheme for P2WPKH-nested-in-P2SH based
+      accounts</td>
+      <td>Daniel Weigl</td>
+      <td>Informational</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0050.mediawiki" class="wikilink" title="50">50</a></td>
+      <td></td>
+      <td>March 2013 Chain Fork Post-Mortem</td>
+      <td>Gavin Andresen</td>
+      <td>Informational</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0060.mediawiki" class="wikilink" title="60">60</a></td>
+      <td>Peer Services</td>
+      <td>Fixed Length “version” Message (Relay-Transactions Field)</td>
+      <td>Amir Taaki</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0061.mediawiki" class="wikilink" title="61">61</a></td>
+      <td>Peer Services</td>
+      <td>Reject P2P message</td>
+      <td>Gavin Andresen</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0062.mediawiki" class="wikilink" title="62">62</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Dealing with malleability</td>
+      <td>Pieter Wuille</td>
+      <td>Standard</td>
+      <td>Withdrawn</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0064.mediawiki" class="wikilink" title="64">64</a></td>
+      <td>Peer Services</td>
+      <td>getutxo message</td>
+      <td>Mike Hearn</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0065.mediawiki" class="wikilink" title="65">65</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>OP_CHECKLOCKTIMEVERIFY</td>
+      <td>Peter Todd</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0066.mediawiki" class="wikilink" title="66">66</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Strict DER signatures</td>
+      <td>Pieter Wuille</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0067.mediawiki" class="wikilink" title="67">67</a></td>
+      <td>Applications</td>
+      <td>Deterministic Pay-to-script-hash multi-signature addresses
+      through public key sorting</td>
+      <td>Thomas Kerin, Jean-Pierre Rupp, Ruben de Vries</td>
+      <td>Standard</td>
+      <td>Accepted</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0068.mediawiki" class="wikilink" title="68">68</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Relative lock-time using consensus-enforced sequence
+      numbers</td>
+      <td>Mark Friedenbach, BtcDrak, Nicolas Dorier, kinoshitajona</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0069.mediawiki" class="wikilink" title="69">69</a></td>
+      <td>Applications</td>
+      <td>Lexicographical Indexing of Transaction Inputs and
+      Outputs</td>
+      <td>Kristov Atlas</td>
+      <td>Informational</td>
+      <td>Accepted</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0070.mediawiki" class="wikilink" title="70">70</a></td>
+      <td>Applications</td>
+      <td>Payment Protocol</td>
+      <td>Gavin Andresen, Mike Hearn</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0071.mediawiki" class="wikilink" title="71">71</a></td>
+      <td>Applications</td>
+      <td>Payment Protocol MIME types</td>
+      <td>Gavin Andresen</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0072.mediawiki" class="wikilink" title="72">72</a></td>
+      <td>Applications</td>
+      <td>bitcoin: uri extensions for Payment Protocol</td>
+      <td>Gavin Andresen</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0073.mediawiki" class="wikilink" title="73">73</a></td>
+      <td>Applications</td>
+      <td>Use “Accept” header for response type negotiation with Payment
+      Request URLs</td>
+      <td>Stephen Pair</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0074.mediawiki" class="wikilink" title="74">74</a></td>
+      <td>Applications</td>
+      <td>Allow zero value OP_RETURN in Payment Protocol</td>
+      <td>Toby Padilla</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0075.mediawiki" class="wikilink" title="75">75</a></td>
+      <td>Applications</td>
+      <td>Out of Band Address Exchange using Payment Protocol
+      Encryption</td>
+      <td>Justin Newton, Matt David, Aaron Voisine, James MacWhyte</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0080.mediawiki" class="wikilink" title="80">80</a></td>
+      <td></td>
+      <td>Hierarchy for Non-Colored Voting Pool Deterministic Multisig
+      Wallets</td>
+      <td>Justus Ranvier, Jimmy Song</td>
+      <td>Informational</td>
+      <td>Deferred</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0081.mediawiki" class="wikilink" title="81">81</a></td>
+      <td></td>
+      <td>Hierarchy for Colored Voting Pool Deterministic Multisig
+      Wallets</td>
+      <td>Justus Ranvier, Jimmy Song</td>
+      <td>Informational</td>
+      <td>Deferred</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0083.mediawiki" class="wikilink" title="83">83</a></td>
+      <td>Applications</td>
+      <td>Dynamic Hierarchical Deterministic Key Trees</td>
+      <td>Eric Lombrozo</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0099.mediawiki" class="wikilink" title="99">99</a></td>
+      <td></td>
+      <td>Motivation and deployment of consensus rule changes
+      ([soft/hard]forks)</td>
+      <td>Jorge Timón</td>
+      <td>Informational</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0101.mediawiki" class="wikilink" title="101">101</a></td>
+      <td>Consensus (hard fork)</td>
+      <td>Increase maximum block size</td>
+      <td>Gavin Andresen</td>
+      <td>Standard</td>
+      <td>Withdrawn</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0102.mediawiki" class="wikilink" title="102">102</a></td>
+      <td>Consensus (hard fork)</td>
+      <td>Block size increase to 2MB</td>
+      <td>Jeff Garzik</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0103.mediawiki" class="wikilink" title="103">103</a></td>
+      <td>Consensus (hard fork)</td>
+      <td>Block size following technological growth</td>
+      <td>Pieter Wuille</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0105.mediawiki" class="wikilink" title="105">105</a></td>
+      <td>Consensus (hard fork)</td>
+      <td>Consensus based block size retargeting algorithm</td>
+      <td>BtcDrak</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0106.mediawiki" class="wikilink" title="106">106</a></td>
+      <td>Consensus (hard fork)</td>
+      <td>Dynamically Controlled Bitcoin Block Size Max Cap</td>
+      <td>Upal Chakraborty</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0107.mediawiki" class="wikilink" title="107">107</a></td>
+      <td>Consensus (hard fork)</td>
+      <td>Dynamic limit on the block size</td>
+      <td>Washington Y. Sanchez</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0109.mediawiki" class="wikilink" title="109">109</a></td>
+      <td>Consensus (hard fork)</td>
+      <td>Two million byte size limit with sigop and sighash limits</td>
+      <td>Gavin Andresen</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0111.mediawiki" class="wikilink" title="111">111</a></td>
+      <td>Peer Services</td>
+      <td>NODE_BLOOM service bit</td>
+      <td>Matt Corallo, Peter Todd</td>
+      <td>Standard</td>
+      <td>Accepted</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0112.mediawiki" class="wikilink" title="112">112</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>CHECKSEQUENCEVERIFY</td>
+      <td>BtcDrak, Mark Friedenbach, Eric Lombrozo</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0113.mediawiki" class="wikilink" title="113">113</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Median time-past as endpoint for lock-time calculations</td>
+      <td>Thomas Kerin, Mark Friedenbach</td>
+      <td>Standard</td>
+      <td>Final</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0114.mediawiki" class="wikilink" title="114">114</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Merkelized Abstract Syntax Tree</td>
+      <td>Johnson Lau</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0120.mediawiki" class="wikilink" title="120">120</a></td>
+      <td>Applications</td>
+      <td>Proof of Payment</td>
+      <td>Kalle Rosenbaum</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0121.mediawiki" class="wikilink" title="121">121</a></td>
+      <td>Applications</td>
+      <td>Proof of Payment URI scheme</td>
+      <td>Kalle Rosenbaum</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0122.mediawiki" class="wikilink" title="122">122</a></td>
+      <td>Applications</td>
+      <td>URI scheme for Blockchain references / exploration</td>
+      <td>Marco Pontello</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0123.mediawiki" class="wikilink" title="123">123</a></td>
+      <td></td>
+      <td>BIP Classification</td>
+      <td>Eric Lombrozo</td>
+      <td>Process</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0124.mediawiki" class="wikilink" title="124">124</a></td>
+      <td>Applications</td>
+      <td>Hierarchical Deterministic Script Templates</td>
+      <td>Eric Lombrozo, William Swanson</td>
+      <td>Informational</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0125.mediawiki" class="wikilink" title="125">125</a></td>
+      <td>Applications</td>
+      <td>Opt-in Full Replace-by-Fee Signaling</td>
+      <td>David A. Harding, Peter Todd</td>
+      <td>Standard</td>
+      <td>Accepted</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0126.mediawiki" class="wikilink" title="126">126</a></td>
+      <td></td>
+      <td>Best Practices for Heterogeneous Input Script
+      Transactions</td>
+      <td>Kristov Atlas</td>
+      <td>Informational</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0130.mediawiki" class="wikilink" title="130">130</a></td>
+      <td>Peer Services</td>
+      <td>sendheaders message</td>
+      <td>Suhas Daftuar</td>
+      <td>Standard</td>
+      <td>Accepted</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0131.mediawiki" class="wikilink" title="131">131</a></td>
+      <td>Consensus (hard fork)</td>
+      <td>“Coalescing Transaction” Specification (wildcard inputs)</td>
+      <td>Chris Priest</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0132.mediawiki" class="wikilink" title="132">132</a></td>
+      <td></td>
+      <td>Committee-based BIP Acceptance Process</td>
+      <td>Andy Chase</td>
+      <td>Process</td>
+      <td>Withdrawn</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0133.mediawiki" class="wikilink" title="133">133</a></td>
+      <td>Peer Services</td>
+      <td>feefilter message</td>
+      <td>Alex Morcos</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0134.mediawiki" class="wikilink" title="134">134</a></td>
+      <td>Consensus (hard fork)</td>
+      <td>Flexible Transactions</td>
+      <td>Tom Zander</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0140.mediawiki" class="wikilink" title="140">140</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Normalized TXID</td>
+      <td>Christian Decker</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0141.mediawiki" class="wikilink" title="141">141</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Segregated Witness (Consensus layer)</td>
+      <td>Eric Lombrozo, Johnson Lau, Pieter Wuille</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0142.mediawiki" class="wikilink" title="142">142</a></td>
+      <td>Applications</td>
+      <td>Address Format for Segregated Witness</td>
+      <td>Johnson Lau</td>
+      <td>Standard</td>
+      <td>Deferred</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0143.mediawiki" class="wikilink" title="143">143</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Transaction Signature Verification for Version 0 Witness
+      Program</td>
+      <td>Johnson Lau, Pieter Wuille</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0144.mediawiki" class="wikilink" title="144">144</a></td>
+      <td>Peer Services</td>
+      <td>Segregated Witness (Peer Services)</td>
+      <td>Eric Lombrozo, Pieter Wuille</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0145.mediawiki" class="wikilink" title="145">145</a></td>
+      <td>API/RPC</td>
+      <td>getblocktemplate Updates for Segregated Witness</td>
+      <td>Luke Dashjr</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0146.mediawiki" class="wikilink" title="146">146</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Dealing with signature encoding malleability</td>
+      <td>Johnson Lau, Pieter Wuille</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0147.mediawiki" class="wikilink" title="147">147</a></td>
+      <td>Consensus (soft fork)</td>
+      <td>Dealing with dummy stack element malleability</td>
+      <td>Johnson Lau</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0150.mediawiki" class="wikilink" title="150">150</a></td>
+      <td>Peer Services</td>
+      <td>Peer Authentication</td>
+      <td>Jonas Schnelli</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0151.mediawiki" class="wikilink" title="151">151</a></td>
+      <td>Peer Services</td>
+      <td>Peer-to-Peer Communication Encryption</td>
+      <td>Jonas Schnelli</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      <tr>
+      <td><a href="bip-0152.mediawiki" class="wikilink" title="152">152</a></td>
+      <td>Peer Services</td>
+      <td>Compact Block Relay</td>
+      <td>Matt Corallo</td>
+      <td>Standard</td>
+      <td>Draft</td>
+      </tr>
+      </tbody>
+      </table>
+      <pre><code>  BIP: 9
+  Title: Version bits with timeout and delay
+  Authors: Pieter Wuille &lt;pieter.wuille@gmail.com&gt;
+           Peter Todd &lt;pete@petertodd.org&gt;
+           Greg Maxwell &lt;greg@xiph.org&gt;
+           Rusty Russell &lt;rusty@rustcorp.com.au&gt;
+  Status: Deployed
+  Type: Informational
+  Assigned: 2015-10-04
+  License: PD</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0003.html" rel="prev">BIP 3</a>
+        <a class="pager-next" href="bip-0009.html" rel="next">BIP 9</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

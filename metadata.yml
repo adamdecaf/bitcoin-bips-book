@@ -1,6 +1,9 @@
 ---
 title:  'Bitcoin Book of BIPs'
 lang: en
+spec-kind: bip
+epub-url: https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub
+pdf-url: https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf
 author:
   - compiled by Adam Shannon
 keywords: [bitcoin, bips, wallets, taproot, p2p]

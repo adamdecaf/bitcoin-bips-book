@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 9 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0123.html" accesskey="p" rel="prev">BIP 123</a>
+        <a class="pager-next" href="bip-0008.html" accesskey="n" rel="next">BIP 8</a>
+      </nav>
+      <h2 data-number="4.3" id="bip-0009">BIP 9</h2>
+      <h3 data-number="4.3.1" id="bip-0009-abstract">Abstract</h3>
+      <p>This document specifies a proposed change to the semantics of
+      the ‘version’ field in Bitcoin blocks, allowing multiple
+      backward-compatible changes (further called “soft forks”) to be
+      deployed in parallel. It relies on interpreting the version field
+      as a bit vector, where each bit can be used to track an
+      independent change. These are tallied each retarget period. Once
+      the consensus change succeeds or times out, there is a “fallow”
+      pause after which the bit can be reused for later changes.</p>
+      <h3 data-number="4.3.2" id="bip-0009-motivation">Motivation</h3>
+      <p><a href="bip-0034.mediawiki" class="wikilink" title="BIP 34">BIP
+      34</a> introduced a mechanism for doing soft-forking changes
+      without a predefined flag timestamp (or flag block height),
+      instead relying on measuring miner support indicated by a higher
+      version number in block headers. As it relies on comparing version
+      numbers as integers however, it only supports one single change
+      being rolled out at once, requiring coordination between
+      proposals, and does not allow for permanent rejection: as long as
+      one soft fork is not fully rolled out, no future one can be
+      scheduled.</p>
+      <p>In addition, BIP 34 made the integer comparison (nVersion &gt;=
+      2) a consensus rule after its 95% threshold was reached, removing
+      2<sup>31</sup>+2 values from the set of valid version numbers (all
+      negative numbers, as nVersion is interpreted as a signed integer,
+      as well as 0 and 1). This indicates another downside this
+      approach: every upgrade permanently restricts the set of allowed
+      nVersion field values. This approach was later reused in
+      <a href="bip-0066.mediawiki" class="wikilink" title="BIP 66">BIP
+      66</a> and
+      <a href="bip-0065.mediawiki" class="wikilink" title="BIP 65">BIP
+      65</a>, which further removed nVersions 2 and 3 as valid options.
+      As will be shown further, this is unnecessary.</p>
+      <h3 data-number="4.3.3"
+      id="bip-0009-specification">Specification</h3>
+      <p>Each soft fork deployment is specified by the following
+      per-chain parameters (further elaborated below):</p>
+      <ol type="1">
+      <li>The <strong>name</strong> specifies a very brief description
+      of the soft fork, reasonable for use as an identifier. For
+      deployments described in a single BIP, it is recommended to use
+      the name “bipN” where N is the appropriate BIP number.</li>
+      <li>The <strong>bit</strong> determines which bit in the nVersion
+      field of the block is to be used to signal the soft fork lock-in
+      and activation. It is chosen from the set {0,1,2,…,28}.</li>
+      <li>The <strong>starttime</strong> specifies a minimum median time
+      past of a block at which the bit gains its meaning.</li>
+      <li>The <strong>timeout</strong> specifies a time at which the
+      deployment is considered failed. If the median time past of a
+      block &gt;= timeout and the soft fork has not yet locked in
+      (including this block’s bit state), the deployment is considered
+      failed on all descendants of the block.</li>
+      </ol>
+      <h4 data-number="4.3.3.1"
+      id="bip-0009-selection-guidelines">Selection guidelines</h4>
+      <p>The following guidelines are suggested for selecting these
+      parameters for a soft fork:</p>
+      <ol type="1">
+      <li><strong>name</strong> should be selected such that no two
+      softforks, concurrent or otherwise, ever use the same name.</li>
+      <li><strong>bit</strong> should be selected such that no two
+      concurrent softforks use the same bit.</li>
+      <li><strong>starttime</strong> should be set to some date in the
+      future, approximately one month after a software release date
+      including the soft fork. This allows for some release delays,
+      while preventing triggers as a result of parties running
+      pre-release software.</li>
+      <li><strong>timeout</strong> should be 1 year (31536000 seconds)
+      after starttime.</li>
+      </ol>
+      <p>A later deployment using the same bit is possible as long as
+      the starttime is after the previous one’s timeout or activation,
+      but it is discouraged until necessary, and even then recommended
+      to have a pause in between to detect buggy software.</p>
+      <h4 data-number="4.3.3.2" id="bip-0009-states">States</h4>
+      <p>With each block and soft fork, we associate a deployment state.
+      The possible states are:</p>
+      <ol type="1">
+      <li><strong>DEFINED</strong> is the first state that each soft
+      fork starts out as. The genesis block is by definition in this
+      state for each deployment.</li>
+      <li><strong>STARTED</strong> for blocks past the starttime.</li>
+      <li><strong>LOCKED_IN</strong> for one retarget period after the
+      first retarget period with STARTED blocks of which at least
+      threshold have the associated bit set in nVersion.</li>
+      <li><strong>ACTIVE</strong> for all blocks after the LOCKED_IN
+      retarget period.</li>
+      <li><strong>FAILED</strong> for one retarget period past the
+      timeout time, if LOCKED_IN was not reached.</li>
+      </ol>
+      <h4 data-number="4.3.3.3" id="bip-0009-bit-flags">Bit flags</h4>
+      <p>The nVersion block header field is to be interpreted as a
+      32-bit little-endian integer (as present), and bits are selected
+      within this integer as values (1 &lt;&lt; N) where N is the bit
+      number.</p>
+      <p>Blocks in the STARTED state get an nVersion whose bit position
+      bit is set to 1. The top 3 bits of such blocks must be 001, so the
+      range of actually possible nVersion values is
+      [0x20000000…0x3FFFFFFF], inclusive.</p>
+      <p>Due to the constraints set by BIP 34, BIP 66 and BIP 65, we
+      only have 0x7FFFFFFB possible nVersion values available. This
+      restricts us to at most 30 independent deployments. By restricting
+      the top 3 bits to 001 we get 29 out of those for the purposes of
+      this proposal, and support two future upgrades for different
+      mechanisms (top bits 010 and 011). When a block nVersion does not
+      have top bits 001, it is treated as if all bits are 0 for the
+      purposes of deployments.</p>
+      <p>Miners should continue setting the bit in LOCKED_IN phase so
+      uptake is visible, though this has no effect on consensus
+      rules.</p>
+      <h4 data-number="4.3.3.4" id="bip-0009-new-consensus-rules">New
+      consensus rules</h4>
+      <p>The new consensus rules for each soft fork are enforced for
+      each block that has ACTIVE state.</p>
+      <h4 data-number="4.3.3.5" id="bip-0009-state-transitions">State
+      transitions</h4>
+      <p>&lt;img src=“bip-0009/states.png”
+      align=“middle”&gt;&lt;/img&gt;</p>
+      <p>The genesis block has state DEFINED for each deployment, by
+      definition.</p>
+      <p><code>   State GetStateForBlock(block) {</code><br />
+      <code>       if (block.height == 0) {</code><br />
+      <code>           return DEFINED;</code><br />
+      <code>       }</code></p>
+      <p>All blocks within a retarget period have the same state. This
+      means that if floor(block1.height / 2016) = floor(block2.height /
+      2016), they are guaranteed to have the same state for every
+      deployment.</p>
+      <p><code>       if ((block.height % 2016) != 0) {</code><br />
+      <code>           return GetStateForBlock(block.parent);</code><br />
+      <code>       }</code></p>
+      <p>Otherwise, the next state depends on the previous state:</p>
+      <p><code>       switch (GetStateForBlock(GetAncestorAtHeight(block, block.height - 2016))) {</code></p>
+      <p>We remain in the initial state until either we pass the start
+      time or the timeout. GetMedianTimePast in the code below refers to
+      the median nTime of a block and its 10 predecessors. The
+      expression GetMedianTimePast(block.parent) is referred to as MTP
+      in the diagram above, and is treated as a monotonic clock defined
+      by the chain.</p>
+      <p><code>       case DEFINED:</code><br />
+      <code>           if (GetMedianTimePast(block.parent) &gt;= timeout) {</code><br />
+      <code>               return FAILED;</code><br />
+      <code>           }</code><br />
+      <code>           if (GetMedianTimePast(block.parent) &gt;= starttime) {</code><br />
+      <code>               return STARTED;</code><br />
+      <code>           }</code><br />
+      <code>           return DEFINED;</code></p>
+      <p>After a period in the STARTED state, if we’re past the timeout,
+      we switch to FAILED. If not, we tally the bits set, and transition
+      to LOCKED_IN if a sufficient number of blocks in the past period
+      set the deployment bit in their version numbers. The threshold is
+      ≥1916 blocks (95% of 2016), or ≥1512 for testnet (75% of 2016).
+      The transition to FAILED takes precedence, as otherwise an
+      ambiguity can arise. There could be two non-overlapping
+      deployments on the same bit, where the first one transitions to
+      LOCKED_IN while the other one simultaneously transitions to
+      STARTED, which would mean both would demand setting the bit.</p>
+      <p>Note that a block’s state never depends on its own nVersion;
+      only on that of its ancestors.</p>
+      <p><code>       case STARTED:</code><br />
+      <code>           if (GetMedianTimePast(block.parent) &gt;= timeout) {</code><br />
+      <code>               return FAILED;</code><br />
+      <code>           }</code><br />
+      <code>           int count = 0;</code><br />
+      <code>           walk = block;</code><br />
+      <code>           for (i = 0; i &lt; 2016; i++) {</code><br />
+      <code>               walk = walk.parent;</code><br />
+      <code>               if (walk.nVersion &amp; 0xE0000000 == 0x20000000 &amp;&amp; (walk.nVersion &gt;&gt; bit) &amp; 1 == 1) {</code><br />
+      <code>                   count++;</code><br />
+      <code>               }</code><br />
+      <code>           }</code><br />
+      <code>           if (count &gt;= threshold) {</code><br />
+      <code>               return LOCKED_IN;</code><br />
+      <code>           }</code><br />
+      <code>           return STARTED;</code></p>
+      <p>After a retarget period of LOCKED_IN, we automatically
+      transition to ACTIVE.</p>
+      <p><code>       case LOCKED_IN:</code><br />
+      <code>           return ACTIVE;</code></p>
+      <p>And ACTIVE and FAILED are terminal states, which a deployment
+      stays in once they’re reached.</p>
+      <p><code>       case ACTIVE:</code><br />
+      <code>           return ACTIVE;</code></p>
+      <p><code>       case FAILED:</code><br />
+      <code>           return FAILED;</code><br />
+      <code>       }</code><br />
+      <code>   }</code></p>
+      <p><strong>Implementation</strong> It should be noted that the
+      states are maintained along block chain branches, but may need
+      recomputation when a reorganization happens.</p>
+      <p>Given that the state for a specific block/deployment
+      combination is completely determined by its ancestry before the
+      current retarget period (i.e. up to and including its ancestor
+      with height block.height - 1 - (block.height % 2016)), it is
+      possible to implement the mechanism above efficiently and safely
+      by caching the resulting state of every multiple-of-2016 block,
+      indexed by its parent.</p>
+      <h4 data-number="4.3.3.6" id="bip-0009-warning-mechanism">Warning
+      mechanism</h4>
+      <p>To support upgrade warnings, an extra “unknown upgrade” is
+      tracked, using the “implicit bit” mask = (block.nVersion &amp;
+      ~expectedVersion) != 0. Mask will be non-zero whenever an
+      unexpected bit is set in nVersion. Whenever LOCKED_IN for the
+      unknown upgrade is detected, the software should warn loudly about
+      the upcoming soft fork. It should warn even more loudly after the
+      next retarget period (when the unknown upgrade is in the ACTIVE
+      state).</p>
+      <h4 data-number="4.3.3.7"
+      id="bip-0009-getblocktemplate-changes">getblocktemplate
+      changes</h4>
+      <p>The template request Object is extended to include a new
+      item:</p>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="4">
+      <p>
+      template request
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Required
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      rules
+      </p>
+      </td>
+      <td>
+      <p>
+      No
+      </p>
+      </td>
+      <td>
+      <p>
+      Array of Strings
+      </p>
+      </td>
+      <td>
+      <p>
+      list of supported softfork deployments, by name
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p>The template Object is also extended:</p>
+      <table>
+      <thead>
+      <tr>
+      <th colspan="4">
+      <p>
+      template
+      </p>
+      </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+      <td>
+      <p>
+      Key
+      </p>
+      </td>
+      <td>
+      <p>
+      Required
+      </p>
+      </td>
+      <td>
+      <p>
+      Type
+      </p>
+      </td>
+      <td>
+      <p>
+      Description
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      rules
+      </p>
+      </td>
+      <td>
+      <p>
+      Yes
+      </p>
+      </td>
+      <td>
+      <p>
+      Array of Strings
+      </p>
+      </td>
+      <td>
+      <p>
+      list of softfork deployments, by name, that are active state
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      vbavailable
+      </p>
+      </td>
+      <td>
+      <p>
+      Yes
+      </p>
+      </td>
+      <td>
+      <p>
+      Object
+      </p>
+      </td>
+      <td>
+      <p>
+      set of pending, supported softfork deployments; each uses the
+      softfork name as the key, and the softfork bit as its value
+      </p>
+      </td>
+      </tr>
+      <tr>
+      <td>
+      <p>
+      vbrequired
+      </p>
+      </td>
+      <td>
+      <p>
+      No
+      </p>
+      </td>
+      <td>
+      <p>
+      Number
+      </p>
+      </td>
+      <td>
+      <p>
+      bit mask of softfork deployment version bits the server requires
+      enabled in submissions
+      </p>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <p>The “version” key of the template is retained, and used to
+      indicate the server’s preference of deployments. If versionbits is
+      being used, “version” MUST be within the versionbits range of
+      [0x20000000…0x3FFFFFFF]. Miners MAY clear or set bits in the block
+      version WITHOUT any special “mutable” key, provided they are
+      listed among the template’s “vbavailable” and (when clearing is
+      desired) NOT included as a bit in “vbrequired”.</p>
+      <p>Softfork deployment names listed in “rules” or as keys in
+      “vbavailable” may be prefixed by a ‘!’ character. Without this
+      prefix, GBT clients may assume the rule will not impact usage of
+      the template as-is; typical examples of this would be when
+      previously valid transactions cease to be valid, such as BIPs
+      <a href="bip-0016.mediawiki" class="wikilink" title="16">16</a>,
+      <a href="bip-0065.mediawiki" class="wikilink" title="65">65</a>,
+      <a href="bip-0066.mediawiki" class="wikilink" title="66">66</a>,
+      <a href="bip-0068.mediawiki" class="wikilink" title="68">68</a>,
+      <a href="bip-0112.mediawiki" class="wikilink" title="112">112</a>,
+      and
+      <a href="bip-0113.mediawiki" class="wikilink" title="113">113</a>.
+      If a client does not understand a rule without the prefix, it may
+      use it unmodified for mining. On the other hand, when this prefix
+      is used, it indicates a more subtle change to the block structure
+      or generation transaction; examples of this would be
+      <a href="bip-0034.mediawiki" class="wikilink" title="BIP 34">BIP
+      34</a> (because it modifies coinbase construction) and
+      <a href="bip-0141.mediawiki" class="wikilink" title="141">141</a>
+      (since it modifies the txid hashing and adds a commitment to the
+      generation transaction). A client that does not understand a rule
+      prefixed by ‘!’ must not attempt to process the template, and must
+      not attempt to use it for mining even unmodified.</p>
+      <h3 data-number="4.3.4"
+      id="bip-0009-support-for-future-changes">Support for future
+      changes</h3>
+      <p>The mechanism described above is very generic, and variations
+      are possible for future soft forks. Here are some ideas that can
+      be taken into account.</p>
+      <p><strong>Modified thresholds</strong> The 1916 threshold (based
+      on BIP 34’s 95%) does not have to be maintained for eternity, but
+      changes should take the effect on the warning system into account.
+      In particular, having a lock-in threshold that is incompatible
+      with the one used for the warning system may have long-term
+      effects, as the warning system cannot rely on a permanently
+      detectable condition anymore.</p>
+      <p><strong>Conflicting soft forks</strong> At some point, two
+      mutually exclusive soft forks may be proposed. The naive way to
+      deal with this is to never create software that implements both,
+      but that is making a bet that at least one side is guaranteed to
+      lose. Better would be to encode “soft fork X cannot be locked-in”
+      as consensus rule for the conflicting soft fork - allowing
+      software that supports both, but can never trigger conflicting
+      changes.</p>
+      <p><strong>Multi-stage soft forks</strong> Soft forks right now
+      are typically treated as booleans: they go from an inactive to an
+      active state in blocks. Perhaps at some point there is demand for
+      a change that has a larger number of stages, with additional
+      validation rules that get enabled one by one. The above mechanism
+      can be adapted to support this, by interpreting a combination of
+      bits as an integer, rather than as isolated bits. The warning
+      system is compatible with this, as (nVersion &amp;
+      ~nExpectedVersion) will always be non-zero for increasing
+      integers.</p>
+      <h3 data-number="4.3.5" id="bip-0009-rationale">Rationale</h3>
+      <p>The failure timeout allows eventual reuse of bits even if a
+      soft fork was never activated, so it’s clear that the new use of
+      the bit refers to a new BIP. It’s deliberately very
+      coarse-grained, to take into account reasonable development and
+      deployment delays. There are unlikely to be enough failed
+      proposals to cause a bit shortage.</p>
+      <p>The fallow period at the conclusion of a soft fork attempt
+      allows some detection of buggy clients, and allows time for
+      warnings and software upgrades for successful soft forks.</p>
+      <h3 data-number="4.3.6" id="bip-0009-deployments">Deployments</h3>
+      <p>A living list of deployment proposals can be found
+      <a href="bip-0009/assignments.mediawiki" class="wikilink" title="here">here</a>.</p>
+      <h3 data-number="4.3.7" id="bip-0009-copyright">Copyright</h3>
+      <p>This document is placed in the public domain.</p>
+      <pre><code>  BIP: 8
+  Title: Version bits with lock-in by height
+  Authors: Shaolin Fry &lt;shaolinfry@protonmail.ch&gt;
+           Luke Dashjr &lt;luke+bip@dashjr.org&gt;
+  Status: Complete
+  Type: Informational
+  Assigned: 2017-02-01
+  License: BSD-3-Clause OR CC0-1.0
+  Version: 1.0.0</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0123.html" rel="prev">BIP 123</a>
+        <a class="pager-next" href="bip-0008.html" rel="next">BIP 8</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

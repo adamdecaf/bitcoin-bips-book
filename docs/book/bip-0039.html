@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 39 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0038.html" accesskey="p" rel="prev">BIP 38</a>
+        <a class="pager-next" href="bip-0043.html" accesskey="n" rel="next">BIP 43</a>
+      </nav>
+      <h2 data-number="8.3" id="bip-0039">BIP 39</h2>
+      <h3 data-number="8.3.1" id="bip-0039-abstract">Abstract</h3>
+      <p>This BIP describes the implementation of a mnemonic code or
+      mnemonic sentence – a group of easy to remember words – for the
+      generation of deterministic wallets.</p>
+      <p>It consists of two parts: generating the mnemonic and
+      converting it into a binary seed. This seed can be later used to
+      generate deterministic wallets using BIP-0032 or similar
+      methods.</p>
+      <h3 data-number="8.3.2" id="bip-0039-copyright">Copyright</h3>
+      <p>This BIP falls under the MIT License.</p>
+      <h3 data-number="8.3.3" id="bip-0039-motivation">Motivation</h3>
+      <p>A mnemonic code or sentence is superior for human interaction
+      compared to the handling of raw binary or hexadecimal
+      representations of a wallet seed. The sentence could be written on
+      paper or spoken over the telephone.</p>
+      <p>This guide is meant to be a way to transport computer-generated
+      randomness with a human-readable transcription. It’s not a way to
+      process user-created sentences (also known as brainwallets) into a
+      wallet seed.</p>
+      <h3 data-number="8.3.4"
+      id="bip-0039-generating-the-mnemonic">Generating the mnemonic</h3>
+      <p>The mnemonic must encode entropy in a multiple of 32 bits. With
+      more entropy security is improved but the sentence length
+      increases. We refer to the initial entropy length as ENT. The
+      allowed size of ENT is 128-256 bits.</p>
+      <p>First, an initial entropy of ENT bits is generated. A checksum
+      is generated by taking the first <code>ENT / 32</code> bits of its
+      SHA256 hash. This checksum is appended to the end of the initial
+      entropy. Next, these concatenated bits are split into groups of 11
+      bits, each encoding a number from 0-2047, serving as an index into
+      a wordlist. Finally, we convert these numbers into words and use
+      the joined words as a mnemonic sentence.</p>
+      <p>The following table describes the relation between the initial
+      entropy length (ENT), the checksum length (CS), and the length of
+      the generated mnemonic sentence (MS) in words.</p>
+      <pre><code>CS = ENT / 32
+MS = (ENT + CS) / 11
+
+|  ENT  | CS | ENT+CS |  MS  |
++-------+----+--------+------+
+|  128  |  4 |   132  |  12  |
+|  160  |  5 |   165  |  15  |
+|  192  |  6 |   198  |  18  |
+|  224  |  7 |   231  |  21  |
+|  256  |  8 |   264  |  24  |</code></pre>
+      <h3 data-number="8.3.5" id="bip-0039-wordlist">Wordlist</h3>
+      <p>An ideal wordlist has the following characteristics:</p>
+      <p>a) smart selection of words</p>
+      <p><code>  - the wordlist is created in such a way that it's enough to type the first four</code><br />
+      <code>    letters to unambiguously identify the word</code></p>
+      <p>b) similar words avoided</p>
+      <p><code>  - word pairs like "build" and "built", "woman" and "women", or "quick" and "quickly"</code><br />
+      <code>    not only make remembering the sentence difficult but are also more error</code><br />
+      <code>    prone and more difficult to guess</code></p>
+      <p>c) sorted wordlists</p>
+      <p><code>  - the wordlist is sorted which allows for more efficient lookup of the code words</code><br />
+      <code>    (i.e. implementations can use binary search instead of linear search)</code><br />
+      <code>  - this also allows trie (a prefix tree) to be used, e.g. for better compression</code></p>
+      <p>The wordlist can contain native characters, but they must be
+      encoded in UTF-8 using Normalization Form Compatibility
+      Decomposition (NFKD).</p>
+      <h3 data-number="8.3.6" id="bip-0039-from-mnemonic-to-seed">From
+      mnemonic to seed</h3>
+      <p>A user may decide to protect their mnemonic with a passphrase.
+      If a passphrase is not present, an empty string “” is used
+      instead.</p>
+      <p>To create a binary seed from the mnemonic, we use the PBKDF2
+      function with a mnemonic sentence (in UTF-8 NFKD) used as the
+      password and the string “mnemonic” + passphrase (again in UTF-8
+      NFKD) used as the salt. The iteration count is set to 2048 and
+      HMAC-SHA512 is used as the pseudo-random function. The length of
+      the derived key is 512 bits (= 64 bytes).</p>
+      <p>This seed can be later used to generate deterministic wallets
+      using BIP-0032 or similar methods.</p>
+      <p>The conversion of the mnemonic sentence to a binary seed is
+      completely independent from generating the sentence. This results
+      in a rather simple code; there are no constraints on sentence
+      structure and clients are free to implement their own wordlists or
+      even whole sentence generators, allowing for flexibility in
+      wordlists for typo detection or other purposes.</p>
+      <p>Although using a mnemonic not generated by the algorithm
+      described in “Generating the mnemonic” section is possible, this
+      is not advised and software must compute a checksum for the
+      mnemonic sentence using a wordlist and issue a warning if it is
+      invalid.</p>
+      <p>The described method also provides plausible deniability,
+      because every passphrase generates a valid seed (and thus a
+      deterministic wallet) but only the correct one will make the
+      desired wallet available.</p>
+      <h3 data-number="8.3.7" id="bip-0039-wordlists">Wordlists</h3>
+      <p>Since the vast majority of BIP39 wallets supports only the
+      English wordlist, it is <strong>strongly discouraged</strong> to
+      use non-English wordlists for generating the mnemonic
+      sentences.</p>
+      <p>If you still feel your application really needs to use a
+      localized wordlist, use one of the following instead of inventing
+      your own.</p>
+      <ul>
+      <li><a href="bip-0039/bip-0039-wordlists.md" class="wikilink" title="Wordlists">Wordlists</a></li>
+      </ul>
+      <h3 data-number="8.3.8" id="bip-0039-test-vectors">Test
+      vectors</h3>
+      <p>The test vectors include input entropy, mnemonic and seed. The
+      passphrase “TREZOR” is used for all vectors.</p>
+      <p><a
+      href="https://github.com/trezor/python-mnemonic/blob/master/vectors.json"
+      class="uri">https://github.com/trezor/python-mnemonic/blob/master/vectors.json</a></p>
+      <p>Also see <a
+      href="https://github.com/bip32JP/bip32JP.github.io/blob/master/test_JP_BIP39.json"
+      class="uri">https://github.com/bip32JP/bip32JP.github.io/blob/master/test_JP_BIP39.json</a></p>
+      <p>(Japanese wordlist test with heavily normalized symbols as
+      passphrase)</p>
+      <h3 data-number="8.3.9"
+      id="bip-0039-shortcomings">Shortcomings</h3>
+      <p>Some shortcomings have been identified with this proposal:</p>
+      <ul>
+      <li>Generated seed depends on the wordlist that was used for the
+      mnemonic. Because the “mnemonic to seed” process uses the mnemonic
+      sentence directly rather than the original entropy, translating
+      the mnemonic to a different wordlist necessarily creates a
+      completely different seed. This is not an issue if you only
+      support the English wordlist, as recommended above.</li>
+      </ul>
+      <!-- -->
+      <ul>
+      <li>Because the seed is generated by hashing the mnemonic, it is
+      not possible to represent an arbitrary BIP-0032 seed via a
+      BIP-0039 sentence: the conversion is one-way only (from BIP-0039
+      sentence to BIP-0032 seed).</li>
+      </ul>
+      <!-- -->
+      <ul>
+      <li>The checksum is short. This means it only gives modest odds of
+      catching random errors (1-in-256 errors will be missed). It is
+      also not able to provide any assistance in correcting errors.</li>
+      </ul>
+      <!-- -->
+      <ul>
+      <li>No versioning scheme. When originally introduced, there was no
+      way to distinguish the address format that should be used for a
+      BIP-0039 key. This is now largely mitigated by use of descriptor
+      wallets (BIP-0380) in addition to a seed however.</li>
+      </ul>
+      <h3 data-number="8.3.10" id="bip-0039-related-work">Related
+      Work</h3>
+      <p>The authors of BIP-0039 proposed the <a
+      href="https://github.com/satoshilabs/slips/blob/master/slip-0039.md">SLIP-0039</a>
+      scheme as an intended successor to BIP-0039 improving on the above
+      shortcomings.</p>
+      <h3 data-number="8.3.11"
+      id="bip-0039-reference-implementation">Reference
+      Implementation</h3>
+      <p>Reference implementation including wordlists is available
+      from</p>
+      <p><a href="http://github.com/trezor/python-mnemonic"
+      class="uri">http://github.com/trezor/python-mnemonic</a></p>
+      <pre><code>  BIP: 43
+  Layer: Applications
+  Title: Purpose Field for Deterministic Wallets
+  Authors: Marek Palatinus &lt;slush@satoshilabs.com&gt;
+           Pavol Rusnak &lt;stick@satoshilabs.com&gt;
+  Status: Deployed
+  Type: Specification
+  Assigned: 2014-04-24</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0038.html" rel="prev">BIP 38</a>
+        <a class="pager-next" href="bip-0043.html" rel="next">BIP 43</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
