@@ -27,7 +27,6 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="../web.css" />
 </head>
@@ -60,6 +59,8 @@
       <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
       <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
       <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      <li><a href="bip-0325.html#bip-0325" id="toc-bip-0325">BIP 325</a></li>
+      <li><a href="bip-0094.html#bip-0094" id="toc-bip-0094">BIP 94</a></li>
       </ul></li>
       <li><a href="addresses-and-encodings.html#addresses-and-encodings"
       id="toc-addresses-and-encodings">Addresses and Encodings</a>
@@ -111,6 +112,8 @@
       <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
       <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
       <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      <li><a href="bip-0129.html#bip-0129" id="toc-bip-0129">BIP 129</a></li>
+      <li><a href="bip-0328.html#bip-0328" id="toc-bip-0328">BIP 328</a></li>
       </ul></li>
       <li><a href="output-script-descriptors.html#output-script-descriptors"
       id="toc-output-script-descriptors">Output Script Descriptors</a>
@@ -170,6 +173,7 @@
       <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
       <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
       <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0047.html#bip-0047" id="toc-bip-0047">BIP 47</a></li>
       <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
       <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
       <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
@@ -196,13 +200,13 @@
         <a class="pager-prev" href="bip-0137.html" accesskey="p" rel="prev">BIP 137</a>
         <a class="pager-next" href="scripts-miniscript-and-policy.html" accesskey="n" rel="next">Scripts, Miniscript, and Policy</a>
       </nav>
-      <h2 data-number="13.11" id="bip-0322">BIP 322</h2>
-      <h3 data-number="13.11.1" id="bip-0322-abstract">Abstract</h3>
+      <h2 data-number="13.12" id="bip-0322">BIP 322</h2>
+      <h3 data-number="13.12.1" id="bip-0322-abstract">Abstract</h3>
       <p>A standard for interoperable signed messages based on the
       Bitcoin Script format, either for proving availability of funds,
       or for committing to a message as the intended recipient of funds
       sent to the invoice address.</p>
-      <h3 data-number="13.11.2" id="bip-0322-motivation">Motivation</h3>
+      <h3 data-number="13.12.2" id="bip-0322-motivation">Motivation</h3>
       <p>The current message signing standard only works for P2PKH (1…)
       invoice addresses. We propose to extend and generalize the
       standard by using an approach based on Bitcoin Script. This
@@ -227,7 +231,7 @@
       shows they will be able to control funds sent to the invoice
       address. Proving that a signer sent a prior transaction is not
       possible using this BIP.</p>
-      <h3 data-number="13.11.3"
+      <h3 data-number="13.12.3"
       id="bip-0322-terminology">Terminology</h3>
       <p>In the context of this BIP, whenever the word “signature” or
       similar is used, it refers to the output of the signing process
@@ -238,7 +242,7 @@
       may or may not contain an actual cryptographic (ECDSA or Schnorr)
       signature, depending on what is required to satisfy the script
       corresponding to the <code>message_challenge</code>.</p>
-      <h3 data-number="13.11.4" id="bip-0322-types-of-signatures">Types
+      <h3 data-number="13.12.4" id="bip-0322-types-of-signatures">Types
       of Signatures</h3>
       <p>This BIP specifies three formats for signing messages:
       <em>legacy</em>, <em>simple</em> and <em>full</em>. Additionally,
@@ -371,12 +375,12 @@
       with implementations of this BIP before it was finalized, a
       verifier might assume the <em>simple</em> variant in the absence
       of a prefix.</p>
-      <h4 data-number="13.11.4.1" id="bip-0322-legacy">Legacy</h4>
+      <h4 data-number="13.12.4.1" id="bip-0322-legacy">Legacy</h4>
       <p>New proofs SHOULD use the new format for all invoice address
       formats, including P2PKH.</p>
       <p>The legacy format MAY be used, but MUST be restricted to the
       legacy P2PKH invoice address format.</p>
-      <h4 data-number="13.11.4.2" id="bip-0322-simple">Simple</h4>
+      <h4 data-number="13.12.4.2" id="bip-0322-simple">Simple</h4>
       <p>A <em>simple</em> signature consists of a witness stack,
       consensus encoded as a vector of vectors of bytes, and
       base64-encoded, prefixed by the variant (<code>smp</code>).
@@ -390,7 +394,7 @@
       <li><code> ``message_signature`` in ``to_sign`` is set to the provided simple signature.</code></li>
       </ul>
       <p>and then proceed as they would for a full signature.</p>
-      <h4 data-number="13.11.4.3" id="bip-0322-full">Full</h4>
+      <h4 data-number="13.12.4.3" id="bip-0322-full">Full</h4>
       <p>Full signatures follow an analogous specification to the BIP325
       challenges and solutions used by Signet.</p>
       <p>Let there be two virtual transactions <code>to_spend</code> and
@@ -425,7 +429,7 @@
       (<code>ful</code>) base64-encoding of the <code>to_sign</code>
       transaction in standard network serialisation once it has been
       signed.</p>
-      <h4 data-number="13.11.4.4" id="bip-0322-full-proof-of-funds">Full
+      <h4 data-number="13.12.4.4" id="bip-0322-full-proof-of-funds">Full
       (Proof of Funds)</h4>
       <p>The Proof of Funds variant extends the basic scheme: in
       addition to signing a message under a single address’s key, the
@@ -464,14 +468,14 @@
       of the additional inputs’ witness stack, but not its blockchain
       state. An attested list of UTXOs can also never prove that there
       do not exist more UTXOs for a certain address.</p>
-      <h3 data-number="13.11.5"
+      <h3 data-number="13.12.5"
       id="bip-0322-detailed-specification">Detailed Specification</h3>
       <p>For all signature types, except legacy, the
       <code>to_spend</code> and <code>to_sign</code> transactions must
       be valid transactions which pass all consensus checks, except of
       course that the output with prevout
       <code>000...000:FFFFFFFF</code> does not exist.</p>
-      <h4 data-number="13.11.5.1"
+      <h4 data-number="13.12.5.1"
       id="bip-0322-verification">Verification</h4>
       <p>A validator is given as input an address <em>A</em>, signature
       <em>s</em> and message <em>m</em>, and outputs one of three
@@ -482,7 +486,7 @@
       <li><code> </code><em><code>inconclusive</code></em><code> means the validator was unable to check the scripts</code></li>
       <li><code> </code><em><code>invalid</code></em><code> means that some check failed</code></li>
       </ul>
-      <h5 data-number="13.11.5.1.1"
+      <h5 data-number="13.12.5.1.1"
       id="bip-0322-verification-process">Verification Process</h5>
       <p>Validation consists of the following steps:</p>
       <ol type="1">
@@ -560,7 +564,7 @@
       such checks are advisory and do not affect the output state.</li>
       </ol></li>
       </ol>
-      <h4 data-number="13.11.5.2" id="bip-0322-signing">Signing</h4>
+      <h4 data-number="13.12.5.2" id="bip-0322-signing">Signing</h4>
       <p>Signers who control an address <em>A</em> who wish to sign a
       message <em>m</em> act as follows:</p>
       <ol type="1">
@@ -585,7 +589,7 @@
       <li><code> Otherwise, they must base64-encode the finalized PSBT of ``to_sign`` with</code><br />
       <code> ``pof`` as prefix.</code></li>
       </ul>
-      <h4 data-number="13.11.5.3"
+      <h4 data-number="13.12.5.3"
       id="bip-0322-psbt-based-signing">PSBT-based signing</h4>
       <p>A valid witness stack for a multisig address must be
       constructed by coordinating different signers to produce a partial
@@ -635,7 +639,7 @@
       </tr>
       </tbody>
       </table>
-      <h4 data-number="13.11.5.4" id="bip-0322-psbt-creator">PSBT
+      <h4 data-number="13.12.5.4" id="bip-0322-psbt-creator">PSBT
       creator</h4>
       <p>The <strong>transaction creator</strong> of a BIP322 PSBT must
       follow these steps:</p>
@@ -665,7 +669,7 @@
       <code> </code></li>
       </ol></li>
       </ol>
-      <h4 data-number="13.11.5.5" id="bip-0322-psbt-signer">PSBT
+      <h4 data-number="13.12.5.5" id="bip-0322-psbt-signer">PSBT
       signer</h4>
       <p>A <strong>transaction signer</strong> of a BIP322 PSBT must
       follow these steps:</p>
@@ -706,7 +710,7 @@
       </ol></li>
       <li><code> Upon user approval, the signer adds a partial signature for each input it is capable of signing.</code></li>
       </ol>
-      <h4 data-number="13.11.5.6" id="bip-0322-psbt-finalizer">PSBT
+      <h4 data-number="13.12.5.6" id="bip-0322-psbt-finalizer">PSBT
       finalizer</h4>
       <p>A <strong>transaction finalizer</strong> of a BIP322 PSBT must
       follow these steps:</p>
@@ -716,7 +720,7 @@
       <li><code> They then encode the signature following the same steps as described in </code><a href="#signing" class="wikilink" title="Signing"><code>Signing</code></a><br />
       <code> above.</code></li>
       </ol>
-      <h3 data-number="13.11.6"
+      <h3 data-number="13.12.6"
       id="bip-0322-compatibility">Compatibility</h3>
       <p>This specification is backwards-compatible with the legacy
       signmessage/verifymessage specification through the special case
@@ -725,7 +729,7 @@
       implementations of this BIP before it was finalized, a verifier
       might assume the <em>simple</em> variant in the absence of a
       prefix.</p>
-      <h3 data-number="13.11.7"
+      <h3 data-number="13.12.7"
       id="bip-0322-reference-implementation">Reference
       implementation</h3>
       <ul>
@@ -735,18 +739,18 @@
       <code> </code><a
       href="https://github.com/btcsuite/btcd/pull/2521"><code>https://github.com/btcsuite/btcd/pull/2521</code></a></li>
       </ul>
-      <h3 data-number="13.11.8"
+      <h3 data-number="13.12.8"
       id="bip-0322-acknowledgements">Acknowledgements</h3>
       <p>Thanks to David Harding, Jim Posen, Kalle Rosenbaum, Pieter
       Wuille, Andrew Poelstra, Luke Dashjr, and many others for their
       feedback on the specification.</p>
-      <h3 data-number="13.11.9" id="bip-0322-references">References</h3>
+      <h3 data-number="13.12.9" id="bip-0322-references">References</h3>
       <ol type="1">
       <li><code> Original mailing list thread:</code><br />
       <code> </code><a
       href="https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2018-March/015818.html"><code>https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2018-March/015818.html</code></a></li>
       </ol>
-      <h3 data-number="13.11.10" id="bip-0322-changelog">Changelog</h3>
+      <h3 data-number="13.12.10" id="bip-0322-changelog">Changelog</h3>
       <ul>
       <li><strong>2.0.0</strong> (2026-06-04):
       <ul>
@@ -767,10 +771,10 @@
       <li>Proposed as draft</li>
       </ul></li>
       </ul>
-      <h3 data-number="13.11.11" id="bip-0322-copyright">Copyright</h3>
+      <h3 data-number="13.12.11" id="bip-0322-copyright">Copyright</h3>
       <p>This document is licensed under the Creative Commons CC0 1.0
       Universal license.</p>
-      <h3 data-number="13.11.12" id="bip-0322-test-vectors">Test
+      <h3 data-number="13.12.12" id="bip-0322-test-vectors">Test
       vectors</h3>
       <p>Basic test vectors for message hashing, transaction hashes and
       “simple” variant test cases can be found in

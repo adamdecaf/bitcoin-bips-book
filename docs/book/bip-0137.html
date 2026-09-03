@@ -27,7 +27,6 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="../web.css" />
 </head>
@@ -60,6 +59,8 @@
       <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
       <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
       <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      <li><a href="bip-0325.html#bip-0325" id="toc-bip-0325">BIP 325</a></li>
+      <li><a href="bip-0094.html#bip-0094" id="toc-bip-0094">BIP 94</a></li>
       </ul></li>
       <li><a href="addresses-and-encodings.html#addresses-and-encodings"
       id="toc-addresses-and-encodings">Addresses and Encodings</a>
@@ -111,6 +112,8 @@
       <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
       <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
       <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      <li><a href="bip-0129.html#bip-0129" id="toc-bip-0129">BIP 129</a></li>
+      <li><a href="bip-0328.html#bip-0328" id="toc-bip-0328">BIP 328</a></li>
       </ul></li>
       <li><a href="output-script-descriptors.html#output-script-descriptors"
       id="toc-output-script-descriptors">Output Script Descriptors</a>
@@ -170,6 +173,7 @@
       <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
       <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
       <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0047.html#bip-0047" id="toc-bip-0047">BIP 47</a></li>
       <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
       <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
       <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
@@ -196,8 +200,8 @@
         <a class="pager-prev" href="bip-0327.html" accesskey="p" rel="prev">BIP 327</a>
         <a class="pager-next" href="bip-0322.html" accesskey="n" rel="next">BIP 322</a>
       </nav>
-      <h2 data-number="13.10" id="bip-0137">BIP 137</h2>
-      <h3 data-number="13.10.1" id="bip-0137-abstract">Abstract</h3>
+      <h2 data-number="13.11" id="bip-0137">BIP 137</h2>
+      <h3 data-number="13.11.1" id="bip-0137-abstract">Abstract</h3>
       <p>This document describes a signature format for signing messages
       with Bitcoin private keys.</p>
       <p>The specification is intended to describe the standard for
@@ -212,9 +216,9 @@
       specific standards it is unclear which type of address format is
       being used. See [2]. This BIP will attempt to address these issues
       and define a clear and concise format for Bitcoin signatures.</p>
-      <h3 data-number="13.10.2" id="bip-0137-copyright">Copyright</h3>
+      <h3 data-number="13.11.2" id="bip-0137-copyright">Copyright</h3>
       <p>This BIP is licensed under the 2-clause BSD license.</p>
-      <h3 data-number="13.10.3" id="bip-0137-motivation">Motivation</h3>
+      <h3 data-number="13.11.3" id="bip-0137-motivation">Motivation</h3>
       <p>Since Bitcoin private keys can not only be used to sign Bitcoin
       transactions, but also any other message, it has become customary
       to use them to sign various messages for differing purposes. Some
@@ -229,9 +233,9 @@
       one another. This BIP proposes a standard signature format that
       will allow clients to distinguish between the different address
       formats.</p>
-      <h3 data-number="13.10.4"
+      <h3 data-number="13.11.4"
       id="bip-0137-specification">Specification</h3>
-      <h4 data-number="13.10.4.1"
+      <h4 data-number="13.11.4.1"
       id="bip-0137-background-on-ecdsa-signatures">Background on ECDSA
       Signatures</h4>
       <p>(For readers who already understand how ECDSA signatures work,
@@ -269,7 +273,7 @@
       and 25% respectively, although sizes even smaller than that are
       possible with exponentially decreasing probability. Source
       [3].</p>
-      <h4 data-number="13.10.4.2"
+      <h4 data-number="13.11.4.2"
       id="bip-0137-conventions-with-signatures-used-in-bitcoin">Conventions
       with signatures used in Bitcoin</h4>
       <p>Bitcoin signatures have the r and s values mentioned above, and
@@ -287,7 +291,7 @@
       the header value is between 35 and 38 inclusive, it is a p2sh
       segwit address. If the header value is between 39 and 42, it is a
       bech32 address.</p>
-      <h4 data-number="13.10.4.3"
+      <h4 data-number="13.11.4.3"
       id="bip-0137-procedure-for-signingverifying-a-signature">Procedure
       for signing/verifying a signature</h4>
       <p>As noted above the signature is composed of three components,
@@ -309,7 +313,7 @@
       </ul>
       <p>To verify a signature, the recId is obtained by subtracting
       this constant from the header value.</p>
-      <h4 data-number="13.10.4.4"
+      <h4 data-number="13.11.4.4"
       id="bip-0137-sample-code-for-processing-a-signature">Sample Code
       for processing a signature</h4>
       <p>Note: this code is a modification of the BitcoinJ code which is
@@ -359,13 +363,13 @@
       <code>           throw new SignatureException("Could not recover public key from signature");</code><br />
       <code>       return key;</code><br />
       <code>   }</code></p>
-      <h3 data-number="13.10.5"
+      <h3 data-number="13.11.5"
       id="bip-0137-backwards-compatibility">Backwards Compatibility</h3>
       <p>Since this format includes P2PKH keys, it is backwards
       compatible, but keep in mind some software has checks for ranges
       of headers and will report the newer segwit header types as
       errors.</p>
-      <h3 data-number="13.10.6"
+      <h3 data-number="13.11.6"
       id="bip-0137-implications">Implications</h3>
       <p>Message signing is an important use case and potentially
       underused due to the fact that, up until now, there has not been a
@@ -373,7 +377,7 @@
       Bitcoin private keys. Bitcoin wallets should be interoperable and
       use the same conventions for determining a signature’s validity.
       This BIP can also be updated as new signature formats emerge.</p>
-      <h3 data-number="13.10.7"
+      <h3 data-number="13.11.7"
       id="bip-0137-acknowledgements">Acknowledgements</h3>
       <ul>
       <li>Konstantin Bay - review</li>
@@ -382,7 +386,7 @@
       </ul>
       <p>Note that the background on ECDSA signatures was taken from
       en.bitcoin.it and code sample modified from BitcoinJ.</p>
-      <h3 data-number="13.10.8" id="bip-0137-references">References</h3>
+      <h3 data-number="13.11.8" id="bip-0137-references">References</h3>
       <p>[1] - <a
       href="https://github.com/bitcoin/bips/blob/master/bip-0322.mediawiki"
       class="uri">https://github.com/bitcoin/bips/blob/master/bip-0322.mediawiki</a></p>

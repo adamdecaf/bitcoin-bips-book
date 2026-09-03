@@ -27,7 +27,6 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="../web.css" />
 </head>
@@ -60,6 +59,8 @@
       <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
       <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
       <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      <li><a href="bip-0325.html#bip-0325" id="toc-bip-0325">BIP 325</a></li>
+      <li><a href="bip-0094.html#bip-0094" id="toc-bip-0094">BIP 94</a></li>
       </ul></li>
       <li><a href="addresses-and-encodings.html#addresses-and-encodings"
       id="toc-addresses-and-encodings">Addresses and Encodings</a>
@@ -111,6 +112,8 @@
       <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
       <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
       <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      <li><a href="bip-0129.html#bip-0129" id="toc-bip-0129">BIP 129</a></li>
+      <li><a href="bip-0328.html#bip-0328" id="toc-bip-0328">BIP 328</a></li>
       </ul></li>
       <li><a href="output-script-descriptors.html#output-script-descriptors"
       id="toc-output-script-descriptors">Output Script Descriptors</a>
@@ -170,6 +173,7 @@
       <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
       <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
       <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0047.html#bip-0047" id="toc-bip-0047">BIP 47</a></li>
       <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
       <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
       <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
@@ -196,14 +200,14 @@
         <a class="pager-prev" href="bip-0352.html" accesskey="p" rel="prev">BIP 352</a>
         <a class="pager-next" href="bip-0327.html" accesskey="n" rel="next">BIP 327</a>
       </nav>
-      <h2 data-number="13.8" id="bip-0353">BIP 353</h2>
-      <h3 data-number="13.8.1" id="bip-0353-copyright">Copyright</h3>
+      <h2 data-number="13.9" id="bip-0353">BIP 353</h2>
+      <h3 data-number="13.9.1" id="bip-0353-copyright">Copyright</h3>
       <p>This BIP is licensed under the CC0-1.0 license.</p>
-      <h3 data-number="13.8.2" id="bip-0353-abstract">Abstract</h3>
+      <h3 data-number="13.9.2" id="bip-0353-abstract">Abstract</h3>
       <p>This BIP proposes a standard format for encoding
       <a href="bip-0021.mediawiki" class="wikilink" title="BIP 21">BIP
       21</a> URI schemes in DNS TXT records.</p>
-      <h3 data-number="13.8.3" id="bip-0353-motivation">Motivation</h3>
+      <h3 data-number="13.9.3" id="bip-0353-motivation">Motivation</h3>
       <p>Various Bitcoin and other cryptocurrency applications have
       developed human-readable names for payment instructions over time,
       with marketplace adoption signaling strong demand for it from
@@ -224,9 +228,9 @@
       allows for human-readable Bitcoin payment destinations which can
       be trivially verified on hardware wallets and which can be
       resolved relatively privately.</p>
-      <h3 data-number="13.8.4"
+      <h3 data-number="13.9.4"
       id="bip-0353-specification">Specification</h3>
-      <h4 data-number="13.8.4.1"
+      <h4 data-number="13.9.4.1"
       id="bip-0353-general-rules-for-handling">General rules for
       handling</h4>
       <p>Bitcoin wallets MUST NOT prefer to use DNS-based resolving when
@@ -234,7 +238,7 @@
       other words, if a standard Bitcoin address or direct BIP 21 URI is
       available or would suffice, Bitcoin wallets MUST prefer to use
       that instead.</p>
-      <h4 data-number="13.8.4.2" id="bip-0353-records">Records</h4>
+      <h4 data-number="13.9.4.2" id="bip-0353-records">Records</h4>
       <p>Payment instructions are indexed by both a user and a domain.
       Instructions for a given <code>user</code> and <code>domain</code>
       are stored at
@@ -263,7 +267,7 @@
       the DNS records expire prior to the expiry of the payment
       instructions. Otherwise, senders may have payment instructions
       cached locally which have expired, preventing payment.</p>
-      <h4 data-number="13.8.4.3"
+      <h4 data-number="13.9.4.3"
       id="bip-0353-resolution">Resolution</h4>
       <p>Clients resolving Bitcoin payment instructions MUST ignore any
       TXT records at the same label which do not begin with (ignoring
@@ -303,7 +307,7 @@
       for longer than the lowest initial TTL (which is signed as a part
       of DNSSEC signatures) received in the full DNSSEC chain leading
       from the DNS root to the resolved TXT record.</p>
-      <h4 data-number="13.8.4.4" id="bip-0353-address-reuse">Address
+      <h4 data-number="13.9.4.4" id="bip-0353-address-reuse">Address
       Reuse</h4>
       <p>Payment instructions with on-chain addresses which will be
       re-used SHOULD be rotated as regularly as possible to reduce
@@ -315,7 +319,7 @@
       <p>Payment instructions which do contain on-chain addresses which
       will be re-used SHOULD be rotated after any transaction to such an
       address is confirmed on-chain.</p>
-      <h4 data-number="13.8.4.5" id="bip-0353-display">Display</h4>
+      <h4 data-number="13.9.4.5" id="bip-0353-display">Display</h4>
       <p>When displaying a verified human-readable name, wallets SHOULD
       prefix it with ₿, i.e. ₿<code>user</code>@<code>domain</code>.
       They SHOULD parse recipient information in both
@@ -336,7 +340,7 @@
       (as a series of unsorted <code>AuthenticationChain</code> records)
       and, if verification succeeds, SHOULD display the recipient in the
       form ₿<code>user</code>@<code>domain</code>.</p>
-      <h4 data-number="13.8.4.6" id="bip-0353-psbt-types">PSBT
+      <h4 data-number="13.9.4.6" id="bip-0353-psbt-types">PSBT
       types</h4>
       <p>Wallets accepting payment information from external devices
       (e.g. hardware wallets) MAY examine the following per-output PSBT
@@ -391,8 +395,8 @@
       </tr>
       </tbody>
       </table>
-      <h3 data-number="13.8.5" id="bip-0353-rationale">Rationale</h3>
-      <h4 data-number="13.8.5.1" id="bip-0353-display-1">Display</h4>
+      <h3 data-number="13.9.5" id="bip-0353-rationale">Rationale</h3>
+      <h4 data-number="13.9.5.1" id="bip-0353-display-1">Display</h4>
       <p>There are several ways in which human-readable payment
       instructions could be displayed in wallets. In order to ensure
       compatibility with existing human-readable names schemes, @ is
@@ -401,7 +405,7 @@
       can lead to confusion between email addresses on a given domain
       and payment instructions on a domain. In order to somewhat reduce
       the incidence of such confusion, a ₿ prefix is used.</p>
-      <h4 data-number="13.8.5.2" id="bip-0353-rotation">Rotation</h4>
+      <h4 data-number="13.9.5.2" id="bip-0353-rotation">Rotation</h4>
       <p>On-chain addresses which are re-used (i.e. not including
       schemes like
       <a href="bip-0352.mediawiki" class="wikilink" title="Silent Payments">Silent
@@ -414,7 +418,7 @@
       number of addresses needed to one per block, which grows very
       slowly and will not generate an address set too large to handle
       while scanning the chain going forward.</p>
-      <h4 data-number="13.8.5.3"
+      <h4 data-number="13.9.5.3"
       id="bip-0353-alternatives">Alternatives</h4>
       <p>There are many existing schemes to resolve human-readable names
       to cryptocurrency payment instructions. Sadly, these current
@@ -424,7 +428,7 @@
       side-effect of payment, (c) relying on the bloated TLS Certificate
       Authority infrastructure, or (d) lacking open access, not allowing
       anyone to create a namespace mapping.</p>
-      <h5 data-number="13.8.5.3.1"
+      <h5 data-number="13.9.5.3.1"
       id="bip-0353-dns-rather-than-blockchain-based-solutions">DNS
       Rather than blockchain-based solutions</h5>
       <p>There are many blockchain-based alternatives to the DNS which
@@ -441,14 +445,14 @@
       their specific silos, and committing Bitcoin wallets to rely on a
       separate system which doesn’t see broad adoption may not be
       sustainable.</p>
-      <h5 data-number="13.8.5.3.2"
+      <h5 data-number="13.9.5.3.2"
       id="bip-0353-dns-rather-than-http-based-solutions">DNS Rather than
       HTTP-based solutions</h5>
       <p>HTTP(s)-based payment instruction resolution protocols suffer
       from drawbacks (a), (b), and (c), above, and generally shouldn’t
       be considered a serious alternative for payment instruction
       resolution.</p>
-      <h5 data-number="13.8.5.3.3"
+      <h5 data-number="13.9.5.3.3"
       id="bip-0353-private-dns-querying">Private DNS Querying</h5>
       <p>While public recursive DNS resolvers are very common
       (e.g. 1.1.1.1, 8.8.8.8, and 9.9.9.9), using such resolvers
@@ -468,7 +472,7 @@
       native onion messages, using the protocol described in
       <a href="https://github.com/lightning/blips/blob/master/blip-0032.md" class="wikilink" title="BLIP 32">BLIP
       32</a></p>
-      <h4 data-number="13.8.5.4" id="bip-0353-dns-enumeration">DNS
+      <h4 data-number="13.9.5.4" id="bip-0353-dns-enumeration">DNS
       Enumeration</h4>
       <p>In most cases where payments are accepted from any third-party,
       user enumeration is practical by simply attempting to send small
@@ -479,7 +483,7 @@
       payment instructions. Note when doing so that wildcard records are
       identified as such by the DNSSEC RRSIG labels counter and are
       differentiable from non-wildcard records.</p>
-      <h3 data-number="13.8.6"
+      <h3 data-number="13.9.6"
       id="bip-0353-backwards-compatibility">Backwards Compatibility</h3>
       <p>This work is intended to extend and subsume the existing
       “Lightning Address” scheme, which maps similar names (without the
@@ -488,7 +492,7 @@
       existing “Lightning Address” logic if DNS resolution fails but
       SHOULD NOT do so after this scheme is sufficiently broadly
       deployed to avoid leaking sender IP address information.</p>
-      <h3 data-number="13.8.7" id="bip-0353-examples">Examples</h3>
+      <h3 data-number="13.9.7" id="bip-0353-examples">Examples</h3>
       <p><code>matt@mattcorallo.com</code> resolves to</p>
       <pre><code>matt.user._bitcoin-payment.mattcorallo.com. 1800 IN TXT  &quot;bitcoin:?lno=lno1qsgr30k45jhvkfqxjqheaetac
 u4guyxvqttftvqu0f5sneckep3lkwdut7mmhhpcyjmlmnjn4hze8ed7pq88xqkxt2dcw5mlxhz644fms82f7k4ymfxs2ehhpjtxw
@@ -501,7 +505,7 @@ ny84djksqpqk9ky6juc7fpezecxvg7sjx05dckyypnv9tmvfp6tkpehmtaqmvuupetxuzqf4t0azddjd
       <li>Note that the complete URI is broken into two strings with
       maximum 255 characters each</li>
       </ul>
-      <h4 data-number="13.8.7.1" id="bip-0353-example-proofs">Example
+      <h4 data-number="13.9.7.1" id="bip-0353-example-proofs">Example
       proofs</h4>
       <p>The following are valid DNSSEC proofs to be included in the
       <code>PSBT_OUT_DNSSEC_PROOF</code> record in a PSBT.</p>
@@ -554,7 +558,7 @@ ny84djksqpqk9ky6juc7fpezecxvg7sjx05dckyypnv9tmvfp6tkpehmtaqmvuupetxuzqf4t0azddjd
       <code>dnssec-prover</code> implementation at <a
       href="https://satsto.me/prooftest.html"
       class="uri">https://satsto.me/prooftest.html</a></p>
-      <h3 data-number="13.8.8"
+      <h3 data-number="13.9.8"
       id="bip-0353-reference-implementations">Reference
       Implementations</h3>
       <ul>
@@ -571,8 +575,8 @@ ny84djksqpqk9ky6juc7fpezecxvg7sjx05dckyypnv9tmvfp6tkpehmtaqmvuupetxuzqf4t0azddjd
       <a href="bip-0321.mediawiki" class="wikilink" title="BIP 321">BIP
       321</a>.</li>
       </ul>
-      <h3 data-number="13.8.9" id="bip-0353-footnotes">Footnotes</h3>
-      <h3 data-number="13.8.10"
+      <h3 data-number="13.9.9" id="bip-0353-footnotes">Footnotes</h3>
+      <h3 data-number="13.9.10"
       id="bip-0353-acknowledgements">Acknowledgements</h3>
       <p>Thanks to Rusty Russell for the concrete address rotation
       suggestion.</p>

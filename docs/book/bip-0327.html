@@ -27,7 +27,6 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="../web.css" />
 </head>
@@ -60,6 +59,8 @@
       <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
       <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
       <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      <li><a href="bip-0325.html#bip-0325" id="toc-bip-0325">BIP 325</a></li>
+      <li><a href="bip-0094.html#bip-0094" id="toc-bip-0094">BIP 94</a></li>
       </ul></li>
       <li><a href="addresses-and-encodings.html#addresses-and-encodings"
       id="toc-addresses-and-encodings">Addresses and Encodings</a>
@@ -111,6 +112,8 @@
       <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
       <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
       <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      <li><a href="bip-0129.html#bip-0129" id="toc-bip-0129">BIP 129</a></li>
+      <li><a href="bip-0328.html#bip-0328" id="toc-bip-0328">BIP 328</a></li>
       </ul></li>
       <li><a href="output-script-descriptors.html#output-script-descriptors"
       id="toc-output-script-descriptors">Output Script Descriptors</a>
@@ -170,6 +173,7 @@
       <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
       <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
       <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0047.html#bip-0047" id="toc-bip-0047">BIP 47</a></li>
       <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
       <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
       <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
@@ -196,10 +200,10 @@
         <a class="pager-prev" href="bip-0353.html" accesskey="p" rel="prev">BIP 353</a>
         <a class="pager-next" href="bip-0137.html" accesskey="n" rel="next">BIP 137</a>
       </nav>
-      <h2 data-number="13.9" id="bip-0327">BIP 327</h2>
-      <h3 data-number="13.9.1"
+      <h2 data-number="13.10" id="bip-0327">BIP 327</h2>
+      <h3 data-number="13.10.1"
       id="bip-0327-introduction">Introduction</h3>
-      <h4 data-number="13.9.1.1" id="bip-0327-abstract">Abstract</h4>
+      <h4 data-number="13.10.1.1" id="bip-0327-abstract">Abstract</h4>
       <p>This document proposes a standard for the <a
       href="https://eprint.iacr.org/2020/1261.pdf">MuSig2</a>
       multi-signature scheme. The standard is compatible with <a
@@ -210,9 +214,9 @@
       child keys from aggregate public keys and creating <a
       href="https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki">BIP341</a>
       Taproot outputs with key and script paths.</p>
-      <h4 data-number="13.9.1.2" id="bip-0327-copyright">Copyright</h4>
+      <h4 data-number="13.10.1.2" id="bip-0327-copyright">Copyright</h4>
       <p>This document is licensed under the 3-clause BSD license.</p>
-      <h4 data-number="13.9.1.3"
+      <h4 data-number="13.10.1.3"
       id="bip-0327-motivation">Motivation</h4>
       <p>MuSig2 is a multi-signature scheme that allows multiple signers
       to create a single aggregate public key and cooperatively create
@@ -275,7 +279,7 @@
       deterministically and the requirement to securely handle signing
       state.</li>
       </ul>
-      <h4 data-number="13.9.1.4" id="bip-0327-design">Design</h4>
+      <h4 data-number="13.10.1.4" id="bip-0327-design">Design</h4>
       <ul>
       <li><strong>Compatibility with BIP340</strong>: In this proposal,
       the aggregate public key is a BIP340 X-only public key, and the
@@ -350,11 +354,11 @@
       <a href="#choosing-the-size-of-the-nonce" class="wikilink" title="Choosing the Size of the Nonce">Choosing
       the Size of the Nonce</a> for a discussion.</li>
       </ul>
-      <h3 data-number="13.9.2" id="bip-0327-overview">Overview</h3>
+      <h3 data-number="13.10.2" id="bip-0327-overview">Overview</h3>
       <p>Implementers must make sure to understand this section
       thoroughly to avoid subtle mistakes that may lead to catastrophic
       failure.</p>
-      <h4 data-number="13.9.2.1"
+      <h4 data-number="13.10.2.1"
       id="bip-0327-optionality-of-features">Optionality of Features</h4>
       <p>The goal of this proposal is to support a wide range of
       possible application scenarios. Given a specific application
@@ -377,7 +381,7 @@
       vectors that exercise the unimplemented features should be
       re-interpreted to expect an error, or be skipped if
       appropriate.</p>
-      <h4 data-number="13.9.2.2"
+      <h4 data-number="13.10.2.2"
       id="bip-0327-general-signing-flow">General Signing Flow</h4>
       <p>The signers start by exchanging their individual public keys
       and computing an aggregate public key using the <em>KeyAgg</em>
@@ -436,7 +440,7 @@
       from an untrusted third party. This party would have complete
       control over the aggregate public key and message to be
       signed.</p>
-      <h4 data-number="13.9.2.3"
+      <h4 data-number="13.10.2.3"
       id="bip-0327-public-key-aggregation">Public Key Aggregation</h4>
       <p>We distinguish between two public key types, namely <em>plain
       public keys</em>, the key type traditionally used in Bitcoin, and
@@ -493,7 +497,7 @@
       intended key setup, applications may reject duplicate individual
       public keys before passing them to MuSig2 key aggregation and ask
       the user to investigate.</p>
-      <h4 data-number="13.9.2.4" id="bip-0327-nonce-generation">Nonce
+      <h4 data-number="13.10.2.4" id="bip-0327-nonce-generation">Nonce
       Generation</h4>
       <p><strong>IMPORTANT</strong>: <em>NonceGen</em> must have access
       to a high-quality random generator to draw an unbiased, uniformly
@@ -559,7 +563,7 @@
       <a href="#modifications-to-nonce-generation" class="wikilink" title="Modifications to Nonce Generation">Modifications
       to Nonce Generation</a>) to remove the reliance on the random
       number generator in the <em>NonceGen</em> algorithm.</p>
-      <h4 data-number="13.9.2.5"
+      <h4 data-number="13.10.2.5"
       id="bip-0327-identifying-disruptive-signers">Identifying
       Disruptive Signers</h4>
       <p>The signing protocol makes it possible to identify malicious
@@ -589,8 +593,8 @@
       contributions sent by all signers in the signing session, all the
       honest parties who run the aborting algorithm will identify the
       same malicious signer.</p>
-      <h5 data-number="13.9.2.5.1" id="bip-0327-further-remarks">Further
-      Remarks</h5>
+      <h5 data-number="13.10.2.5.1"
+      id="bip-0327-further-remarks">Further Remarks</h5>
       <p>Some of the algorithms specified below may also assign blame to
       a malicious aggregator. While this is possible for some particular
       misbehavior of the aggregator, it is not guaranteed that a
@@ -621,7 +625,7 @@
       public keys, it is an open question whether a BIP-340 signature
       valid under the corresponding aggregate public key is a proof of
       knowledge of all secret keys of the individual public keys.</p>
-      <h4 data-number="13.9.2.6"
+      <h4 data-number="13.10.2.6"
       id="bip-0327-tweaking-the-aggregate-public-key">Tweaking the
       Aggregate Public Key</h4>
       <p>The aggregate public key can be <em>tweaked</em>, which
@@ -667,7 +671,7 @@
       block that contains a parity bit for the tweaked X-only public
       key. The bit can be obtained with
       <em>GetPlainPubkey(keyagg_ctx)[0] &amp; 1</em>.</p>
-      <h3 data-number="13.9.3" id="bip-0327-algorithms">Algorithms</h3>
+      <h3 data-number="13.10.3" id="bip-0327-algorithms">Algorithms</h3>
       <p>The following specification of the algorithms has been written
       with a focus on clarity. As a result, the specified algorithms are
       not always optimal in terms of computation and space. In
@@ -675,7 +679,7 @@
       implementations (see
       <a href="#general-signing-flow" class="wikilink" title="General Signing Flow">General
       Signing Flow</a>).</p>
-      <h4 data-number="13.9.3.1" id="bip-0327-notation">Notation</h4>
+      <h4 data-number="13.10.3.1" id="bip-0327-notation">Notation</h4>
       <p>The following conventions are used, with constants as defined
       for <a href="https://www.secg.org/sec2-v2.pdf">secp256k1</a>. We
       note that adapting this proposal to other elliptic curves is not
@@ -784,10 +788,10 @@
       tuple.</li>
       </ul></li>
       </ul>
-      <h4 data-number="13.9.3.2"
+      <h4 data-number="13.10.3.2"
       id="bip-0327-key-generation-and-aggregation">Key Generation and
       Aggregation</h4>
-      <h5 data-number="13.9.3.2.1"
+      <h5 data-number="13.10.3.2.1"
       id="bip-0327-key-generation-of-an-individual-signer">Key
       Generation of an Individual Signer</h5>
       <div>
@@ -805,7 +809,7 @@
       <li>Return <em>cbytes(d’⋅G)</em>.</li>
       </ul>
       </div>
-      <h5 data-number="13.9.3.2.2" id="bip-0327-keyagg-context">KeyAgg
+      <h5 data-number="13.10.3.2.2" id="bip-0327-keyagg-context">KeyAgg
       Context</h5>
       <p>The KeyAgg Context is a data structure consisting of the
       following elements:</p>
@@ -832,7 +836,7 @@
       <li>Return <em>cbytes(Q)</em></li>
       </ul>
       </div>
-      <h5 data-number="13.9.3.2.3" id="bip-0327-key-sorting">Key
+      <h5 data-number="13.10.3.2.3" id="bip-0327-key-sorting">Key
       Sorting</h5>
       <div>
       <p>Algorithm <em>KeySort(pk<sub>1..u</sub>)</em>:</p>
@@ -848,7 +852,7 @@
       order.</li>
       </ul>
       </div>
-      <h5 data-number="13.9.3.2.4" id="bip-0327-key-aggregation">Key
+      <h5 data-number="13.10.3.2.4" id="bip-0327-key-aggregation">Key
       Aggregation</h5>
       <div>
       <p>Algorithm <em>KeyAgg(pk<sub>1..u</sub>)</em>:</p>
@@ -926,7 +930,7 @@
       after sorting.</li>
       </ul>
       </div>
-      <h5 data-number="13.9.3.2.5"
+      <h5 data-number="13.10.3.2.5"
       id="bip-0327-applying-tweaks">Applying Tweaks</h5>
       <div>
       <p>Algorithm <em>ApplyTweak(keyagg_ctx, tweak,
@@ -959,7 +963,7 @@
       <li>Return <em>keyagg_ctx’ = (Q’, gacc’, tacc’)</em></li>
       </ul>
       </div>
-      <h4 data-number="13.9.3.3" id="bip-0327-nonce-generation-1">Nonce
+      <h4 data-number="13.10.3.3" id="bip-0327-nonce-generation-1">Nonce
       Generation</h4>
       <div>
       <p>Algorithm <em>NonceGen(sk, pk, aggpk, m, extra_in)</em>:</p>
@@ -1049,7 +1053,7 @@
       <li>Return <em>(secnonce, pubnonce)</em></li>
       </ul>
       </div>
-      <h4 data-number="13.9.3.4" id="bip-0327-nonce-aggregation">Nonce
+      <h4 data-number="13.10.3.4" id="bip-0327-nonce-aggregation">Nonce
       Aggregation</h4>
       <div>
       <p>Algorithm <em>NonceAgg(pubnonce<sub>1..u</sub>)</em>:</p>
@@ -1077,7 +1081,7 @@
       cbytes_ext(R<sub>2</sub>)</em></li>
       </ul>
       </div>
-      <h4 data-number="13.9.3.5" id="bip-0327-session-context">Session
+      <h4 data-number="13.10.3.5" id="bip-0327-session-context">Session
       Context</h4>
       <p>The Session Context is a data structure consisting of the
       following elements:</p>
@@ -1147,7 +1151,7 @@
       <li>Return <em>KeyAggCoeff(pk<sub>1..u</sub>, pk)</em></li>
       </ul>
       </div>
-      <h4 data-number="13.9.3.6" id="bip-0327-signing">Signing</h4>
+      <h4 data-number="13.10.3.6" id="bip-0327-signing">Signing</h4>
       <div>
       <p>Algorithm <em>Sign(secnonce, sk, session_ctx)</em>:</p>
       <ul>
@@ -1203,7 +1207,7 @@
       <li><p>Return partial signature <em>psig</em></p></li>
       </ul>
       </div>
-      <h4 data-number="13.9.3.7"
+      <h4 data-number="13.10.3.7"
       id="bip-0327-partial-signature-verification">Partial Signature
       Verification</h4>
       <div>
@@ -1272,7 +1276,7 @@
       point.</p></li>
       </ul>
       </div>
-      <h4 data-number="13.9.3.8"
+      <h4 data-number="13.10.3.8"
       id="bip-0327-partial-signature-aggregation">Partial Signature
       Aggregation</h4>
       <div>
@@ -1304,7 +1308,7 @@
       <li>Return <em>sig =</em>xbytes(R) || bytes(32, s)’’</li>
       </ul>
       </div>
-      <h4 data-number="13.9.3.9"
+      <h4 data-number="13.10.3.9"
       id="bip-0327-test-vectors-and-reference-code">Test Vectors and
       Reference Code</h4>
       <p>We provide a naive, highly inefficient, and non-constant time
@@ -1317,10 +1321,10 @@
       implementations.</p>
       <p>The reference implementation is for demonstration purposes only
       and not to be used in production environments.</p>
-      <h3 data-number="13.9.4"
+      <h3 data-number="13.10.4"
       id="bip-0327-remarks-on-security-and-correctness">Remarks on
       Security and Correctness</h3>
-      <h4 data-number="13.9.4.1"
+      <h4 data-number="13.10.4.1"
       id="bip-0327-signing-with-tweaked-individual-keys">Signing with
       Tweaked Individual Keys</h4>
       <p>The scheme in this proposal has been designed to be secure even
@@ -1391,7 +1395,7 @@
       perform the check in <em>Sign</em>. However, the security model in
       the paper does not cover tweaking at all and assumes a single
       fixed secret key.</p>
-      <h4 data-number="13.9.4.2"
+      <h4 data-number="13.10.4.2"
       id="bip-0327-modifications-to-nonce-generation">Modifications to
       Nonce Generation</h4>
       <p>Implementers must avoid modifying the <em>NonceGen</em>
@@ -1468,7 +1472,7 @@
       signer stateless, similar to the stateless signer described in the
       <a href="#nonce-generation" class="wikilink" title="Nonce Generation">Nonce
       Generation</a> section.</p>
-      <h5 data-number="13.9.4.2.1"
+      <h5 data-number="13.10.4.2.1"
       id="bip-0327-deterministic-and-stateless-signing-for-a-single-signer">Deterministic
       and Stateless Signing for a Single Signer</h5>
       <div>
@@ -1539,7 +1543,7 @@
       session_ctx))</em></li>
       </ul>
       </div>
-      <h4 data-number="13.9.4.3"
+      <h4 data-number="13.10.4.3"
       id="bip-0327-tweaking-definition">Tweaking Definition</h4>
       <p>Two modes of tweaking the aggregate public key are supported.
       They correspond to the following algorithms:</p>
@@ -1561,7 +1565,7 @@
       <li>Return <em>with_even_y(P) + t⋅G</em></li>
       </ul>
       </div>
-      <h4 data-number="13.9.4.4"
+      <h4 data-number="13.10.4.4"
       id="bip-0327-negation-of-the-secret-key-when-signing">Negation Of
       The Secret Key When Signing</h4>
       <p>In order to produce a partial signature for an X-only aggregate
@@ -1653,7 +1657,7 @@
       <em>g<sub>v</sub>⋅gacc<sub>v</sub></em> in the
       <em><a href="#sign-negation" class="wikilink" title="Sign">Sign</a></em>
       algorithm.</p>
-      <h5 data-number="13.9.4.4.1"
+      <h5 data-number="13.10.4.4.1"
       id="bip-0327-negation-of-the-individual-public-key-when-partially-verifying">Negation
       Of The Individual Public Key When Partially Verifying</h5>
       <p>&lt;poem&gt; As explained in
@@ -1675,7 +1679,7 @@
       <p><code>   = g</code><sub><code>v</code></sub><code>⋅gacc</code><sub><code>v</code></sub><code>⋅d'⋅G</code><br />
       <code>   = g</code><sub><code>v</code></sub><code>⋅gacc</code><sub><code>v</code></sub><code>⋅cpoint(pk)</code><em><code>Note that the aggregate public key and list of tweaks are inputs to partial signature verification, so the verifier can also construct</code></em><code>g</code><sub><code>v</code></sub><em><code>and</code></em><code>gacc</code><sub><code>v</code></sub><code>''.</code></p>
       <p>&lt;/poem&gt;</p>
-      <h4 data-number="13.9.4.5"
+      <h4 data-number="13.10.4.5"
       id="bip-0327-dealing-with-infinity-in-nonce-aggregation">Dealing
       with Infinity in Nonce Aggregation</h4>
       <p>If the nonce aggregator provides <em>aggnonce = bytes(33,0) ||
@@ -1710,7 +1714,7 @@
       provides an <em>aggnonce’ ≠ bytes(33, 0) || bytes(33, 0)</em> but
       nevertheless <em>R’</em> in <em>GetSessionValues</em> is the point
       at infinity happens only with negligible probability.)</p>
-      <h4 data-number="13.9.4.6"
+      <h4 data-number="13.10.4.6"
       id="bip-0327-choosing-the-size-of-the-nonce">Choosing the Size of
       the Nonce</h4>
       <p>The <a href="https://eprint.iacr.org/2020/1261">MuSig2
@@ -1745,14 +1749,14 @@
       independently proven secure in the ROM and AGM by <a
       href="https://eprint.iacr.org/2020/1245">Alper and
       Burdges</a>.</p>
-      <h3 data-number="13.9.5"
+      <h3 data-number="13.10.5"
       id="bip-0327-backwards-compatibility">Backwards Compatibility</h3>
       <p>This document proposes a standard for the MuSig2
       multi-signature scheme that is compatible with <a
       href="https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki">BIP340</a>.
       MuSig2 is <em>not</em> compatible with ECDSA signatures
       traditionally used in Bitcoin.</p>
-      <h3 data-number="13.9.6" id="bip-0327-changelog">Changelog</h3>
+      <h3 data-number="13.10.6" id="bip-0327-changelog">Changelog</h3>
       <p>To help implementers understand updates to this document, we
       attach a version number that resembles <em>semantic
       versioning</em> (<code>MAJOR.MINOR.PATCH</code>). The
@@ -1875,8 +1879,8 @@
       <li><strong>0.1.0</strong> (2022-05-19): Publication of draft BIP
       on the bitcoin-dev mailing list</li>
       </ul>
-      <h3 data-number="13.9.7" id="bip-0327-footnotes">Footnotes</h3>
-      <h3 data-number="13.9.8"
+      <h3 data-number="13.10.7" id="bip-0327-footnotes">Footnotes</h3>
+      <h3 data-number="13.10.8"
       id="bip-0327-acknowledgements">Acknowledgements</h3>
       <p>We thank Brandon Black, Riccardo Casatta, Sivaram
       Dhakshinamoorthy, Lloyd Fournier, Russell O’Connor, and Pieter

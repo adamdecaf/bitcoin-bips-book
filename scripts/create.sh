@@ -16,6 +16,8 @@ inputs=(
     bips/bip-0008.md # Version bits with lock-in by height
     bips/bip-0090.md # Buried Deployments
     bips/bip-0050.md # March 2013 Chain Fork Post-Mortem
+    bips/bip-0325.md # Signet
+    bips/bip-0094.md # Testnet 4
 
     include/02-addresses.md
     bips/bip-0013.md # Address Format for pay-to-script-hash
@@ -57,6 +59,8 @@ inputs=(
     bips/bip-0086.md # Key Derivation for Single Key P2TR Outputs
     bips/bip-0087.md # Hierarchy for Deterministic Multisig Wallets
     bips/bip-0048.md # Multi-Script Hierarchy for Multi-Sig Wallets
+    bips/bip-0129.md # Bitcoin Secure Multisig Setup (BSMS)
+    bips/bip-0328.md # Derivation Scheme for MuSig2 Aggregate Keys
 
     include/06-descriptors.md
     bips/bip-0380.md # Output Script Descriptors General Operation
@@ -105,6 +109,7 @@ inputs=(
     bips/bip-0073.md # Use "Accept" header for response type negotiation with Payment Request URLs
     bips/bip-0075.md # Out of Band Address Exchange using Payment Protocol Encryption
     bips/bip-0078.md # A Simple Payjoin Proposal
+    bips/bip-0047.md # Reusable Payment Codes
     bips/bip-0352.md # Silent Payments
     bips/bip-0353.md # DNS Payment Instructions
     bips/bip-0327.md # MuSig2 for BIP340-compatible Multi-Signatures

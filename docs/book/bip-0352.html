@@ -27,7 +27,6 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
   </style>
   <link rel="stylesheet" href="../web.css" />
 </head>
@@ -60,6 +59,8 @@
       <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
       <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
       <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      <li><a href="bip-0325.html#bip-0325" id="toc-bip-0325">BIP 325</a></li>
+      <li><a href="bip-0094.html#bip-0094" id="toc-bip-0094">BIP 94</a></li>
       </ul></li>
       <li><a href="addresses-and-encodings.html#addresses-and-encodings"
       id="toc-addresses-and-encodings">Addresses and Encodings</a>
@@ -111,6 +112,8 @@
       <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
       <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
       <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      <li><a href="bip-0129.html#bip-0129" id="toc-bip-0129">BIP 129</a></li>
+      <li><a href="bip-0328.html#bip-0328" id="toc-bip-0328">BIP 328</a></li>
       </ul></li>
       <li><a href="output-script-descriptors.html#output-script-descriptors"
       id="toc-output-script-descriptors">Output Script Descriptors</a>
@@ -170,6 +173,7 @@
       <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
       <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
       <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0047.html#bip-0047" id="toc-bip-0047">BIP 47</a></li>
       <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
       <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
       <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
@@ -193,19 +197,19 @@
     </nav>
     <div class="main">
       <nav class="pager" aria-label="Nearby sections">
-        <a class="pager-prev" href="bip-0078.html" accesskey="p" rel="prev">BIP 78</a>
+        <a class="pager-prev" href="bip-0047.html" accesskey="p" rel="prev">BIP 47</a>
         <a class="pager-next" href="bip-0353.html" accesskey="n" rel="next">BIP 353</a>
       </nav>
-      <h2 data-number="13.7" id="bip-0352">BIP 352</h2>
-      <h3 data-number="13.7.1"
+      <h2 data-number="13.8" id="bip-0352">BIP 352</h2>
+      <h3 data-number="13.8.1"
       id="bip-0352-introduction">Introduction</h3>
-      <h4 data-number="13.7.1.1" id="bip-0352-abstract">Abstract</h4>
+      <h4 data-number="13.8.1.1" id="bip-0352-abstract">Abstract</h4>
       <p>This document specifies a protocol for static payment addresses
       in Bitcoin without on-chain linkability of payments or a need for
       on-chain notifications.</p>
-      <h4 data-number="13.7.1.2" id="bip-0352-copyright">Copyright</h4>
+      <h4 data-number="13.8.1.2" id="bip-0352-copyright">Copyright</h4>
       <p>This BIP is licensed under the BSD 2-clause license.</p>
-      <h4 data-number="13.7.1.3"
+      <h4 data-number="13.8.1.3"
       id="bip-0352-motivation">Motivation</h4>
       <p>Using a new address for each Bitcoin transaction is a crucial
       aspect of maintaining privacy. This often requires a secure
@@ -247,7 +251,7 @@
       recommended that the keys of all inputs of a transaction belong to
       the same entity as there is no formal proof that the protocol is
       secure in a collaborative setting.</p>
-      <h3 data-number="13.7.2" id="bip-0352-goals">Goals</h3>
+      <h3 data-number="13.8.2" id="bip-0352-goals">Goals</h3>
       <p>We aim to present a protocol which satisfies the following
       properties:</p>
       <ul>
@@ -269,7 +273,7 @@
       <li>Light client/SPV wallet support</li>
       <li>Protocol is upgradeable</li>
       </ul>
-      <h3 data-number="13.7.3" id="bip-0352-overview">Overview</h3>
+      <h3 data-number="13.8.3" id="bip-0352-overview">Overview</h3>
       <p>We first present an informal overview of the protocol. In what
       follows, uppercase letters represent public keys, lowercase
       letters represent private keys, <em>||</em> refers to byte
@@ -484,7 +488,7 @@
       payments wallet should at least scan for the change label when
       recovering from backup in order to ensure maximum
       cross-compatibility.</p>
-      <h3 data-number="13.7.4"
+      <h3 data-number="13.8.4"
       id="bip-0352-specification">Specification</h3>
       <p>We use the following functions and conventions:</p>
       <ul>
@@ -512,7 +516,7 @@
       href="https://github.com/bitcoin/bips/blob/master/bip-0340.mediawiki#specification">BIP340</a>.
       This includes the <em>hash<sub>tag</sub>(x)</em> notation to refer
       to <em>SHA256(SHA256(tag) || SHA256(tag) || x)</em>.</p>
-      <h4 data-number="13.7.4.1" id="bip-0352-versions">Versions</h4>
+      <h4 data-number="13.8.4.1" id="bip-0352-versions">Versions</h4>
       <p>This document defines version 0 (<em>sp1q</em>). Version is
       communicated through the address in the same way as bech32
       addresses (see <a
@@ -811,7 +815,7 @@
       <em><a href="#inputs-for-shared-secret-derivation" class="wikilink" title="Inputs For Shared Secret Derivation">Inputs
       For Shared Secret Derivation</a></em> list</li>
       </ul>
-      <h4 data-number="13.7.4.2"
+      <h4 data-number="13.8.4.2"
       id="bip-0352-scanning-silent-payment-eligible-transactions">Scanning
       silent payment eligible transactions</h4>
       <p>For silent payments v0 a transaction MUST be scanned if and
@@ -836,7 +840,7 @@
       Note: this restriction only applies to the inputs of a
       transaction.</li>
       </ul>
-      <h4 data-number="13.7.4.3" id="bip-0352-address-encoding">Address
+      <h4 data-number="13.8.4.3" id="bip-0352-address-encoding">Address
       encoding</h4>
       <p>A silent payment address is constructed in the following
       manner:</p>
@@ -896,7 +900,7 @@
       characters (see <a
       href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#checksum-design">BIP173:
       Checksum design</a> for more details).</p>
-      <h4 data-number="13.7.4.4"
+      <h4 data-number="13.8.4.4"
       id="bip-0352-inputs-for-shared-secret-derivation">Inputs For
       Shared Secret Derivation</h4>
       <p>While any UTXO with known output scripts can be used to fund
@@ -1018,8 +1022,8 @@
       This is to address the <a
       href="https://en.bitcoin.it/wiki/Transaction_malleability">third-party
       malleability of <em>P2PKH</em> <em>scriptSigs</em></a>.</p>
-      <h4 data-number="13.7.4.5" id="bip-0352-sender">Sender</h4>
-      <h5 data-number="13.7.4.5.1"
+      <h4 data-number="13.8.4.5" id="bip-0352-sender">Sender</h4>
+      <h5 data-number="13.8.4.5.1"
       id="bip-0352-selecting-inputs">Selecting inputs</h5>
       <p>The sending wallet performs coin selection as usual with the
       following restrictions:</p>
@@ -1034,7 +1038,7 @@
       access to the private key corresponding to the taproot output key,
       unless <em>H</em> is used as the internal public key</li>
       </ul>
-      <h5 data-number="13.7.4.5.2"
+      <h5 data-number="13.8.4.5.2"
       id="bip-0352-creating-outputs">Creating outputs</h5>
       <p>After the inputs have been selected, the sender can create one
       or more outputs for one or more silent payment addresses in the
@@ -1144,8 +1148,8 @@
       If an output <em>P<sub>i</sub></em> with <em>i &lt; k</em> is
       omitted, the receiver will not be able to find outputs
       <em>P<sub>j</sub></em> where <em>i &lt; j &lt;= k</em>.</p>
-      <h4 data-number="13.7.4.6" id="bip-0352-receiver">Receiver</h4>
-      <h5 data-number="13.7.4.6.1" id="bip-0352-key-derivation">Key
+      <h4 data-number="13.8.4.6" id="bip-0352-receiver">Receiver</h4>
+      <h5 data-number="13.8.4.6.1" id="bip-0352-key-derivation">Key
       Derivation</h5>
       <p>Two keys are needed to create a silent payments address: the
       spend key and the scan key. To ensure compatibility, wallets MAY
@@ -1170,7 +1174,7 @@
       and <a
       href="https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki">BIP44</a>
       for more details.</p>
-      <h5 data-number="13.7.4.6.2" id="bip-0352-scanning">Scanning</h5>
+      <h5 data-number="13.8.4.6.2" id="bip-0352-scanning">Scanning</h5>
       <p>If each of the checks in
       <em><a href="#scanning-silent-payment-eligible-transactions" class="wikilink" title="Scanning silent payment eligible transactions">Scanning
       silent payment eligible transactions</a></em> passes, the
@@ -1270,7 +1274,7 @@
       </ul></li>
       </ul></li>
       </ul>
-      <h5 data-number="13.7.4.6.3" id="bip-0352-spending">Spending</h5>
+      <h5 data-number="13.8.4.6.3" id="bip-0352-spending">Spending</h5>
       <p>Recall that a silent payment output is of the form
       <em>B<sub>spend</sub> + t<sub>k</sub>·G +
       hash<sub>BIP0352/Label</sub>(ser<sub>256</sub>(b<sub>scan</sub>)
@@ -1288,7 +1292,7 @@
       href="https://github.com/bitcoin/bips/blob/master/bip-0341.mediawiki">BIP341</a>
       output with the private key <em>d</em></li>
       </ul>
-      <h5 data-number="13.7.4.6.4"
+      <h5 data-number="13.8.4.6.4"
       id="bip-0352-backup-and-recovery">Backup and Recovery</h5>
       <p>Since each silent payment output address is derived
       independently, regular backups are recommended. When recovering
@@ -1307,13 +1311,13 @@
       label should simply always be scanned for, even when no other
       labels were used. This ensures the use of a change label is not
       critical for backups and maximizes cross-compatibility.</p>
-      <h3 data-number="13.7.5"
+      <h3 data-number="13.8.5"
       id="bip-0352-backward-compatibility">Backward Compatibility</h3>
       <p>Silent payments introduces a new address format and protocol
       for sending and as such is not compatible with older wallet
       software or wallets which have not implemented the silent payments
       protocol.</p>
-      <h3 data-number="13.7.6" id="bip-0352-test-vectors">Test
+      <h3 data-number="13.8.6" id="bip-0352-test-vectors">Test
       Vectors</h3>
       <p>A
       <a href="bip-0352/send_and_receive_test_vectors.json" class="wikilink" title="collection of test vectors in JSON format">collection
@@ -1386,11 +1390,11 @@
       non-silent payment outputs for themselves in testing to ensure
       silent payments scanning does not interfere with regular outputs
       detection.</p>
-      <h4 data-number="13.7.6.1"
+      <h4 data-number="13.8.6.1"
       id="bip-0352-functional-tests">Functional tests</h4>
       <p>Below is a list of functional tests which should be included in
       sending and receiving implementations.</p>
-      <h5 data-number="13.7.6.1.1" id="bip-0352-sending">Sending</h5>
+      <h5 data-number="13.8.6.1.1" id="bip-0352-sending">Sending</h5>
       <ul>
       <li>Ensure taproot outputs are excluded during coin selection if
       the sender does not have access to the key path private key
@@ -1398,7 +1402,7 @@
       <li>Ensure the silent payment address is re-derived if inputs are
       added or removed during RBF</li>
       </ul>
-      <h5 data-number="13.7.6.1.2"
+      <h5 data-number="13.8.6.1.2"
       id="bip-0352-receiving">Receiving</h5>
       <ul>
       <li>Ensure the public key can be extracted from non-standard
@@ -1410,7 +1414,7 @@
       input types supported (e.g. <em>P2WPKH</em>, <em>P2SH-P2WPKH</em>,
       etc.)</li>
       </ul>
-      <h3 data-number="13.7.7"
+      <h3 data-number="13.8.7"
       id="bip-0352-appendix-a-light-client-support">Appendix A: Light
       Client Support</h3>
       <p>This section proposes a few ideas for how light clients could
@@ -1427,7 +1431,7 @@
       clear: light clients need a way to source the necessary data for
       performing the tweaks and a way of determining if any of the
       generated outputs exist in a block.</p>
-      <h4 data-number="13.7.7.1" id="bip-0352-tweak-data">Tweak
+      <h4 data-number="13.8.7.1" id="bip-0352-tweak-data">Tweak
       Data</h4>
       <p>Recall that a silent payment eligible transaction follows
       <a href="#scanning-silent-payment-eligible-transactions" class="wikilink" title="certain conditions">certain
@@ -1450,7 +1454,7 @@
       July 2024. See <a
       href="https://github.com/josibake/bitcoin-data-analysis/blob/main/notebooks/silent-payments-light-client-data.ipynb">Silent
       payments light client data</a> for the full analysis..</p>
-      <h4 data-number="13.7.7.2"
+      <h4 data-number="13.8.7.2"
       id="bip-0352-transaction-cut-through">Transaction cut-through</h4>
       <p>It is unlikely a light client would need to scan every block
       and as such can take advantage of transaction cut-through,
@@ -1471,7 +1475,7 @@
       bip-0352/scan_data_downloader_per_month.png
       </figcaption>
       </figure>
-      <h4 data-number="13.7.7.3" id="bip-0352-bip158">BIP158</h4>
+      <h4 data-number="13.8.7.3" id="bip-0352-bip158">BIP158</h4>
       <p>Once a light client has the tweak data for a block, they can
       determine whether or not an output to them exists in the block
       using BIP158 block filters. Per BIP158, they would then request
@@ -1483,7 +1487,7 @@
       transaction, without downloading the entire block. How this
       affects the security assumptions of BIP158 is an open
       question.</p>
-      <h4 data-number="13.7.7.4"
+      <h4 data-number="13.8.7.4"
       id="bip-0352-out-of-band-notifications">Out-of-band
       notifications</h4>
       <p>Assuming a secure messaging protocol exists, the sender can
@@ -1535,7 +1539,7 @@
       then be marked as unconfirmed until a scan is performed and the
       existence of the UTXO in accordance to the silent payment
       specification is verified.</p>
-      <h3 data-number="13.7.8" id="bip-0352-changelog">Changelog</h3>
+      <h3 data-number="13.8.8" id="bip-0352-changelog">Changelog</h3>
       <p>To help implementers understand updates to this document, we
       attach a version number that resembles <em>semantic
       versioning</em> (<code>MAJOR.MINOR.PATCH</code>). The
@@ -1576,7 +1580,7 @@
       <li>Initial version, merged as BIP-352.</li>
       </ul></li>
       </ul>
-      <h3 data-number="13.7.9"
+      <h3 data-number="13.8.9"
       id="bip-0352-acknowledgements">Acknowledgements</h3>
       <p>This document is the result of many discussions and contains
       contributions by a number of people. The authors wish to thank all
@@ -1590,7 +1594,7 @@
       The authors would like to also thank <a
       href="https://github.com/w0xlt">w0xlt</a> for writing the initial
       implementation of silent payments.</p>
-      <h3 data-number="13.7.10"
+      <h3 data-number="13.8.10"
       id="bip-0352-rationale-and-references">Rationale and
       References</h3>
       <pre><code>  BIP: 353
@@ -1604,7 +1608,7 @@
   License: CC0-1.0
   Discussion: 2024-02-13: https://groups.google.com/g/bitcoindev/c/uATaflkYglQ [bitcoin-dev] Mapping Human-Readable Names to Payment Instructions</code></pre>
       <nav class="pager pager-bottom" aria-label="Nearby sections">
-        <a class="pager-prev" href="bip-0078.html" rel="prev">BIP 78</a>
+        <a class="pager-prev" href="bip-0047.html" rel="prev">BIP 47</a>
         <a class="pager-next" href="bip-0353.html" rel="next">BIP 353</a>
       </nav>
     </div>

@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 325 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      <li><a href="bip-0325.html#bip-0325" id="toc-bip-0325">BIP 325</a></li>
+      <li><a href="bip-0094.html#bip-0094" id="toc-bip-0094">BIP 94</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      <li><a href="bip-0129.html#bip-0129" id="toc-bip-0129">BIP 129</a></li>
+      <li><a href="bip-0328.html#bip-0328" id="toc-bip-0328">BIP 328</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0047.html#bip-0047" id="toc-bip-0047">BIP 47</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0050.html" accesskey="p" rel="prev">BIP 50</a>
+        <a class="pager-next" href="bip-0094.html" accesskey="n" rel="next">BIP 94</a>
+      </nav>
+      <h2 data-number="4.7" id="bip-0325">BIP 325</h2>
+      <h3 data-number="4.7.1" id="bip-0325-abstract">Abstract</h3>
+      <p>A new type of test network where signatures are used in
+      addition to proof of work for block progress, enabling much better
+      coordination and robustness (be reliably unreliable), for
+      persistent, longer-term testing scenarios involving multiple
+      independent parties.</p>
+      <h3 data-number="4.7.2" id="bip-0325-motivation">Motivation</h3>
+      <p>Testnet is a great place to try out new things without risking
+      real money, but it is notoriously unreliable. Huge block reorgs,
+      long gaps in between blocks being mined or sudden bursts of blocks
+      in rapid succession mean that realistic testing of software,
+      especially involving multiple independent parties running software
+      over an extended period of time, becomes infeasible in
+      practice.</p>
+      <p>A new type of test network would be more suitable for
+      integration testing by organizations such as exchanges, or testing
+      of next generation Layer-2 protocols like Eltoo or sidechain pegs.
+      The goal is not to be perfectly reliable but rather to have a
+      predictable amount of unreliability. You want a test network to
+      behave like mainnet (i.e. no thousands of block reorgs) while also
+      making it easier to trigger expected but rare events like a
+      6-block reorg. Regtest is not suitable for longer-term scenarios
+      involving multiple independent parties because creating blocks
+      costs nothing, so any party can completely control the test
+      network.</p>
+      <h3 data-number="4.7.3"
+      id="bip-0325-specification">Specification</h3>
+      <p>A new type of network (“signet”), which takes an additional
+      consensus parameter called the challenge (scriptPubKey). The
+      challenge can be a simple pubkey (P2PKH style), or a k-of-n
+      multisig, or any other script you would want.</p>
+      <p>Signet requires all blocks to have a BIP 141 commitment in the
+      coinbase transaction. In order to provide a non-empty solution to
+      the block challenge the block’s BIP 141 commitment’s optional data
+      must include an additional commitment of the signature/solution
+      for the block:</p>
+      <p><code>   1-5 bytes - Push the following (4 + x + y) bytes</code><br />
+      <code>   4 bytes - Signet header (0xecc7daa2)</code><br />
+      <code>   x bytes - scriptSig</code><br />
+      <code>   y bytes - scriptWitness</code></p>
+      <p>In the special case where an empty solution is valid (ie
+      scriptSig and scriptWitness are both empty) this additional
+      commitment can optionally be left out. This special case is to
+      allow non-signet-aware block generation code to be used to test a
+      custom signet chain where the challenge is trivially true.</p>
+      <p>The scriptSig is serialized by first encoding its length as
+      CompactSize. The scriptWitness stack is serialized as described in
+      BIP 141.</p>
+      <p>Any push operations that do not start with the 4 byte Signet
+      header are ignored. Multiple push operations with the 4 byte
+      Signet header are ignored except for the first instance of the
+      header.</p>
+      <p>To sign the block or verify a block signature, two virtual
+      transactions, each with a single input and output are constructed
+      from the block as follows.</p>
+      <p>The “to_spend” transaction is:</p>
+      <p><code>   nVersion = 0</code><br />
+      <code>   nLockTime = 0</code><br />
+      <code>   vin[0].prevout.hash = 0000...000</code><br />
+      <code>   vin[0].prevout.n = 0xFFFFFFFF</code><br />
+      <code>   vin[0].nSequence = 0</code><br />
+      <code>   vin[0].scriptSig = OP_0 PUSH72[ block_data ]</code><br />
+      <code>   vin[0].scriptWitness = []</code><br />
+      <code>   vout[0].nValue = 0</code><br />
+      <code>   vout[0].scriptPubKey = signet_challenge</code></p>
+      <p>where block_data is the serialization of the block’s nVersion,
+      hashPrevBlock, signet_merkle_root, and nTime. The
+      <code>signet_merkle_root</code> is obtained by generating the
+      merkle root of the block transactions, after modifying the
+      coinbase witness commitment by replacing the signet solution with
+      an empty solution (that is, the witness commitment includes a four
+      byte push of the Signet header with no additional solution data,
+      and no prior pushes beginning with the Signet header). This means
+      the merkle root of the block is different from the merkle root in
+      the signet commitment. This is needed, because the signature can
+      never be included in the very message (in this case, a block) that
+      is being signed.</p>
+      <p>The “to_sign” transaction is:</p>
+      <p><code>   nVersion = 0</code><br />
+      <code>   nLockTime = 0</code><br />
+      <code>   vin[0].prevout.hash = to_spend.txid</code><br />
+      <code>   vin[0].prevout.n = 0</code><br />
+      <code>   vin[0].nSequence = 0</code><br />
+      <code>   vin[0].sigScript = [ signet_solution sigScript (x bytes), if any ]</code><br />
+      <code>   vin[0].scriptWitness = [ signet_solution scriptWitness (y bytes), if any ]</code><br />
+      <code>   vout[0].nValue = 0</code><br />
+      <code>   vout[0].scriptPubKey = OP_RETURN</code></p>
+      <p>The scriptSig and/or scriptWitness for <code>vin[0]</code> are
+      filled in from the Signet header push above.</p>
+      <p>To simplify block generation (mining), the signature also does
+      not commit to the block nonce value, so that rolling the nonce to
+      generate proof-of-work does not also require regenerating
+      signatures. When grinding proof of work, the extended nonce cannot
+      be used as it would invalidate the signature. Instead, simply
+      resigning the same (or an updated) block will give a new search
+      space.</p>
+      <p>A block is considered fully validated only if the to_sign
+      transaction is a valid spend of the to_spend transaction. It is
+      recommended that this verification is done directly before or
+      after the witness commitment verification, as the data required to
+      do both is approximately the same.</p>
+      <p>There is one other acceptable special case: if a block’s
+      challenge is e.g. `OP_TRUE` (`0x51`), where an empty solution
+      would result in success, the block is also considered valid if the
+      signet commitment is absent.</p>
+      <h4 data-number="4.7.3.1" id="bip-0325-minimum-difficulty">Minimum
+      Difficulty</h4>
+      <p>The minimum difficulty for blocks in signet is approximately
+      0.0011265, corresponding to a maximum target of
+      <code>00000377ae000000000000000000000000000000000000000000000000000000</code>
+      which is represented by an nBits value of
+      <code>0x1e0377ae</code>.</p>
+      <p>This value is chosen so that multiplying the maximum target by
+      maximum retarget timespan (8 weeks measured in seconds) does not
+      overflow a uint256, making it easier to do difficulty adjustment
+      calculations.</p>
+      <h3 data-number="4.7.4"
+      id="bip-0325-genesis-block-and-message-start">Genesis Block and
+      Message Start</h3>
+      <p>The genesis block is the same for all signet networks, whereas
+      the message start is defined as the first four bytes of the
+      sha256d of the challenge script as a single data push (see
+      below).</p>
+      <h4 data-number="4.7.4.1" id="bip-0325-genesis-block">Genesis
+      Block</h4>
+      <ul>
+      <li>Time stamp: 1598918400</li>
+      <li>Nonce: 52613770</li>
+      <li>Difficulty: 0x1e0377ae</li>
+      <li>Version: 1</li>
+      </ul>
+      <p>The resulting genesis block hash is
+      00000008819873e925422c1ff0f99f7cc9bbb232af63a077a480a3633bee1ef6,
+      and the block hex is
+      0100000000000000000000000000000000000000000000000000000000000000000000003ba3edfd7a7b12b27ac72c3e67768f617fc81bc3888a51323a9fb8aa4b1e5e4a008f4d5fae77031e8ad222030101000000010000000000000000000000000000000000000000000000000000000000000000ffffffff4d04ffff001d0104455468652054696d65732030332f4a616e2f32303039204368616e63656c6c6f72206f6e206272696e6b206f66207365636f6e64206261696c6f757420666f722062616e6b73ffffffff0100f2052a01000000434104678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5fac00000000.</p>
+      <h4 data-number="4.7.4.2" id="bip-0325-message-start">Message
+      Start</h4>
+      <p>The message start is defined as the first four bytes of the
+      sha256d of the challenge script, as a single push (i.e. prefixed
+      with the challenge script length). Example:</p>
+      <ul>
+      <li>Challenge script =
+      512103ad5e0edad18cb1f0fc0d28a3d4f1f3e445640337489abb10404f2d1e086be43051ae</li>
+      <li>Sha256d(len || challenge script) = sha256d(25512103ad…51ae) =
+      7ec653a59b1912f9db10da2c461ed827d48f9404d5ef0346a6c94aadd4203646</li>
+      <li>First four bytes = the message start = 7ec653a5</li>
+      </ul>
+      <h3 data-number="4.7.5"
+      id="bip-0325-compatibility">Compatibility</h3>
+      <p>This specification is backwards compatible in the sense that
+      existing software can use Signet out of the box.</p>
+      <p>Simply by adding the network parameters for signet (magic
+      number, etc), a client can connect to and use any signet network
+      without further modifications. The block headers have valid proof
+      of work, so clients can trivially check that blocks are “probably”
+      valid.</p>
+      <p>However, anyone can mine blocks that are accepted by the client
+      for any given signet network. These blocks do not contain the
+      required signatures, however, so any fully validating node will
+      promptly reject them. As such, clients need to either validate the
+      block signature inside the coinbase transaction, or connect to
+      trusted peers.</p>
+      <p>Other software need not add block signature validation code
+      that they will not use in production. This is adequate for
+      non-production test purposes where the goal is to have a network
+      behave as much like mainnet as possible.</p>
+      <h3 data-number="4.7.6"
+      id="bip-0325-reference-implementation">Reference
+      implementation</h3>
+      <p>Pull request at <a
+      href="https://github.com/bitcoin/bitcoin/pull/18267"
+      class="uri">https://github.com/bitcoin/bitcoin/pull/18267</a></p>
+      <h3 data-number="4.7.7" id="bip-0325-references">References</h3>
+      <ol type="1">
+      <li>Original mailing list thread: <a
+      href="https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2019-March/016734.html"
+      class="uri">https://lists.linuxfoundation.org/pipermail/bitcoin-dev/2019-March/016734.html</a></li>
+      <li>Bitcoin Wiki entry: <a
+      href="https://en.bitcoin.it/wiki/Signet"
+      class="uri">https://en.bitcoin.it/wiki/Signet</a></li>
+      </ol>
+      <h3 data-number="4.7.8" id="bip-0325-copyright">Copyright</h3>
+      <p>This document is licensed under the Creative Commons CC0 1.0
+      Universal license.</p>
+      <pre><code>  BIP: 94
+  Layer: Applications
+  Title: Testnet 4
+  Authors: Fabian Jahr &lt;fjahr@protonmail.com&gt;
+  Status: Deployed
+  Type: Specification
+  Assigned: 2024-05-27
+  License: CC0-1.0
+  Discussion: https://gnusha.org/pi/bitcoindev/CADL_X_eXjbRFROuJU0b336vPVy5Q2RJvhcx64NSNPH-3fDCUfw@mail.gmail.com/
+              https://gnusha.org/pi/bitcoindev/a6e3VPsXJf9p3gt_FmNF_Up-wrFuNMKTN30-xCSDHBKXzXnSpVflIZIj2NQ8Wos4PhQCzI2mWEMvIms_FAEs7rQdL15MpC_Phmu_fnR9iTg=@protonmail.com/
+              https://github.com/bitcoin/bitcoin/pull/29775</code></pre>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0050.html" rel="prev">BIP 50</a>
+        <a class="pager-next" href="bip-0094.html" rel="next">BIP 94</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

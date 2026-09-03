@@ -4,7 +4,9 @@ Bitcoin does not have a standards body that can decree a change. What it has is 
 
 This chapter is the map of that process. BIP 3 is the current process document. BIP 123 explains how proposals are classified — consensus, peer services, API, applications — so you know what kind of thing you are reading. BIP 9 and BIP 8 describe version-bits activation, which is how most modern soft forks have been scheduled. BIP 90 is the cleanup that followed: once a deployment is buried under enough proof of work, nodes can stop carrying the old state machine.
 
-BIP 50 sits at the end as a warning. It is the post-mortem of the March 2013 chain fork, when two versions of the software briefly disagreed about what a valid block was. The later activation BIPs make more sense after you have read that story.
+BIP 50 sits next as a warning. It is the post-mortem of the March 2013 chain fork, when two versions of the software briefly disagreed about what a valid block was. The later activation BIPs make more sense after you have read that story.
+
+The last two documents are the test networks wallets and nodes actually use. BIP 325 is Signet: a coordinated chain where blocks need a signature as well as proof of work. BIP 94 is Testnet 4, which replaced the old public testnet. Neither changes mainnet consensus.
 
 In this chapter:
 
@@ -14,3 +16,5 @@ In this chapter:
 - BIP 8 — Version bits with lock-in by height
 - BIP 90 — Buried Deployments
 - BIP 50 — March 2013 Chain Fork Post-Mortem
+- BIP 325 — Signet
+- BIP 94 — Testnet 4

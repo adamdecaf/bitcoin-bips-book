@@ -18,16 +18,16 @@ The book is compiled by Adam Shannon. The BIPs are written by their original aut
 
 Chapters, not BIP numbers:
 
-1. Process and history — how BIPs work, version bits, buried deployments
+1. Process and history — how BIPs work, version bits, buried deployments, Signet, Testnet 4
 2. Addresses and encodings — P2SH, Bech32, Bech32m, bitcoin: URIs
 3. Consensus changes that shipped — P2SH, CLTV, CSV, SegWit
 4. Schnorr, Taproot, Tapscript
-5. Keys, seeds, and derivation — BIP32, mnemonics, account paths
+5. Keys, seeds, and derivation — BIP32, mnemonics, account paths, BSMS, MuSig2 derivation
 6. Output script descriptors
 7. Partially signed transactions (PSBT)
 8. The peer-to-peer network
 9. Mining and block templates
-10. Paying people — payment protocol, payjoin, silent payments
+10. Paying people — payment protocol, payjoin, reusable payment codes, silent payments
 11. Scripts, policy, and RBF
 
 ## Other books

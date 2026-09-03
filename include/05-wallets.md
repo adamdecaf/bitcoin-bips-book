@@ -6,6 +6,8 @@ BIP 32 is the root: hierarchical deterministic wallets, extended keys, and the c
 
 The later derivation BIPs pick a script type and pin a path for it: BIP 49 for P2WPKH nested in P2SH, BIP 84 for native P2WPKH, BIP 86 for single-key P2TR, BIP 48 and BIP 87 for multisig. BIP 85 is the odd one out in a useful way — it derives more entropy from a BIP 32 tree, so one seed can generate other seeds.
 
+BIP 129 is how several devices agree on a multisig setup without a compromised coordinator. BIP 328 is the derivation scheme for a MuSig2 aggregate key — the wallet-side companion to BIP 327 in the payments chapter.
+
 None of these documents change consensus. They are how wallets agree with each other about which key to use. If two wallets share a seed and disagree on the path, they will not see the same coins.
 
 In this chapter:
@@ -21,3 +23,5 @@ In this chapter:
 - BIP 86 — Key Derivation for Single Key P2TR Outputs
 - BIP 87 — Hierarchy for Deterministic Multisig Wallets
 - BIP 48 — Multi-Script Hierarchy for Multi-Sig Wallets
+- BIP 129 — Bitcoin Secure Multisig Setup
+- BIP 328 — Derivation Scheme for MuSig2 Aggregate Keys

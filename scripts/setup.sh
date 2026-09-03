@@ -28,7 +28,11 @@ while IFS= read -r md; do
     echo "  $wiki"
     tmp="$(mktemp)"
     # Strip mediawiki <ref> footnotes that some BIPs leave unclosed.
-    sed -E 's#</?ref[^>]*>##g' "$wiki" > "$tmp"
+    # Turn HTML <img> into mediawiki File: so pandoc keeps the figures.
+    sed -E \
+        -e 's#</?ref[^>]*>##g' \
+        -e 's#<img src="([^"]+)"[^>]*>#[[File:\1]]#g' \
+        "$wiki" > "$tmp"
     if ! pandoc -f mediawiki -t gfm --wrap=none -o "bips/${base}.md" "$tmp"; then
         echo "error: pandoc failed to convert $wiki" >&2
         failed=1
