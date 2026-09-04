@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit 7273e178e52f02de100950f569ae40f485099b58
-Merge: 2692bed 7e01c98
+commit 09e21036a4001fe6c9ba65c1d3a39b737768132f
+Merge: 7273e17 58f1e33
 Author: Murch <murch@murch.one>
-Date:   Tue Sep 1 15:55:57 2026 -0700
+Date:   Thu Sep 3 16:28:07 2026 -0700
 
-    Merge pull request #2270 from stutxo/bip-441-typos
+    Merge pull request #2274 from fmterrors/feature_fmterrors
     
-    BIP 441: fix typos and changelog date
+    docs(bip-353): fix DNSSEC proof extraction typo
 ```
