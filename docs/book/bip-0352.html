@@ -879,8 +879,8 @@
       href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki">BIP173</a>
       imposes a 90 character limit for Bech32 segwit addresses and
       limits versions to 0 through 16, whereas a silent payment address
-      requires <em>at least</em> 117 characters <strong>Why do silent
-      payment addresses need at least 117 characters?</strong> A silent
+      requires <em>at least</em> 116 characters <strong>Why do silent
+      payment addresses need at least 116 characters?</strong> A silent
       payment address is a bech32m encoding comprised of the following
       parts:</p>
       <ul>
@@ -892,12 +892,13 @@
       <li>checksum [6 characters]</li>
       </ul>
       <p>For a silent payments v0 address, this results in a
-      117-character address when using a 3-character HRP. Future
-      versions of silent payment addresses may add to the payload, which
-      is why a 1023-character limit is suggested. and allows versions up
-      to 31. Additionally, since higher versions may add to the data
-      field, it is recommended implementations use a limit of 1023
-      characters (see <a
+      116-character address when using the 2-character mainnet HRP
+      (“sp”), or a 117-character address when using the 3-character
+      testnet HRP (“tsp”). Future versions of silent payment addresses
+      may add to the payload, which is why a 1023-character limit is
+      suggested. and allows versions up to 31. Additionally, since
+      higher versions may add to the data field, it is recommended
+      implementations use a limit of 1023 characters (see <a
       href="https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki#checksum-design">BIP173:
       Checksum design</a> for more details).</p>
       <h4 data-number="13.8.4.4"

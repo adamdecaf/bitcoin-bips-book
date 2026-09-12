@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit 620871a7a442e276a058b487cd8743775fb499a4
-Merge: 2120121 4f9567f
+commit bfc142f2b580a314c846dbce3c15c659c2b1d32d
+Merge: 86d96b6 2ec04a0
 Author: Murch <murch@murch.one>
-Date:   Thu Sep 10 08:25:02 2026 -0700
+Date:   Fri Sep 11 13:40:30 2026 -0700
 
-    Merge pull request #2278 from fametrano/bip327-portable-monotonic-clock
+    Merge pull request #2271 from notTanveer/fix/sp-addr-len
     
-    bip-0327: derive extra_in from secrets in the reference self-test
+    BIP-352: clarify silent payment address length
 ```
