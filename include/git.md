@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit bfc142f2b580a314c846dbce3c15c659c2b1d32d
-Merge: 86d96b6 2ec04a0
+commit 173f386dfb8b4f1c4b16d69190a753802802ac4d
+Merge: 3a13d60 9c694c8
 Author: Murch <murch@murch.one>
-Date:   Fri Sep 11 13:40:30 2026 -0700
+Date:   Mon Sep 14 16:26:29 2026 -0700
 
-    Merge pull request #2271 from notTanveer/fix/sp-addr-len
+    Merge pull request #2290 from kriss39/fix/bip10-pre-tag
     
-    BIP-352: clarify silent payment address length
+    bip-10: open the example TxDP block with <pre>, not </pre>
 ```
