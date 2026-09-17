@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit 173f386dfb8b4f1c4b16d69190a753802802ac4d
-Merge: 3a13d60 9c694c8
+commit 55083d36ddebcd2a039135a2f4ee74917a5803d3
+Merge: 173f386 b24f038
 Author: Murch <murch@murch.one>
-Date:   Mon Sep 14 16:26:29 2026 -0700
+Date:   Wed Sep 16 14:11:02 2026 -0700
 
-    Merge pull request #2290 from kriss39/fix/bip10-pre-tag
+    Merge pull request #2224 from liamgilligan/bip-low-r-grinding
     
-    bip-10: open the example TxDP block with <pre>, not </pre>
+    BIP461: Deterministic ECDSA Signatures
 ```
