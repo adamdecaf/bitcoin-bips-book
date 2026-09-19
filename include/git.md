@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit 55083d36ddebcd2a039135a2f4ee74917a5803d3
-Merge: 173f386 b24f038
+commit e71448c81fb4f72da33fda5dffbba2f341457b6d
+Merge: 658fe07 92f4b86
 Author: Murch <murch@murch.one>
-Date:   Wed Sep 16 14:11:02 2026 -0700
+Date:   Fri Sep 18 12:02:05 2026 -0700
 
-    Merge pull request #2224 from liamgilligan/bip-low-r-grinding
+    Merge pull request #2296 from murchandamus/2026-09-update-typos-flow
     
-    BIP461: Deterministic ECDSA Signatures
+    ci: Update typos action to use main branch
 ```
