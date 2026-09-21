@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit e71448c81fb4f72da33fda5dffbba2f341457b6d
-Merge: 658fe07 92f4b86
-Author: Murch <murch@murch.one>
-Date:   Fri Sep 18 12:02:05 2026 -0700
+commit 9cf75150d27c4e735ddde933a92d00bf083a18d4
+Merge: ae34fea fc874dd
+Author: Jon Atack <jon@atack.com>
+Date:   Sun Sep 20 20:21:15 2026 -0700
 
-    Merge pull request #2296 from murchandamus/2026-09-update-typos-flow
+    Merge pull request #2262 from theStack/bip374_treat-e-as-scalar
     
-    ci: Update typos action to use main branch
+    BIP-374: treat challenge hash result `e` as scalar
 ```
