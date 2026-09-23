@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit acdce4d50c61f81d9ec6534a804b1fb14e84e565
-Merge: 989df0e 8754690
-Author: Jon Atack <jon@atack.com>
-Date:   Mon Sep 21 22:04:59 2026 -0700
+commit 848dce9a6dbbf8e9a43a3359ea16567952f8dc5c
+Merge: 9ea9849 2a20ce4
+Author: Murch <murch@murch.one>
+Date:   Tue Sep 22 13:22:13 2026 -0700
 
-    Merge pull request #2279 from fametrano/bip352-guard-optional-expected
+    Merge pull request #2292 from danielabrozzoni/update_descriptor_bips_to_spec
     
-    bip-0352: do not require the optional expected argument
+    bip379 to bip390: Update to Specification type
 ```
