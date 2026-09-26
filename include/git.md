@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit 8c4d9e258b8cec913ffe4bddeb1d96e9f0c01ae5
-Merge: d1d2042 346008d
-Author: Murch <murch@murch.one>
-Date:   Thu Sep 24 20:19:29 2026 -0700
+commit 02bebeb5ef53dc21a52d5706c6b4c17b6af6c1cc
+Merge: f4353ba b48abb1
+Author: Jon Atack <jon@atack.com>
+Date:   Fri Sep 25 11:50:40 2026 -0700
 
-    Merge pull request #2300 from Sjors/2026/09/bip138-recipients
+    Merge pull request #2306 from 0xShadowX/bip98-example-proof
     
-    bip138: clarify key selection and apply exclusions across expressions
+    bip98: fix the third SKIP hash in the example proof
 ```

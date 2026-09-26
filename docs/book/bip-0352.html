@@ -322,7 +322,7 @@
       <li>For additional outputs:
       <ul>
       <li>Increment <em>k</em> by one (<em>k++</em>)</li>
-      <li>Let <em>P<sub>i</sub> = B + hash(a·B || k)·G</em></li>
+      <li>Let <em>P<sub>k</sub> = B + hash(a·B || k)·G</em></li>
       </ul></li>
       </ul>
       <p>Bob detects this output the same as before by searching for
@@ -343,7 +343,7 @@
       <p><strong>Preventing address reuse</strong></p>
       <p>If Alice were to use a different UTXO from the same public key
       <em>A</em> for a subsequent payment to Bob, she would end up
-      deriving the same destinations <em>P<sub>i</sub></em>. To prevent
+      deriving the same destinations <em>P<sub>k</sub></em>. To prevent
       this, Alice should include an input hash in the following
       manner:</p>
       <ul>
@@ -404,7 +404,8 @@
       <ul>
       <li>Let <em>a = a<sub>1</sub> + a<sub>2</sub> + … +
       a<sub>n</sub></em></li>
-      <li>Let <em>input_hash = hash(outpoint<sub>L</sub> || (a·G))</em>,
+      <li>Let <em>A = a·G</em></li>
+      <li>Let <em>input_hash = hash(outpoint<sub>L</sub> || A)</em>,
       where <em>outpoint<sub>L</sub></em> is the smallest outpoint
       lexicographically<strong>Why use the lexicographically smallest
       outpoint for the hash?</strong> Recall that the purpose of
