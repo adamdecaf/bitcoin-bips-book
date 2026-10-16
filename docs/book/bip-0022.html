@@ -224,53 +224,36 @@
       <thead>
       <tr>
       <th colspan="4">
-      <p>
       template request
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Required
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       capabilities
-      </p>
       </td>
       <td>
-      <p>
       No
-      </p>
       </td>
       <td>
-      <p>
       Array of Strings
-      </p>
       </td>
       <td>
-      <p>
       SHOULD contain a list of the following, to indicate client-side
       support:
       <a href="#optional-long-polling" class="wikilink" title="&quot;longpoll&quot;">“longpoll”</a>,
@@ -279,29 +262,20 @@
       <a href="bip-0023.mediawiki#logical-services" class="wikilink" title="&quot;serverlist&quot;">“serverlist”</a>,
       “workid”, and any of the
       <a href="bip-0023.mediawiki#mutations" class="wikilink" title="mutations">mutations</a>
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       mode
-      </p>
       </td>
       <td>
-      <p>
       No
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       MUST be “template” or omitted
-      </p>
       </td>
       </tr>
       </tbody>
@@ -312,236 +286,155 @@
       <thead>
       <tr>
       <th colspan="4">
-      <p>
       template
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Required
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       bits
-      </p>
       </td>
       <td>
-      <p>
       Yes
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       the compressed difficulty in hexadecimal
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       curtime
-      </p>
       </td>
       <td>
-      <p>
       Yes
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       the current time as seen by the server (recommended for block
       time) - note this is not necessarily the system clock, and must
       fall within the mintime/maxtime rules
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       height
-      </p>
       </td>
       <td>
-      <p>
       Yes
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       the height of the block we are looking for
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       previousblockhash
-      </p>
       </td>
       <td>
-      <p>
       Yes
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       the hash of the previous block, in big-endian hexadecimal
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       sigoplimit
-      </p>
       </td>
       <td>
-      <p>
       No
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       number of sigops allowed in blocks
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       sizelimit
-      </p>
       </td>
       <td>
-      <p>
       No
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       number of bytes allowed in blocks
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       transactions
-      </p>
       </td>
       <td>
-      <p>
       Should
-      </p>
       </td>
       <td>
-      <p>
       Array of Objects
-      </p>
       </td>
       <td>
-      <p>
       Objects containing
       <a href="#transactions-object-format" class="wikilink" title="information for Bitcoin transactions">information
       for Bitcoin transactions</a> (excluding coinbase)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       version
-      </p>
       </td>
       <td>
-      <p>
       Yes
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       always 1 or 2 (at least for bitcoin) - clients MUST understand the
       implications of the version they use (eg, comply with
       <a href="bip-0034.mediawiki" class="wikilink" title="BIP 0034">BIP
       0034</a> for version 2)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       coinbaseaux
-      </p>
       </td>
       <td>
-      <p>
       No
-      </p>
       </td>
       <td>
-      <p>
       Object
-      </p>
       </td>
       <td>
-      <p>
       data that SHOULD be included in the coinbase’s scriptSig content.
       Only the values (hexadecimal byte-for-byte) in this Object should
       be included, not the keys. This does not include the block height,
@@ -550,76 +443,51 @@
       0034</a>. It is advisable to encode values inside “PUSH” opcodes,
       so as to not inadvertently expend SIGOPs (which are counted toward
       limits, despite not being executed).
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       coinbasetxn
-      </p>
       </td>
       <td>
-      <p>
       this or ↓
-      </p>
       </td>
       <td>
-      <p>
       Object
-      </p>
       </td>
       <td>
-      <p>
       <a href="#transactions-object-format" class="wikilink" title="information for coinbase transaction">information
       for coinbase transaction</a>
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       coinbasevalue
-      </p>
       </td>
       <td>
-      <p>
       this or ↑
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       total funds available for the coinbase (in Satoshis)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       workid
-      </p>
       </td>
       <td>
-      <p>
       No
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       if provided, this value must be returned with results (see
       <a href="#block-submission" class="wikilink" title="Block Submission">Block
       Submission</a>)
-      </p>
       </td>
       </tr>
       </tbody>
@@ -633,139 +501,95 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template “transactions” element
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       data
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       transaction data encoded in hexadecimal (byte-for-byte)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       depends
-      </p>
       </td>
       <td>
-      <p>
       Array of Numbers
-      </p>
       </td>
       <td>
-      <p>
       other transactions before this one (by 1-based index in
       “transactions” list) that must be present in the final block if
       this one is; if key is not present, dependencies are unknown and
       clients MUST NOT assume there aren’t any
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       fee
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       difference in value between transaction inputs and outputs (in
       Satoshis); for coinbase transactions, this is a negative Number of
       the total collected block fees (ie, not including the block
       subsidy); if key is not present, fee is unknown and clients MUST
       NOT assume there isn’t one
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       hash
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       hash/id encoded in little-endian hexadecimal
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       required
-      </p>
       </td>
       <td>
-      <p>
       Boolean
-      </p>
       </td>
       <td>
-      <p>
       if provided and true, this transaction must be in the final block
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       sigops
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       total number of SigOps, as counted for purposes of block limits;
       if key is not present, sigop count is unknown and clients MUST NOT
       assume there aren’t any
-      </p>
       </td>
       </tr>
       </tbody>
@@ -783,46 +607,32 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       submitblock parameters (2nd argument)
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       workid
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       if the server provided a workid, it MUST be included with
       submissions
-      </p>
       </td>
       </tr>
       </tbody>
@@ -837,64 +647,44 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template request
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       capabilities
-      </p>
       </td>
       <td>
-      <p>
       Array of Strings
-      </p>
       </td>
       <td>
-      <p>
       miners which support long polling SHOULD provide a list including
       the String “longpoll”
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       longpollid
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       “longpollid” of job to monitor for expiration; required and valid
       only for long poll requests
-      </p>
       </td>
       </tr>
       </tbody>
@@ -903,83 +693,57 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       longpollid
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       identifier for long poll request; MUST be omitted if the server
       does not support long polling
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       longpolluri
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       if provided, an alternate URI to use for long poll requests
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       submitold
-      </p>
       </td>
       <td>
-      <p>
       Boolean
-      </p>
       </td>
       <td>
-      <p>
       only relevant for long poll responses: indicates if work received
       prior to this response remains potentially valid (default) and
       should have its shares submitted; if false, the miner may wish to
       discard its share queue
-      </p>
       </td>
       </tr>
       </tbody>
@@ -1031,79 +795,53 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template request
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       sigoplimit
-      </p>
       </td>
       <td>
-      <p>
       Number or Boolean
-      </p>
       </td>
       <td>
-      <p>
       maximum number of sigops to include in template
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       sizelimit
-      </p>
       </td>
       <td>
-      <p>
       Number or Boolean
-      </p>
       </td>
       <td>
-      <p>
       maximum number of bytes to use for the entire block
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       maxversion
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       highest block version number supported
-      </p>
       </td>
       </tr>
       </tbody>
@@ -1124,245 +862,167 @@
       <thead>
       <tr>
       <th colspan="2">
-      <p>
       share rejection reasons
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Reason
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       bad-cb-flag
-      </p>
       </td>
       <td>
-      <p>
       the server detected a feature-signifying flag that it does not
       allow
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       bad-cb-length
-      </p>
       </td>
       <td>
-      <p>
       the coinbase was too long (bitcoin limit is 100 bytes)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       bad-cb-prefix
-      </p>
       </td>
       <td>
-      <p>
       the server only allows appending to the coinbase, but it was
       modified beyond that
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       bad-diffbits
-      </p>
       </td>
       <td>
-      <p>
       “bits” were changed
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       bad-prevblk
-      </p>
       </td>
       <td>
-      <p>
       the previous-block is not the one the server intends to build on
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       bad-txnmrklroot
-      </p>
       </td>
       <td>
-      <p>
       the block header’s merkle root did not match the transaction
       merkle tree
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       bad-txns
-      </p>
       </td>
       <td>
-      <p>
       the server didn’t like something about the transactions in the
       block
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       bad-version
-      </p>
       </td>
       <td>
-      <p>
       the version was wrong
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       duplicate
-      </p>
       </td>
       <td>
-      <p>
       the server already processed this block data
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       high-hash
-      </p>
       </td>
       <td>
-      <p>
       the block header did not hash to a value lower than the specified
       target
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       rejected
-      </p>
       </td>
       <td>
-      <p>
       a generic rejection without details
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       stale-prevblk
-      </p>
       </td>
       <td>
-      <p>
       the previous-block is no longer the one the server intends to
       build on
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       stale-work
-      </p>
       </td>
       <td>
-      <p>
       the work this block was based on is no longer accepted
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       time-invalid
-      </p>
       </td>
       <td>
-      <p>
       the time was not acceptable
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       time-too-new
-      </p>
       </td>
       <td>
-      <p>
       the time was too far in the future
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       time-too-old
-      </p>
       </td>
       <td>
-      <p>
       the time was too far in the past
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       unknown-user
-      </p>
       </td>
       <td>
-      <p>
       the user submitting the block was not recognized
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       unknown-work
-      </p>
       </td>
       <td>
-      <p>
       the template or workid could not be identified
-      </p>
       </td>
       </tr>
       </tbody>

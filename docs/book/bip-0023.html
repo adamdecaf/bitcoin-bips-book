@@ -248,45 +248,31 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template request
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       target
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       desired target for block template (may be ignored)
-      </p>
       </td>
       </tr>
       </tbody>
@@ -295,64 +281,44 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       expires
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       how many seconds (beginning from when the server sent the
       response) this work is valid for, at most
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       target
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       the number which valid results must be less than, in big-endian
       hexadecimal
-      </p>
       </td>
       </tr>
       </tbody>
@@ -365,63 +331,43 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       capabilities
-      </p>
       </td>
       <td>
-      <p>
       Array of Strings
-      </p>
       </td>
       <td>
-      <p>
       MAY contain “proposal” to indicate support for block proposal
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       reject-reason
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       Reason the proposal was invalid as-is (only applicable in response
       to proposals)
-      </p>
       </td>
       </tr>
       </tbody>
@@ -433,80 +379,54 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       getblocktemplate parameters
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       data
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       MUST be hex-encoded block data
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       mode
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       MUST be “proposal”
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       workid
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       if the server provided a workid, it MUST be included with
       proposals
-      </p>
       </td>
       </tr>
       </tbody>
@@ -541,46 +461,32 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template request
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       nonces
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       size of nonce range the miner needs; if not provided, the server
       SHOULD assume the client requires 2<sup>32</sup>
-      </p>
       </td>
       </tr>
       </tbody>
@@ -589,134 +495,90 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       maxtime
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       the maximum time allowed
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       maxtimeoff
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       the maximum time allowed (as a moving offset from “curtime” -
       every second, the actual maxtime is incremented by 1; for example,
       “maxtimeoff”:0 means “time” may be incremented by 1 every second)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       mintime
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       the minimum time allowed
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       mintimeoff
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       the minimum time allowed (as a moving offset from “curtime”)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       mutable
-      </p>
       </td>
       <td>
-      <p>
       Array of Strings
-      </p>
       </td>
       <td>
-      <p>
       different manipulations that the server explicitly allows to be
       made
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       noncerange
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       two 32-bit integers, concatenated in big-endian hexadecimal, which
       represent the valid ranges of nonces the miner may scan
-      </p>
       </td>
       </tr>
       </tbody>
@@ -727,153 +589,107 @@
       <thead>
       <tr>
       <th colspan="2">
-      <p>
       mutations
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Value
-      </p>
       </td>
       <td>
-      <p>
       Significance
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       coinbase/append
-      </p>
       </td>
       <td>
-      <p>
       append the provided coinbase scriptSig
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       coinbase
-      </p>
       </td>
       <td>
-      <p>
       provide their own coinbase; if one is provided, it may be replaced
       or modified (implied if “coinbasetxn” omitted)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       generation
-      </p>
       </td>
       <td>
-      <p>
       add or remove outputs from the coinbase/generation transaction
       (implied if “coinbasetxn” omitted)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       time/increment
-      </p>
       </td>
       <td>
-      <p>
       change the time header to a value after “time” (implied if
       “maxtime” or “maxtimeoff” are provided)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       time/decrement
-      </p>
       </td>
       <td>
-      <p>
       change the time header to a value before “time” (implied if
       “mintime” is provided)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       time
-      </p>
       </td>
       <td>
-      <p>
       modify the time header of the block
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       transactions/add (or “transactions”)
-      </p>
       </td>
       <td>
-      <p>
       add other valid transactions to the block (implied if
       “transactions” omitted from result)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       prevblock
-      </p>
       </td>
       <td>
-      <p>
       use the work with other previous-blocks; this implicitly allows
       removing transactions that are no longer valid (but clients SHOULD
       attempt to propose removal of any required transactions); it also
       implies adjusting “height” as necessary
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       version/force
-      </p>
       </td>
       <td>
-      <p>
       encode the provide block version, even if the miner doesn’t
       understand it
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       version/reduce
-      </p>
       </td>
       <td>
-      <p>
       use an older block version than the one provided (for example, if
       the client does not support the version provided)
-      </p>
       </td>
       </tr>
       </tbody>
@@ -884,64 +700,44 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       fulltarget
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       the number which full results should be less than, in big-endian
       hexadecimal (see “share/*” mutations)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       mutable
-      </p>
       </td>
       <td>
-      <p>
       Array of Strings
-      </p>
       </td>
       <td>
-      <p>
       different manipulations that the server explicitly allows to be
       made, including abbreviations
-      </p>
       </td>
       </tr>
       </tbody>
@@ -952,108 +748,78 @@
       <thead>
       <tr>
       <th colspan="2">
-      <p>
       abbreviation mutations
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Value
-      </p>
       </td>
       <td>
-      <p>
       Significance
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       submit/hash
-      </p>
       </td>
       <td>
-      <p>
       each transaction being sent in a request, that the client is
       certain the server knows about, may be replaced by its hash in
       little-endian hexadecimal, prepended by a “:” character
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       submit/coinbase
-      </p>
       </td>
       <td>
-      <p>
       if the “transactions” provided by the server are used as-is with
       no changes, submissions may omit transactions after the coinbase
       (transaction count varint remains included with the full number of
       transactions)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       submit/truncate
-      </p>
       </td>
       <td>
-      <p>
       if the “coinbasetxn” and “transactions” provided by the server are
       used as-is with no changes, submissions may contain only the block
       header; if only the scriptSig of “coinbasetxn” is modified, the
       params Object MUST contain a “coinbasesig” key with the content,
       or a “coinbaseadd” with appended data (if only appending)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       share/coinbase
-      </p>
       </td>
       <td>
-      <p>
       same as “submit/coinbase”, but only if the block hash is greater
       than “fulltarget”
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       share/merkle
-      </p>
       </td>
       <td>
-      <p>
       if the block hash is greater than “fulltarget”, the non-coinbase
       transactions may be replaced with a merkle chain connecting it to
       the root
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       share/truncate
-      </p>
       </td>
       <td>
-      <p>
       same as “submit/truncate”, but only if the block hash is greater
       than “fulltarget”
-      </p>
       </td>
       </tr>
       </tbody>
@@ -1073,46 +839,32 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template request
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       capabilities
-      </p>
       </td>
       <td>
-      <p>
       Array of Strings
-      </p>
       </td>
       <td>
-      <p>
       miners which support this SHOULD provide a list including the
       String “serverlist”
-      </p>
       </td>
       </tr>
       </tbody>
@@ -1121,45 +873,31 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       template
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       serverlist
-      </p>
       </td>
       <td>
-      <p>
       Array of Objects
-      </p>
       </td>
       <td>
-      <p>
       list of servers in this single logical service
-      </p>
       </td>
       </tr>
       </tbody>
@@ -1173,132 +911,88 @@
       <thead>
       <tr>
       <th colspan="3">
-      <p>
       serverlist element
-      </p>
       </th>
       </tr>
       </thead>
       <tbody>
       <tr>
       <td>
-      <p>
       Key
-      </p>
       </td>
       <td>
-      <p>
       Type
-      </p>
       </td>
       <td>
-      <p>
       Description
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       uri
-      </p>
       </td>
       <td>
-      <p>
       String
-      </p>
       </td>
       <td>
-      <p>
       URI of the individual server; if authentication information is
       omitted, the same authentication used for this request MUST be
       assumed
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       avoid
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       number of seconds to avoid using this server
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       priority
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       an integer priority of this host (default: 0)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       sticky
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       number of seconds to stick to this server when used
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       update
-      </p>
       </td>
       <td>
-      <p>
       Boolean
-      </p>
       </td>
       <td>
-      <p>
       whether this server may update the serverlist (default: true)
-      </p>
       </td>
       </tr>
       <tr>
       <td>
-      <p>
       weight
-      </p>
       </td>
       <td>
-      <p>
       Number
-      </p>
       </td>
       <td>
-      <p>
       a relative weight for hosts with the same priority (default: 1)
-      </p>
       </td>
       </tr>
       </tbody>
