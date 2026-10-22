@@ -3,12 +3,10 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit 130b8e0fa7f30fa45532f080b87b8db27a79e46e
-Merge: 927b6de ef5b6ba
-Author: Murch <murch@murch.one>
-Date:   Mon Oct 19 14:21:00 2026 -0700
+commit c0c5aea41e6a334d34db4ca87ae53bbfd7f268d1
+Merge: 130b8e0 af1e6e2
+Author: Jon Atack <jon@atack.com>
+Date:   Wed Oct 21 22:14:03 2026 -0600
 
-    Merge pull request #2332 from jonatack/2026-10-bip3-update-discussion-headers-to-bip3
-    
-    bip3: update discussion headers to bip3 format
+    Merge pull request #2334 from ViniciusCestarii/bip-0374-wording-nits
 ```
