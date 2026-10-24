@@ -511,6 +511,11 @@
       <li>The version of <code>to_sign</code> must be 0 or 2.</li>
       <li>The use of NOPs reserved for upgrades is forbidden.</li>
       <li>The use of Segwit versions greater than 1 is forbidden.</li>
+      <li>The use of the taproot upgrade mechanisms is forbidden: an
+      unknown leaf version and the annex
+      (<a href="bip-0341.mediawiki" class="wikilink" title="BIP341">BIP341</a>),
+      <code>OP_SUCCESSx</code> and an unknown public key type
+      (<a href="bip-0342.mediawiki" class="wikilink" title="BIP342">BIP342</a>).</li>
       <li>If any of the above steps failed, the validator should stop
       and output the <em>inconclusive</em> state.</li>
       </ol></li>
@@ -714,6 +719,13 @@
       </ol>
       <h3 data-number="13.12.10" id="bip-0322-changelog">Changelog</h3>
       <ul>
+      <li><strong>2.1.0</strong> (2026-10-23):
+      <ul>
+      <li>Add the taproot upgrade mechanisms (unknown leaf version,
+      annex, <code>OP_SUCCESSx</code>, unknown public key type) to the
+      upgradeable rules, so that they give the <em>inconclusive</em>
+      state.</li>
+      </ul></li>
       <li><strong>2.0.0</strong> (2026-06-04):
       <ul>
       <li>Clarify that the message_challenge is <em>not</em> optional

@@ -3,10 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit c0c5aea41e6a334d34db4ca87ae53bbfd7f268d1
-Merge: 130b8e0 af1e6e2
+commit 93f161194fbaed12c44f5e2a0c1d4f2b1b317cb0
+Merge: 1fec65e 9b1a7ef
 Author: Jon Atack <jon@atack.com>
-Date:   Wed Oct 21 22:14:03 2026 -0600
+Date:   Fri Oct 23 17:14:06 2026 -0600
 
-    Merge pull request #2334 from ViniciusCestarii/bip-0374-wording-nits
+    Merge pull request #2338 from fengxueweilai/my_feature
+    
+    scripts: isolate diffcheck temporary files
 ```
