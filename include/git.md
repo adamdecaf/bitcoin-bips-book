@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit 5aadddb511a5dcfe4599531bd8ae5e5b96d0f793
-Merge: f428b62 f827c44
+commit ada341963ab3916e74c98e6de4ba48babc024a75
+Merge: 5aadddb fe78361
 Author: Jon Atack <jon@atack.com>
-Date:   Mon Oct 26 20:41:58 2026 -0600
+Date:   Mon Nov 2 10:59:00 2026 -0600
 
-    Merge pull request #2337 from Eunovo/bip352-key-spend-annex-vector
+    Merge pull request #2205 from fjahr/halfagg
     
-    BIP352: add taproot key-path spend with annex vector
+    BIP458: Half-Aggregation of BIP 340 Signatures
 ```
