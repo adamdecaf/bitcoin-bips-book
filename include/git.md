@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit 61ff3f1361838fa7eb671e650b4e614207ca9df7
-Merge: ea875b2 7d92f13
+commit a0c977f3755da6476b955677ca9318334a2432c4
+Merge: a763725 ab3f200
 Author: Jon Atack <jon@atack.com>
-Date:   Tue Nov 3 21:42:17 2026 -0600
+Date:   Wed Nov 4 10:26:40 2026 -0600
 
-    Merge pull request #2311 from jonatack/2026-09-bip375-reference-implementation
+    Merge pull request #2346 from fjahr/95port
     
-    bip375: replace stale TODO with reference implementation
+    BIP95: Change default P2P port to 18353
 ```
