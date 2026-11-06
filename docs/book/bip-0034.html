@@ -229,6 +229,18 @@
       bytes are little-endian representation of the number (including a
       sign bit). Height is the height of the mined block in the block
       chain, where the genesis block is height zero (0).</li>
+      <li>For new chains (such as
+      <a href="bip-0325.mediawiki" class="wikilink" title="signet">signet</a>
+      or
+      <a href="bip-0094.mediawiki" class="wikilink" title="testnet4">testnet4</a>)
+      that enforce this rule immediately after the genesis block,
+      “minimally encoded serialized CScript” results in a different
+      encoding for blocks at heights 1-16: those values must be encoded
+      as the single byte 0x51 to 0x60 (<code>OP_1..OP_16</code>), with
+      no “number of bytes” prefix. Note that the minimum length of the
+      coinbase transaction’s scriptSig is two bytes, so the height push
+      alone is insufficient for blocks 1-16. In addition, this BIP never
+      applies to the genesis block.</li>
       <li>75% rule: If 750 of the last 1,000 blocks are version 2 or
       greater, reject invalid version 2 blocks. (testnet3: 51 of last
       100)</li>
@@ -250,6 +262,16 @@
       <h3 data-number="6.3.6" id="bip-0034-result">Result</h3>
       <p>Block number 227,835 (timestamp 2013-03-24 15:49:13 GMT) was
       the last version 1 block.</p>
+      <h3 data-number="6.3.7" id="bip-0034-changelog">Changelog</h3>
+      <ul>
+      <li>1.0.4: 2026-11-04: clarify encoding for early blocks</li>
+      <li>1.0.3: 2020-11-18: clarify that encoding must be minimal</li>
+      <li>1.0.2: 2016-02-05: correction to format prediction regarding
+      sign bit</li>
+      <li>1.0.1: 2016-02-01: updated to Final, logged activation
+      block</li>
+      <li>1.0.0: 2012-07-06: proposed</li>
+      </ul>
       <pre><code>  BIP: 42
   Layer: Consensus (soft fork)
   Title: A finite monetary supply for Bitcoin

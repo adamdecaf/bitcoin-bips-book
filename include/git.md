@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit a0c977f3755da6476b955677ca9318334a2432c4
-Merge: a763725 ab3f200
+commit c9547b9dad4c347cfb1a5a88303d119f08546109
+Merge: a50f8f8 69ec29d
 Author: Jon Atack <jon@atack.com>
-Date:   Wed Nov 4 10:26:40 2026 -0600
+Date:   Thu Nov 5 19:34:21 2026 -0600
 
-    Merge pull request #2346 from fjahr/95port
+    Merge pull request #2347 from ajtowns/202611-bip95-bump
     
-    BIP95: Change default P2P port to 18353
+    BIP95: Change proposed Testnet 5 genesis block structure
 ```
