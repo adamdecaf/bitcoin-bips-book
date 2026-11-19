@@ -6,7 +6,7 @@ This chapter is the map of that process. BIP 3 is the current process document. 
 
 BIP 50 sits next as a warning. It is the post-mortem of the March 2013 chain fork, when two versions of the software briefly disagreed about what a valid block was. The later activation BIPs make more sense after you have read that story.
 
-The last two documents are the test networks wallets and nodes actually use. BIP 325 is Signet: a coordinated chain where blocks need a signature as well as proof of work. BIP 94 is Testnet 4, which replaced the old public testnet. Neither changes mainnet consensus.
+The last three documents are the test networks wallets and nodes actually use. BIP 325 is Signet: a coordinated chain where blocks need a signature as well as proof of work. BIP 94 is Testnet 4, which replaced the old public testnet. BIP 95 is Testnet 5, which replaces Testnet 4 and drops its difficulty exception. None of them changes mainnet consensus.
 
 In this chapter:
 
@@ -18,3 +18,4 @@ In this chapter:
 - BIP 50 — March 2013 Chain Fork Post-Mortem
 - BIP 325 — Signet
 - BIP 94 — Testnet 4
+- BIP 95 — Testnet 5

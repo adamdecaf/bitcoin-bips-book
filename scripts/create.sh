@@ -18,6 +18,7 @@ inputs=(
     bips/bip-0050.md # March 2013 Chain Fork Post-Mortem
     bips/bip-0325.md # Signet
     bips/bip-0094.md # Testnet 4
+    bips/bip-0095.md # Testnet 5
 
     include/02-addresses.md
     bips/bip-0013.md # Address Format for pay-to-script-hash
@@ -71,6 +72,7 @@ inputs=(
     bips/bip-0385.md # raw() and addr() Output Script Descriptors
     bips/bip-0386.md # tr() Output Script Descriptors
     bips/bip-0387.md # Tapscript Multisig Output Script Descriptors
+    bips/bip-0379.md # Miniscript
 
     include/07-psbt.md
     bips/bip-0174.md # Partially Signed Bitcoin Transaction Format
