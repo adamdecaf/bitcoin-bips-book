@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="author" content="compiled by Adam Shannon" />
+  <meta name="keywords" content="bitcoin, bips, wallets, taproot, p2p" />
+  <title>BIP 95 · Bitcoin Book of BIPs</title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: 1.5em;}
+    div.column{flex: auto;}
+    @media screen {
+    div.columns{gap: min(4vw, 1.5em);}
+    div.column{overflow-x: auto;}
+    }
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+  </style>
+  <link rel="stylesheet" href="../web.css" />
+</head>
+<body class="book">
+  <header class="site">
+    <a class="brand" href="../">Bitcoin Book of BIPs</a>
+    <button type="button" id="toc-toggle" aria-controls="TOC" aria-expanded="false">Contents</button>
+    <nav class="site-links">
+      <a href="index.html">Contents</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.epub">ePUB</a>
+      <a href="https://github.com/adamdecaf/bitcoin-bips-book/raw/master/bitcoin-bips-book.pdf">PDF</a>
+    </nav>
+  </header>
+  <div class="layout">
+    <nav id="TOC" role="doc-toc">
+      <h2 id="toc-title">Contents</h2>
+      <ul>
+      <li><a href="introduction.html#introduction"
+      id="toc-introduction">Introduction</a></li>
+      <li><a href="how-to-read-this-book.html#how-to-read-this-book"
+      id="toc-how-to-read-this-book">How to Read This Book</a></li>
+      <li><a href="source-snapshot.html#source-snapshot"
+      id="toc-source-snapshot">Source snapshot</a></li>
+      <li><a href="process-history.html#process-history"
+      id="toc-process-history">Process &amp; History</a>
+      <ul>
+      <li><a href="bip-0003.html#bip-0003" id="toc-bip-0003">BIP 3</a></li>
+      <li><a href="bip-0123.html#bip-0123" id="toc-bip-0123">BIP 123</a></li>
+      <li><a href="bip-0009.html#bip-0009" id="toc-bip-0009">BIP 9</a></li>
+      <li><a href="bip-0008.html#bip-0008" id="toc-bip-0008">BIP 8</a></li>
+      <li><a href="bip-0090.html#bip-0090" id="toc-bip-0090">BIP 90</a></li>
+      <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
+      <li><a href="bip-0325.html#bip-0325" id="toc-bip-0325">BIP 325</a></li>
+      <li><a href="bip-0094.html#bip-0094" id="toc-bip-0094">BIP 94</a></li>
+      <li><a href="bip-0095.html#bip-0095" id="toc-bip-0095">BIP 95</a></li>
+      </ul></li>
+      <li><a href="addresses-and-encodings.html#addresses-and-encodings"
+      id="toc-addresses-and-encodings">Addresses and Encodings</a>
+      <ul>
+      <li><a href="bip-0013.html#bip-0013" id="toc-bip-0013">BIP 13</a></li>
+      <li><a href="bip-0173.html#bip-0173" id="toc-bip-0173">BIP 173</a></li>
+      <li><a href="bip-0350.html#bip-0350" id="toc-bip-0350">BIP 350</a></li>
+      <li><a href="bip-0321.html#bip-0321" id="toc-bip-0321">BIP 321</a></li>
+      <li><a href="bip-0179.html#bip-0179" id="toc-bip-0179">BIP 179</a></li>
+      </ul></li>
+      <li><a
+      href="consensus-changes-that-shipped.html#consensus-changes-that-shipped"
+      id="toc-consensus-changes-that-shipped">Consensus Changes That
+      Shipped</a>
+      <ul>
+      <li><a href="bip-0016.html#bip-0016" id="toc-bip-0016">BIP 16</a></li>
+      <li><a href="bip-0030.html#bip-0030" id="toc-bip-0030">BIP 30</a></li>
+      <li><a href="bip-0034.html#bip-0034" id="toc-bip-0034">BIP 34</a></li>
+      <li><a href="bip-0042.html#bip-0042" id="toc-bip-0042">BIP 42</a></li>
+      <li><a href="bip-0065.html#bip-0065" id="toc-bip-0065">BIP 65</a></li>
+      <li><a href="bip-0066.html#bip-0066" id="toc-bip-0066">BIP 66</a></li>
+      <li><a href="bip-0068.html#bip-0068" id="toc-bip-0068">BIP 68</a></li>
+      <li><a href="bip-0112.html#bip-0112" id="toc-bip-0112">BIP 112</a></li>
+      <li><a href="bip-0113.html#bip-0113" id="toc-bip-0113">BIP 113</a></li>
+      <li><a href="bip-0141.html#bip-0141" id="toc-bip-0141">BIP 141</a></li>
+      <li><a href="bip-0143.html#bip-0143" id="toc-bip-0143">BIP 143</a></li>
+      <li><a href="bip-0147.html#bip-0147" id="toc-bip-0147">BIP 147</a></li>
+      <li><a href="bip-0148.html#bip-0148" id="toc-bip-0148">BIP 148</a></li>
+      <li><a href="bip-0091.html#bip-0091" id="toc-bip-0091">BIP 91</a></li>
+      </ul></li>
+      <li><a href="schnorr-taproot-tapscript.html#schnorr-taproot-tapscript"
+      id="toc-schnorr-taproot-tapscript">Schnorr, Taproot, Tapscript</a>
+      <ul>
+      <li><a href="bip-0340.html#bip-0340" id="toc-bip-0340">BIP 340</a></li>
+      <li><a href="bip-0341.html#bip-0341" id="toc-bip-0341">BIP 341</a></li>
+      <li><a href="bip-0342.html#bip-0342" id="toc-bip-0342">BIP 342</a></li>
+      </ul></li>
+      <li><a href="keys-seeds-and-derivation.html#keys-seeds-and-derivation"
+      id="toc-keys-seeds-and-derivation">Keys, Seeds, and Derivation</a>
+      <ul>
+      <li><a href="bip-0032.html#bip-0032" id="toc-bip-0032">BIP 32</a></li>
+      <li><a href="bip-0038.html#bip-0038" id="toc-bip-0038">BIP 38</a></li>
+      <li><a href="bip-0039.html#bip-0039" id="toc-bip-0039">BIP 39</a></li>
+      <li><a href="bip-0043.html#bip-0043" id="toc-bip-0043">BIP 43</a></li>
+      <li><a href="bip-0044.html#bip-0044" id="toc-bip-0044">BIP 44</a></li>
+      <li><a href="bip-0049.html#bip-0049" id="toc-bip-0049">BIP 49</a></li>
+      <li><a href="bip-0084.html#bip-0084" id="toc-bip-0084">BIP 84</a></li>
+      <li><a href="bip-0085.html#bip-0085" id="toc-bip-0085">BIP 85</a></li>
+      <li><a href="bip-0086.html#bip-0086" id="toc-bip-0086">BIP 86</a></li>
+      <li><a href="bip-0087.html#bip-0087" id="toc-bip-0087">BIP 87</a></li>
+      <li><a href="bip-0048.html#bip-0048" id="toc-bip-0048">BIP 48</a></li>
+      <li><a href="bip-0129.html#bip-0129" id="toc-bip-0129">BIP 129</a></li>
+      <li><a href="bip-0328.html#bip-0328" id="toc-bip-0328">BIP 328</a></li>
+      </ul></li>
+      <li><a href="output-script-descriptors.html#output-script-descriptors"
+      id="toc-output-script-descriptors">Output Script Descriptors</a>
+      <ul>
+      <li><a href="bip-0380.html#bip-0380" id="toc-bip-0380">BIP 380</a></li>
+      <li><a href="bip-0381.html#bip-0381" id="toc-bip-0381">BIP 381</a></li>
+      <li><a href="bip-0382.html#bip-0382" id="toc-bip-0382">BIP 382</a></li>
+      <li><a href="bip-0383.html#bip-0383" id="toc-bip-0383">BIP 383</a></li>
+      <li><a href="bip-0384.html#bip-0384" id="toc-bip-0384">BIP 384</a></li>
+      <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
+      <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
+      <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      <li><a href="bip-0379.html#bip-0379" id="toc-bip-0379">BIP 379</a></li>
+      </ul></li>
+      <li><a
+      href="partially-signed-transactions.html#partially-signed-transactions"
+      id="toc-partially-signed-transactions">Partially Signed Transactions</a>
+      <ul>
+      <li><a href="bip-0174.html#bip-0174" id="toc-bip-0174">BIP 174</a></li>
+      <li><a href="bip-0370.html#bip-0370" id="toc-bip-0370">BIP 370</a></li>
+      <li><a href="bip-0371.html#bip-0371" id="toc-bip-0371">BIP 371</a></li>
+      <li><a href="bip-0373.html#bip-0373" id="toc-bip-0373">BIP 373</a></li>
+      </ul></li>
+      <li><a href="peer-to-peer-network.html#peer-to-peer-network"
+      id="toc-peer-to-peer-network">Peer-to-Peer Network</a>
+      <ul>
+      <li><a href="bip-0014.html#bip-0014" id="toc-bip-0014">BIP 14</a></li>
+      <li><a href="bip-0031.html#bip-0031" id="toc-bip-0031">BIP 31</a></li>
+      <li><a href="bip-0035.html#bip-0035" id="toc-bip-0035">BIP 35</a></li>
+      <li><a href="bip-0037.html#bip-0037" id="toc-bip-0037">BIP 37</a></li>
+      <li><a href="bip-0061.html#bip-0061" id="toc-bip-0061">BIP 61</a></li>
+      <li><a href="bip-0111.html#bip-0111" id="toc-bip-0111">BIP 111</a></li>
+      <li><a href="bip-0130.html#bip-0130" id="toc-bip-0130">BIP 130</a></li>
+      <li><a href="bip-0133.html#bip-0133" id="toc-bip-0133">BIP 133</a></li>
+      <li><a href="bip-0144.html#bip-0144" id="toc-bip-0144">BIP 144</a></li>
+      <li><a href="bip-0152.html#bip-0152" id="toc-bip-0152">BIP 152</a></li>
+      <li><a href="bip-0155.html#bip-0155" id="toc-bip-0155">BIP 155</a></li>
+      <li><a href="bip-0157.html#bip-0157" id="toc-bip-0157">BIP 157</a></li>
+      <li><a href="bip-0158.html#bip-0158" id="toc-bip-0158">BIP 158</a></li>
+      <li><a href="bip-0159.html#bip-0159" id="toc-bip-0159">BIP 159</a></li>
+      <li><a href="bip-0324.html#bip-0324" id="toc-bip-0324">BIP 324</a></li>
+      <li><a href="bip-0339.html#bip-0339" id="toc-bip-0339">BIP 339</a></li>
+      <li><a href="bip-0434.html#bip-0434" id="toc-bip-0434">BIP 434</a></li>
+      </ul></li>
+      <li><a href="mining-and-block-templates.html#mining-and-block-templates"
+      id="toc-mining-and-block-templates">Mining and Block Templates</a>
+      <ul>
+      <li><a href="bip-0022.html#bip-0022" id="toc-bip-0022">BIP 22</a></li>
+      <li><a href="bip-0023.html#bip-0023" id="toc-bip-0023">BIP 23</a></li>
+      <li><a href="bip-0145.html#bip-0145" id="toc-bip-0145">BIP 145</a></li>
+      </ul></li>
+      <li><a href="paying-people.html#paying-people"
+      id="toc-paying-people">Paying People</a>
+      <ul>
+      <li><a href="bip-0070.html#bip-0070" id="toc-bip-0070">BIP 70</a></li>
+      <li><a href="bip-0071.html#bip-0071" id="toc-bip-0071">BIP 71</a></li>
+      <li><a href="bip-0072.html#bip-0072" id="toc-bip-0072">BIP 72</a></li>
+      <li><a href="bip-0073.html#bip-0073" id="toc-bip-0073">BIP 73</a></li>
+      <li><a href="bip-0075.html#bip-0075" id="toc-bip-0075">BIP 75</a></li>
+      <li><a href="bip-0078.html#bip-0078" id="toc-bip-0078">BIP 78</a></li>
+      <li><a href="bip-0047.html#bip-0047" id="toc-bip-0047">BIP 47</a></li>
+      <li><a href="bip-0352.html#bip-0352" id="toc-bip-0352">BIP 352</a></li>
+      <li><a href="bip-0353.html#bip-0353" id="toc-bip-0353">BIP 353</a></li>
+      <li><a href="bip-0327.html#bip-0327" id="toc-bip-0327">BIP 327</a></li>
+      <li><a href="bip-0137.html#bip-0137" id="toc-bip-0137">BIP 137</a></li>
+      <li><a href="bip-0322.html#bip-0322" id="toc-bip-0322">BIP 322</a></li>
+      </ul></li>
+      <li><a
+      href="scripts-miniscript-and-policy.html#scripts-miniscript-and-policy"
+      id="toc-scripts-miniscript-and-policy">Scripts, Miniscript, and
+      Policy</a>
+      <ul>
+      <li><a href="bip-0011.html#bip-0011" id="toc-bip-0011">BIP 11</a></li>
+      <li><a href="bip-0067.html#bip-0067" id="toc-bip-0067">BIP 67</a></li>
+      <li><a href="bip-0069.html#bip-0069" id="toc-bip-0069">BIP 69</a></li>
+      <li><a href="bip-0125.html#bip-0125" id="toc-bip-0125">BIP 125</a></li>
+      <li><a href="bip-0388.html#bip-0388" id="toc-bip-0388">BIP 388</a></li>
+      </ul></li>
+      <li><a href="conclusion.html#conclusion"
+      id="toc-conclusion">Conclusion</a></li>
+      </ul>
+    </nav>
+    <div class="main">
+      <nav class="pager" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0094.html" accesskey="p" rel="prev">BIP 94</a>
+        <a class="pager-next" href="addresses-and-encodings.html" accesskey="n" rel="next">Addresses and Encodings</a>
+      </nav>
+      <h2 data-number="4.9" id="bip-0095">BIP 95</h2>
+      <h3 data-number="4.9.1" id="bip-0095-abstract">Abstract</h3>
+      <p>Testnet 5 is a new test network intended to replace <a
+      href="bip-0094.html">Testnet 4</a>. Testnet 5 removes the
+      difficulty exception defined in Testnet 4. Sustained exploitation
+      of this exception has made the network difficult to use for
+      testing. Additionally, Testnet 5 raises the minimum difficulty and
+      enforces the consensus rules specified in <a
+      href="bip-0054.html">BIP 54</a> from block 1.</p>
+      <h3 data-number="4.9.2" id="bip-0095-motivation">Motivation</h3>
+      <p>Testnet 4 included mitigations for an issue known as the <a
+      href="https://blog.lopp.net/the-block-storms-of-bitcoins-testnet/">block
+      storm attack</a> which could render the whole network unusable.
+      Block storm attacks led to a depletion of block subsidies, which
+      made it hard to acquire coins for testing. However, Testnet 4
+      still retained a modified version of the difficulty exception
+      rule. The difficulty exception permits a block to be mined at the
+      minimum difficulty when more than 20 minutes have passed since the
+      previous block. Testnet 4 kept this exception with the aim of
+      allowing CPU users a limited path to acquire coins for testing, to
+      mine non-standard transactions that other miners would not relay,
+      and to keep the chain moving if a large source of hash power were
+      to leave the network. Shortly after Testnet 4’s introduction, the
+      exception had been systematically and persistently exploited,
+      which prevented the exception from achieving the intended goals.
+      While block storms were prevented, the network suffered from
+      constant re-orgs of small numbers of blocks due to multiple
+      difficulty-exception blocks competing for the tip. This led to
+      discussion about changing Testnet 4 to mitigate this issue (see <a
+      href="https://bitcointalk.org/index.php?topic=5569103.0">Bitcointalk</a>
+      for analysis and discussion).</p>
+      <p>In Testnet 5 there is no exception to the PoW rules. This
+      appears to be the logical conclusion, since any such exception
+      could be exploited by a motivated attacker. The lack of exception
+      ensures the network’s behavior matches mainnet as closely as
+      possible.</p>
+      <p>BIP 54 is already enforced on signet through <a
+      href="https://delvingbitcoin.org/t/bitcoin-inqusition-29-2/2236">Bitcoin
+      Inquisition</a> as of this BIP’s creation. However, signet does
+      not allow miners to test that their software reliably follows the
+      rules of BIP 54. Testnet 5 provides a testing environment for
+      this.</p>
+      <h3 data-number="4.9.3"
+      id="bip-0095-specification">Specification</h3>
+      <p>Testnet 5 follows the same consensus rules as mainnet, except
+      for the following two changes.</p>
+      <h4 data-number="4.9.3.1" id="bip-0095-bip-54-activation">BIP 54
+      activation</h4>
+      <p>The rules specified in <a href="bip-0054.html">BIP 54 version
+      1.0.0</a> are active on Testnet 5 from block 1.</p>
+      <h5 data-number="4.9.3.1.1"
+      id="bip-0095-problem-statement">Problem Statement</h5>
+      <p>BIP 54 proposes new consensus rules in order to fix several
+      potential attack vectors. Namely it prevents the timewarp attack,
+      reduces the worst-case block validation time, mitigates Merkle
+      tree weaknesses, and avoids duplicate transactions without <a
+      href="bip-0030.html">bip-0030</a> validation.</p>
+      <h5 data-number="4.9.3.1.2" id="bip-0095-rule-specification">Rule
+      Specification</h5>
+      <p>See specification in <a href="bip-0054.html">bip-0054</a>.</p>
+      <h4 data-number="4.9.3.2" id="bip-0095-minimum-difficulty">Minimum
+      Difficulty</h4>
+      <p>The proof-of-work limit (the maximum target) is
+      <code>0x1a0fffff</code> in compact encoding (nBits), corresponding
+      to a minimum difficulty of approximately 1,000,000.</p>
+      <h4 data-number="4.9.3.3" id="bip-0095-consensus-rules">Consensus
+      Rules</h4>
+      <p>All consensus rules active on mainnet as of May 2026 are
+      enforced from block 1, the most recent of these being the Taproot
+      softfork. Additionally, the rules of BIP 54 are enforced from
+      block 1, as specified above.</p>
+      <h4 data-number="4.9.3.4" id="bip-0095-genesis-block">Genesis
+      Block</h4>
+      <ul>
+      <li>Message: “2026-11-14 975744
+      0000000000000000000123e2681e2f82acdcb9430a15eec24cc85b400691d479”</li>
+      <li>scriptPubKey: <code>6a0895ebf76a02000000</code></li>
+      <li>Time stamp: 1794632593</li>
+      <li>Nonce: <code>0x653d9131</code></li>
+      <li>nBits: <code>0x1a0fffff</code></li>
+      <li>Version: <code>0x2230c000</code></li>
+      </ul>
+      <p>The resulting Genesis block hash is
+      <code>00000000000008c1637e7d3252dc1c333d4546fd6fff6a474b200d674a91d497</code>,
+      and the block hex is
+      <code>00c0302200000000000000000000000000000000000000000000000000000000000000008de2a6b556ecb56779c34481ede767f09b2ae214f37ab1ad34085b5cb699588c91ebf76affff0f1a31913d650101000000010000000000000000000000000000000000000000000000000000000000000000ffffffff5b04ffff001d01044c52323032362d31312d3134203937353734342030303030303030303030303030303030303030313233653236383165326638326163646362393433306131356565633234636338356234303036393164343739ffffffff0100f2052a010000000a6a0895ebf76a0200000000000000</code>.</p>
+      <h4 data-number="4.9.3.5" id="bip-0095-message-start">Message
+      Start</h4>
+      <p>The message start (also known as the network magic) is defined
+      as <code>0x46495645</code>. These four bytes spell
+      <code>FIVE</code> when interpreted as ASCII.</p>
+      <h4 data-number="4.9.3.6" id="bip-0095-p2p-port">P2P Port</h4>
+      <p>The default p2p port for Testnet 5 is <code>18353</code>.</p>
+      <h3 data-number="4.9.4" id="bip-0095-rationale">Rationale</h3>
+      <p>Instead of starting a new Testnet, changing the rules of
+      Testnet 4 <a
+      href="https://github.com/bitcoin/bitcoin/pull/31117">was
+      considered</a> as well. The decision for a new network had two
+      main reasons:</p>
+      <ol type="1">
+      <li>Deploying network changes is hard and typically takes a long
+      time. This effort doesn’t seem to be worth it for a Testnet that
+      has the alternative option to start fresh, especially considering
+      that the attackers exploiting Testnet 4’s rules may use them to
+      prevent a smooth deployment of new rules, including those of BIP
+      54.</li>
+      <li>Any fix to Testnet 4 that goes beyond a band-aid would require
+      a hard fork, which brings its own implementation cost: adding
+      hard-fork support to clients, handling the p2p layer correctly,
+      etc. For a test network this isn’t worth taking on, especially
+      since a band-aid would only make Testnet 4 diverge further from
+      mainnet.</li>
+      </ol>
+      <p>Raising the minimum difficulty was dismissed for Testnet 4
+      because it would have prevented CPU miners from utilizing the
+      difficulty exception. With the exception removed in Testnet 5,
+      this argument no longer applies. A minimum difficulty of
+      approximately 1,000,000 strikes a balance between dampening the
+      quick mining of large numbers of blocks shortly after launch,
+      before the difficulty has adjusted to the available hash power,
+      and keeping a low barrier so that a handful of at-home miners or a
+      single ASIC can keep the network usable.</p>
+      <h4 data-number="4.9.4.1"
+      id="bip-0095-choice-of-genesis-parameters">Choice of genesis
+      parameters</h4>
+      <p>The genesis block parameters were chosen according to the
+      following structure:</p>
+      <ul>
+      <li><p>The <code>Message</code> in the coinbase was the date and
+      hash of the mainnet block beginning the next retarget period. That
+      height was chosen and <a
+      href="https://gnusha.org/pi/bitcoindev/avINnoG-1r242rAw@erisian.com.au/T/">announced</a>
+      roughly a week prior to when it was mined. This served as an
+      anti-pre-mine commitment, similar to the newspaper headline in the
+      mainnet genesis block.</p></li>
+      <li><p>The <code>scriptPubKey</code> used for the output is an
+      <code>OP_RETURN</code> with an 8 byte push, used as extranonce
+      data for mining the block. The <code>OP_RETURN</code> type was
+      chosen as the output is unspendable anyway, and to avoid
+      bike-shedding over its content.</p></li>
+      <li><p>The block time stamp was chosen by the mining software,
+      ending up slightly later than the timestamp in the mainnet
+      block.</p></li>
+      <li><p>The block version used <a href="bip-0320.html">BIP 320</a>
+      version rolling for additional nonce space making it easier to
+      meet the minimum difficulty.</p></li>
+      </ul>
+      <h3 data-number="4.9.5"
+      id="bip-0095-backward-compatibility">Backward Compatibility</h3>
+      <p>Testnet 5’s consensus rules are not compatible with those of
+      Testnet 3 and Testnet 4. The consensus rules differ in both
+      directions: Testnet 5 enforces the BIP 54 consensus rules from
+      block 1, which is not the case for Testnet 3 or Testnet 4. Testnet
+      5 also does not apply the difficulty exception rule that Testnet 3
+      or Testnet 4 requires.</p>
+      <p>Because each network has its own genesis block, their UTXO sets
+      are disjoint and transactions can never be replayed across them.
+      Address formats are shared, however, so the same address may be
+      reused on different networks.</p>
+      <p>Any implementation that intends to follow Testnet 5 must add
+      the new network parameters and additionally enforce the BIP 54
+      rules while not permitting any of the difficulty exception
+      rules.</p>
+      <h3 data-number="4.9.6"
+      id="bip-0095-reference-implementation">Reference
+      Implementation</h3>
+      <p>Pull request at <a
+      href="https://github.com/bitcoin/bitcoin/pull/35861">Bitcoin Core
+      #35861</a></p>
+      <h3 data-number="4.9.7" id="bip-0095-references">References</h3>
+      <ul>
+      <li><a href="bip-0030.html">BIP 30</a>: Duplicate
+      transactions</li>
+      <li><a href="bip-0054.html">BIP 54</a>: Consensus Cleanup</li>
+      <li><a href="bip-0094.html">BIP 94</a>: Testnet 4</li>
+      <li><a href="bip-0320.html">BIP 320</a>: nVersion bits for general
+      purpose use</li>
+      <li><a
+      href="https://blog.lopp.net/the-block-storms-of-bitcoins-testnet/">The
+      block storms of Bitcoin’s Testnet</a></li>
+      <li><a
+      href="https://bitcointalk.org/index.php?topic=5569103.0">Testnet 4
+      difficulty exception analysis and discussion
+      (Bitcointalk)</a></li>
+      <li><a
+      href="https://delvingbitcoin.org/t/bitcoin-inqusition-29-2/2236">BIP
+      54 enforcement on signet via Bitcoin Inquisition</a></li>
+      <li><a
+      href="https://github.com/bitcoin/bitcoin/pull/31117">Discussion on
+      changing the Testnet 4 rules (Bitcoin Core PR #31117)</a></li>
+      <li><a
+      href="https://gnusha.org/pi/bitcoindev/avINnoG-1r242rAw@erisian.com.au/T/">Testnet
+      5 launch (bitcoindev list)</a></li>
+      </ul>
+      <h3 data-number="4.9.8" id="bip-0095-copyright">Copyright</h3>
+      <p>This document is licensed under the Creative Commons CC0 1.0
+      Universal license.</p>
+      <h3 data-number="4.9.9" id="bip-0095-changelog">Changelog</h3>
+      <ul>
+      <li><strong>1.0.0</strong> (2026-11-17):
+      <ul>
+      <li>Include testnet5 genesis block parameters.</li>
+      </ul></li>
+      <li><strong>0.3.0</strong> (2026-11-05):
+      <ul>
+      <li>Move commitment back to scriptSig, and use
+      <code>OP_RETURN</code> for output.</li>
+      </ul></li>
+      <li><strong>0.2.0</strong> (2026-11-05):
+      <ul>
+      <li>Change default P2P port from 18335 to 18353</li>
+      </ul></li>
+      <li><strong>0.1.0</strong> (2026-06-02):
+      <ul>
+      <li>Initial draft</li>
+      </ul></li>
+      </ul>
+      <nav class="pager pager-bottom" aria-label="Nearby sections">
+        <a class="pager-prev" href="bip-0094.html" rel="prev">BIP 94</a>
+        <a class="pager-next" href="addresses-and-encodings.html" rel="next">Addresses and Encodings</a>
+      </nav>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var btn = document.getElementById("toc-toggle");
+      var toc = document.getElementById("TOC");
+      var page = (location.pathname.split("/").pop() || "index.html");
+      if (toc) {
+        toc.querySelectorAll("a").forEach(function (a) {
+          var href = a.getAttribute("href") || "";
+          if (href.split("#")[0] === page) a.classList.add("current");
+        });
+        var current = toc.querySelector("a.current");
+        if (current) current.scrollIntoView({ block: "center" });
+      }
+      document.querySelectorAll(".main h1[id], .main h2[id], .main h3[id], .main h4[id], .main h5[id], .main h6[id]").forEach(function (h) {
+        if (h.querySelector(".header-anchor")) return;
+        var a = document.createElement("a");
+        a.className = "header-anchor";
+        a.href = "#" + h.id;
+        a.setAttribute("aria-label", "Link to this heading");
+        a.textContent = "\u00B6";
+        h.appendChild(a);
+      });
+      if (!btn) return;
+      btn.addEventListener("click", function () {
+        var open = document.body.classList.toggle("toc-open");
+        btn.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+      toc && toc.addEventListener("click", function (e) {
+        if (e.target.closest("a") && window.matchMedia("(max-width: 879px)").matches) {
+          document.body.classList.remove("toc-open");
+          btn.setAttribute("aria-expanded", "false");
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -61,6 +61,7 @@
       <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
       <li><a href="bip-0325.html#bip-0325" id="toc-bip-0325">BIP 325</a></li>
       <li><a href="bip-0094.html#bip-0094" id="toc-bip-0094">BIP 94</a></li>
+      <li><a href="bip-0095.html#bip-0095" id="toc-bip-0095">BIP 95</a></li>
       </ul></li>
       <li><a href="addresses-and-encodings.html#addresses-and-encodings"
       id="toc-addresses-and-encodings">Addresses and Encodings</a>
@@ -126,6 +127,7 @@
       <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
       <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
       <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      <li><a href="bip-0379.html#bip-0379" id="toc-bip-0379">BIP 379</a></li>
       </ul></li>
       <li><a
       href="partially-signed-transactions.html#partially-signed-transactions"
@@ -218,11 +220,12 @@
       March 2013 chain fork, when two versions of the software briefly
       disagreed about what a valid block was. The later activation BIPs
       make more sense after you have read that story.</p>
-      <p>The last two documents are the test networks wallets and nodes
-      actually use. BIP 325 is Signet: a coordinated chain where blocks
-      need a signature as well as proof of work. BIP 94 is Testnet 4,
-      which replaced the old public testnet. Neither changes mainnet
-      consensus.</p>
+      <p>The last three documents are the test networks wallets and
+      nodes actually use. BIP 325 is Signet: a coordinated chain where
+      blocks need a signature as well as proof of work. BIP 94 is
+      Testnet 4, which replaced the old public testnet. BIP 95 is
+      Testnet 5, which replaces Testnet 4 and drops its difficulty
+      exception. None of them changes mainnet consensus.</p>
       <p>In this chapter:</p>
       <ul>
       <li>BIP 3 — Updated BIP Process</li>
@@ -233,6 +236,7 @@
       <li>BIP 50 — March 2013 Chain Fork Post-Mortem</li>
       <li>BIP 325 — Signet</li>
       <li>BIP 94 — Testnet 4</li>
+      <li>BIP 95 — Testnet 5</li>
       </ul>
       <pre><code>  BIP: 3
   Title: Updated BIP Process

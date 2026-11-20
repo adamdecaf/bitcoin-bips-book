@@ -61,6 +61,7 @@
       <li><a href="bip-0050.html#bip-0050" id="toc-bip-0050">BIP 50</a></li>
       <li><a href="bip-0325.html#bip-0325" id="toc-bip-0325">BIP 325</a></li>
       <li><a href="bip-0094.html#bip-0094" id="toc-bip-0094">BIP 94</a></li>
+      <li><a href="bip-0095.html#bip-0095" id="toc-bip-0095">BIP 95</a></li>
       </ul></li>
       <li><a href="addresses-and-encodings.html#addresses-and-encodings"
       id="toc-addresses-and-encodings">Addresses and Encodings</a>
@@ -126,6 +127,7 @@
       <li><a href="bip-0385.html#bip-0385" id="toc-bip-0385">BIP 385</a></li>
       <li><a href="bip-0386.html#bip-0386" id="toc-bip-0386">BIP 386</a></li>
       <li><a href="bip-0387.html#bip-0387" id="toc-bip-0387">BIP 387</a></li>
+      <li><a href="bip-0379.html#bip-0379" id="toc-bip-0379">BIP 379</a></li>
       </ul></li>
       <li><a
       href="partially-signed-transactions.html#partially-signed-transactions"
@@ -212,7 +214,10 @@
       multisig, <code>combo()</code>, <code>raw()</code> and
       <code>addr()</code>, Taproot <code>tr()</code>, and Tapscript
       multisig. Read 380 first. The others are short on purpose — they
-      are the vocabulary, not a second language.</p>
+      are the vocabulary, not a second language. BIP 379, Miniscript,
+      comes last: a structured way to write spending policies that
+      descriptors can carry inside <code>wsh()</code> and
+      <code>tr()</code>.</p>
       <p>Wallets that speak descriptors can import a backup, a
       watch-only account, or a hardware-wallet policy without a side
       channel that explains “this is BIP 84, native SegWit.” That is why
@@ -227,6 +232,7 @@
       <li>BIP 385 — raw() and addr() Output Script Descriptors</li>
       <li>BIP 386 — tr() Output Script Descriptors</li>
       <li>BIP 387 — Tapscript Multisig Output Script Descriptors</li>
+      <li>BIP 379 — Miniscript</li>
       </ul>
       <pre><code>  BIP: 380
   Layer: Applications
