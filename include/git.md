@@ -3,12 +3,12 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit a7f91321f25b5be8d93e901775621c21519e80b7
-Merge: e373a69 1672ae2
-Author: Murch <murch@murch.one>
-Date:   Tue Nov 17 23:26:05 2026 +0100
+commit fdcd8024595bc1e97db73883e716dbb91627c371
+Merge: a7f9132 cd3957c
+Author: Jon Atack <jon@atack.com>
+Date:   Fri Nov 20 12:06:34 2026 -0600
 
-    Merge pull request #2359 from murchandamus/2026-11-advance-miniscript
+    Merge pull request #2301 from ajtowns/202609-set324id
     
-    bip379: Advance to Deployed
+    BIP333: BIP324 One-Byte Message Type ID Alias Assignment
 ```

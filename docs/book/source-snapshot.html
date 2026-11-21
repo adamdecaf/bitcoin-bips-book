@@ -11,6 +11,12 @@
     ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
     */
     span.smallcaps{font-variant: small-caps;}
+    em, em em em, em em em em em {
+      font-style: italic;
+    }
+    em em, em em em em {
+      font-style: normal;
+    }
     div.columns{display: flex; gap: 1.5em;}
     div.column{flex: auto;}
     @media screen {
@@ -27,7 +33,27 @@
       margin: 0 0.8em 0.2em -1.6em;
       vertical-align: middle;
     }
-  </style>
+    @media print {
+      html {
+        color-scheme: light only;
+      }
+      html, body, pre, code {
+        background-color: transparent;
+      }
+      body, a, a:visited, blockquote {
+        color: black;
+      }
+      pre, code {
+        padding: 0;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }  </style>
   <link rel="stylesheet" href="../web.css" />
 </head>
 <body class="book">
@@ -207,14 +233,14 @@
       href="https://github.com/bitcoin/bips">bitcoin/bips</a>. Closed
       and withdrawn proposals are omitted so the book stays readable. If
       something here disagrees with upstream, upstream wins.</p>
-      <pre><code>commit a7f91321f25b5be8d93e901775621c21519e80b7
-Merge: e373a69 1672ae2
-Author: Murch &lt;murch@murch.one&gt;
-Date:   Tue Nov 17 23:26:05 2026 +0100
+      <pre><code>commit fdcd8024595bc1e97db73883e716dbb91627c371
+Merge: a7f9132 cd3957c
+Author: Jon Atack &lt;jon@atack.com&gt;
+Date:   Fri Nov 20 12:06:34 2026 -0600
 
-    Merge pull request #2359 from murchandamus/2026-11-advance-miniscript
+    Merge pull request #2301 from ajtowns/202609-set324id
     
-    bip379: Advance to Deployed</code></pre>
+    BIP333: BIP324 One-Byte Message Type ID Alias Assignment</code></pre>
       <nav class="pager pager-bottom" aria-label="Nearby sections">
         <a class="pager-prev" href="how-to-read-this-book.html" rel="prev">How to Read This Book</a>
         <a class="pager-next" href="process-history.html" rel="next">Process &amp; History</a>
