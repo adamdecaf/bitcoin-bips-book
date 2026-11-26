@@ -3,12 +3,10 @@
 This book was built from the following commit of [bitcoin/bips](https://github.com/bitcoin/bips). Closed and withdrawn proposals are omitted so the book stays readable. If something here disagrees with upstream, upstream wins.
 
 ```
-commit 0d99ffd39fdaf75209c43b1f8ec3fbbc23f10814
-Merge: fdcd802 335eaac
+commit 9f3d3bc6a60db16efbdc71ac8f7ea30217fc0c39
+Merge: 0d99ffd 4a0b997
 Author: Jon Atack <jon@atack.com>
-Date:   Mon Nov 23 16:51:16 2026 -0600
+Date:   Wed Nov 25 08:24:35 2026 -0600
 
-    Merge pull request #2344 from ariard/bip54-ruleout-forward-block
-    
-    BIP54: Add a footnote mentioning the rule-out of forward block
+    Merge pull request #2364 from bitcoin/2026-11-update-BIP-325-status
 ```
