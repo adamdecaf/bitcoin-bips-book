@@ -6,7 +6,7 @@ BIP 11 is M-of-N standard transactions, the original multisig that P2SH later ma
 
 BIP 388 sits at the end. Wallet policies are how a descriptor wallet talks about accounts, change, and multisig templates as one object. Descriptors themselves live in the earlier chapter; I did not repeat BIP 380 here.
 
-Miniscript has a BIP number, but it is still a draft, so it is not in this book. When you want the compiler that sits between a policy and a script, that is the document to read next, upstream.
+Miniscript, BIP 379, is now deployed and lives at the end of the descriptors chapter, because descriptors are what carry it. Go back to it when you want the structured language that sits between a policy and a script.
 
 In this chapter:
 
